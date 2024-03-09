@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema 
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="SpoofPowerStateEnabledCheckbox.ToolTip" xml:space="preserve">
+    <value>Upon next service start, the service will behave as if 
+the computer is offline (on battery) or online (plugged in).
+This can be useful if you, for example, wanted to change
+game settings for the offline (on battery) state without
+plugging your computer out. This needs to be manually 
+disabled afterwards.</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value>How often the Service checks whether the computer
+is plugged in/out, and acts accordingly (in milliseconds).
+This is NOT how often it reads the configuration files;
+those are only read upon service start.</value>
+  </data>
+  <data name="ResetAppPreferencesListButton.ToolTip" xml:space="preserve">
+    <value>Prompts you to reset the App Entry list (the list in
+the main screen). This will delete ALL present entries 
+(though some will be re-populated upon the next
+service start if they still have a Registry entry). 
+
+You will lose all the work you put into your
+configurations! You should follow the prompt and
+back it up first (the Preferences.xml file).</value>
+  </data>
+  <data name="RunOnBatteryCheckBox.ToolTip" xml:space="preserve">
+    <value>Whether to run the corresponding Task Scheduler task
+when switching to battery. This does nothing on its
+own; you will need to add your own actions (e.g. start
+a script) to the Task Scheduler entry (which should be
+found under the folder GPUPrefSwitcher). See
+documentation for more details.</value>
+  </data>
+  <data name="RunTaskPluggedInCheckbox.ToolTip" xml:space="preserve">
+    <value>Whether to run the corresponding Task Scheduler task
+when switching to plugged in. This does nothing on its
+own; you will need to add your own actions (e.g. start
+a script) to the Task Scheduler entry (which should be
+found under the folder GPUPrefSwitcher). See
+documentation for more details.
+
+</value>
+  </data>
+  <data name="CleanSettingsBankButton.ToolTip" xml:space="preserve">
+    <value>Prompts you to backup the entire directory that 
+stores the app's On Battery/Plugged In versions of
+files that are used for the FIle Swapper functionality,
+then prompts you if you want to delete files that do
+not correspond to any App Entries or File Swapper 
+target paths.
+
+This may be needed because when you remove App
+Entries from the main list or target paths from the
+File Swapper functionality, the stored files for them
+are not deleted immediately, despite the app not
+being instructed to work with them anymore.
+
+The deleted folders in particular are:
+- Entire directories that don't correspond to an App Entry/
+target executable/Registry entry
+- Folders that don't correspond to any SwapPath
+- These do not include App Entries with their File Swapper
+disabled
+
+(As a rule of thumb: NOTHING in the SettingsBank directory 
+is safe from deletion!)</value>
+  </data>
+  <data name="RealTimeLoggingCheckbox.ToolTip" xml:space="preserve">
+    <value>Whether to log app activity in real time. Note that this
+is separate from the error log, which always logs in
+real time. Enabling this will incur extra power usage
+in the form of disk/file writes. 
+
+Unless the entire system crashes unexpectedly, this 
+should not affect whether the app actually writes 
+all activity to the log (which it  is intended to do  
+when an unhandled error occurs, or when the 
+system shuts down gracefully).</value>
+  </data>
+  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+</root>

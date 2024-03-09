@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>..\Assemble</BaseOutputPath>
+    <StartupObject>GUIAdminFunctions.GUIAdminFunctions</StartupObject>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GPUPrefSwitcher\GPUPrefSwitcher.csproj" />
+  </ItemGroup>
+
+</Project>
