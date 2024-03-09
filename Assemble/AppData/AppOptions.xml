@@ -1,0 +1,9 @@
+<Options>
+  <UpdateInterval>5000</UpdateInterval>
+  <SpoofPowerState enabled="false">offline</SpoofPowerState>
+  <EnableTips>true</EnableTips>
+  <ConsideredPluggedIn use="false">200</ConsideredPluggedIn>
+  <RunTaskPluggedIn>false</RunTaskPluggedIn>
+  <RunTaskOnBattery>false</RunTaskOnBattery>
+  <EnableRealtimeLogging>false</EnableRealtimeLogging>
+</Options>

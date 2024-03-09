@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PlatformTarget>x64</PlatformTarget>
+    <BaseOutputPath>..\Assemble</BaseOutputPath>
+    <Platforms>AnyCPU;x64</Platforms>
+	  <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GPUPrefSwitcher\GPUPrefSwitcher.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="CrashedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RepairForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>

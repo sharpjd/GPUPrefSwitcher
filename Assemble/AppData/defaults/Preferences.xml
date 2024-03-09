@@ -1,0 +1,8 @@
+<!-->
+BACKUP THIS FILE BEFORE EDITING MANUALLY (especially if you have no knowedge about XML).
+It is reccomended you use the GUI to configure things instead.
+
+The app and log will help point out errors (e.g. missing elements/attributes), but not all cases may be obvious or covered. For example, errors thrown because of invalid syntax may be cryptic.
+<-->
+<AppsList>
+</AppsList>

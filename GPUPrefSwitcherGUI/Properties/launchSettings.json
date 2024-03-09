@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GPUPrefSwitcherGUI": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

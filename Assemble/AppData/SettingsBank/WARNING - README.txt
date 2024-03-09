@@ -1,0 +1,1 @@
+You should not use this folder for storage. This app may delete unrelated/external files in this folder (e.g. the cleanup function)
