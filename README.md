@@ -1,5 +1,5 @@
 # GPUPrefSwitcher
-Enables seamless switching of game settings and targeting the dGPU/iGPU for gaming laptops when they plug in or out, streamlining the portable gaming experience. 
+Enables seamless switching of game settings and targeting the dGPU/iGPU for gaming laptops when they plug in or out, making portable gaming more convenient. 
 
 ## [Download/install (directly downloads the latest release)](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.0-alpha/GPUPrefSwitcher.v0.0.0-alpha.zip)
 
@@ -34,6 +34,4 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 - A config database or a forum
 
 ## Donation
-If you would like to show support for my work and the time it saves, you can do so at my Ko-Fi or PayPal. You can opt to 
-
-(incomplete)
+If you would like to show support for my work, you can do so at my [Ko-Fi](https://ko-fi.com/sharpjd)!
