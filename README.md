@@ -49,7 +49,7 @@ Integrated graphics (iGPU) and CPU power efficiency have evolved and are becomin
 
 2. Then, you face having to turn down your game's graphics settings so that they don't overload your iGPU. But when you're done, back on the charger and using your dGPU for prettier graphics again, you have to change the settings *another* time to restore those settings. This also means you need to memorize two distinct sets of settings!
 
-3. Automatic frame limiter features like NVIDIA's BatteryBoost are also mostly ineffectual solutions. Due to dGPU boosting behavior, they can remain at unnecessarily high voltages and don't end up saving a lot of power, on top of capping your game to a dismal 30FPS by default.
+3. Automatic frame limiter features like NVIDIA's BatteryBoost don't work as well as due to their high base power draw in comparison to iGPU's, on top of capping your game to a dismal 30FPS by default.
 
 These points of contention practically defeat half the purpose of a gaming laptop: *To be a **portable** gaming machine.* Ironically, non-gaming laptops *without* discrete GPUs may even give a better experience in this regard! Because of these reasons, it's completely understandable that gaming laptops still harbor the reputation of being impractical. 
 
