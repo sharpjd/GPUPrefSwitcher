@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using System.Windows.Shapes;
 
 namespace GPUPrefSwitcherGUI
 {
@@ -332,6 +333,16 @@ namespace GPUPrefSwitcherGUI
         {
             var f = new GPUPrefSwitcherRepairer.RepairForm();
             f.Show();
+        }
+
+        private void OpenAppDirButton_Click(object sender, EventArgs e)
+        {
+            using Process fileopener = new Process();
+
+            fileopener.StartInfo.FileName = "explorer";
+            fileopener.StartInfo.Arguments = "\"" + System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"AppData") + "\"";
+            fileopener.Start();
+
         }
     }
 }
