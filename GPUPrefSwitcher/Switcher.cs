@@ -143,6 +143,7 @@ namespace GPUPrefSwitcher
 
 
             PowerLineStatus currentPowerLineStatus;
+            currentPowerLineStatus = SystemInformation.PowerStatus.PowerLineStatus;
             if (spoofPowerStateEnabled)
             {
                 Logger.inst.Log($"Power State spoofing enabled: {spoofPowerState}");
@@ -161,16 +162,8 @@ namespace GPUPrefSwitcher
                     throw new ArgumentException("Unknown SpoofPowerState");
                 }
             }
-            else
-            {
-                currentPowerLineStatus = SystemInformation.PowerStatus.PowerLineStatus;
-            }
 
-            if (!runOnce)
-            {
-                Logger.inst.Log("Updating preferences regardless since this is the first update.");
-                goto CheckAndUpdate;
-            }
+            
             if (!lastShutdownWasClean)
             {
                 //doesn't actually serve a purpose for now
@@ -178,18 +171,22 @@ namespace GPUPrefSwitcher
             }
 
             //skip update if powerline status hasn't changed
-            if (prevPowerLineStatus == currentPowerLineStatus)
+            if (prevPowerLineStatus == currentPowerLineStatus && runOnce)
             {
                 Logger.inst.Log($"PowerLine status has NOT changed since last update. (Current state: {currentPowerLineStatus}; last state: {prevPowerLineStatus})", 2000);
                 return Task.CompletedTask;
             }
             else
             {
-                Logger.inst.Log($"PowerLine status has changed since last update. Previous: {prevPowerLineStatus}; Current: {currentPowerLineStatus}");
-                goto CheckAndUpdate;
+                if (!runOnce)
+                {
+                    Logger.inst.Log("Updating preferences regardless since this is the first update.");
+                } else
+                {
+                    Logger.inst.Log($"PowerLine status has changed since last update. Previous: {prevPowerLineStatus}; Current: {currentPowerLineStatus}");
+                }
             }
 
-        CheckAndUpdate:
             runOnce = true;
 
             RegAndXMLMatchState regAndXMLMatchState = GetRegAndXmlMatchState();
@@ -412,6 +409,9 @@ namespace GPUPrefSwitcher
         {
             IEnumerable<AppEntry> appEntries = preferencesXML.GetAppEntries();
 
+            bool systemIsOnbattery = powerLineStatus == PowerLineStatus.Offline;
+            Logger.inst.Log($"System is on battery: {systemIsOnbattery}");
+
             foreach (AppEntry appEntry in appEntries)
             {
 
@@ -448,8 +448,6 @@ namespace GPUPrefSwitcher
                         continue;
                     }
                     Logger.inst.Log("Updating registry for pathvalue: " + pathvalue, 2000);
-
-                    bool systemIsOnbattery = powerLineStatus == PowerLineStatus.Offline;
 
                     try
                     {

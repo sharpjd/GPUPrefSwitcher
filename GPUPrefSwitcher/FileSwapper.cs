@@ -68,7 +68,7 @@ namespace GPUPrefSwitcher
         }
 
         
-        public void InitiateFileSwaps(PowerLineStatus forPowerLineStatus, PreferencesXML preferencesXML)
+        public async Task InitiateFileSwaps(PowerLineStatus forPowerLineStatus, PreferencesXML preferencesXML)
         {
             Logger.inst.Log($"Initiating FileSwap for AppEntry with target path {AppEntry.AppPath}");
 
@@ -96,12 +96,19 @@ namespace GPUPrefSwitcher
                     ForPowerLineStatus = forPowerLineStatus, 
                 };
 
-                //fire and forget
-                _ = InitiateSingleFileSwap(current, i);
+                
+                try
+                {
+                    await InitiateSingleFileSwap(current, i);
+                }
+                catch (AggregateException)
+                {
+                    throw;
+                }
 
             } //...repeat for every SwapPath
 
-            Logger.inst.Log($"Finished FileSwap for AppEntry with target path {AppEntry.AppPath}");
+            Logger.inst.Log($"Finished firing FileSwap logic for AppEntry with target path {AppEntry.AppPath}");
 
         }
 
@@ -191,15 +198,13 @@ namespace GPUPrefSwitcher
                         //no need to cancel the save if the substitution fails
                         FileCopyConsiderAccessRules(swapPath, pluggedInStoredFilePath, true, false); //save current config to PluggedIn store
                         string s1 = $"Saved SwapPath {swapPath} for app {AppEntry.AppPath} as PluggedIn";
-                        Debug.WriteLine(s1);
-                        _ = Logger.inst.Log(s1);
+                        Logger.inst.Log(s1);
 
                         errorFlag = 1;
 
                         FileCopyConsiderAccessRules(onBatteryStoredFilePath, swapPath, true, true); //then substitute with OnBattery config
                         string s2 = $"Substituted OnBattery config into SwapPath {swapPath} for app {AppEntry.AppPath}";
-                        _ = Logger.inst.Log(s2);
-                        Debug.WriteLine(s2);
+                        Logger.inst.Log(s2);
 
                     }
                     catch (IOException)
@@ -237,25 +242,23 @@ namespace GPUPrefSwitcher
                         //no need to cancel the save if the substitution fails 
                         FileCopyConsiderAccessRules(swapPath, onBatteryStoredFilePath, true, false); //save current config to OnBattery store
                         string s1 = $"Saved SwapPath {swapPath} for app {AppEntry.AppPath} as OnBattery";
-                        Debug.WriteLine(s1);
-                        _ = Logger.inst.Log(s1);
+                        Logger.inst.Log(s1);
 
                         errorFlag = 1;
 
                         FileCopyConsiderAccessRules(pluggedInStoredFilePath, swapPath, true, true); //then substitute with PluggedIn config
                         string s2 = $"Substituted PluggedIn config into SwapPath {swapPath} for app {AppEntry.AppPath}";
-                        _ = Logger.inst.Log(s2);
-                        Debug.WriteLine(s2);
+                        Logger.inst.Log(s2);
                     }
                     catch (IOException)
                     {
                         if (errorFlag == 0)
                         {
-                            _ = Logger.inst.Log($"Could not copy to destination {onBatteryStoredFilePath}, retrying in some time.");
+                            Logger.inst.Log($"Could not copy to destination {onBatteryStoredFilePath}, retrying in some time.");
                         }
                         else if (errorFlag == 1)
                         {
-                            _ = Logger.inst.Log($"Could not copy to destination {swapPath}, retrying in some time.");
+                            Logger.inst.Log($"Could not copy to destination {swapPath}, retrying in some time.");
                         }
                         await Task.Delay(5000);
                         goto TryAgain;
@@ -266,13 +269,15 @@ namespace GPUPrefSwitcher
 
                     preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified);
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
-                    _ = Logger.inst.Log(s3);
+                    Logger.inst.Log(s3);
                 }
             }
             else
             {
                 Debug.WriteLine($"Unknown power state: " + forPowerLineStatus.ToString());
             }
+
+            Logger.inst.Log($"FileSwaps Task finished for {AppEntry.AppPath}");
 
             OngoingFileSwapTasks.Remove(fileSwapPathTask);
 
