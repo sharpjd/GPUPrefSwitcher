@@ -35,3 +35,18 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 
 ## Donation
 If you would like to show support for my work, you can do so at my [Ko-Fi](https://ko-fi.com/sharpjd)!
+
+## Why this app?
+Integrated graphics (iGPU) and CPU power efficiency have evolved and are becoming viable for gaming on battery — without the use of a dedicated graphics card (dGPU) or a charger. But despite the hardware being capable, there is unfortunately too much software friction to justify doing so on Windows gaming laptops (or any hybrid graphics system):
+
+1. Many gaming laptops don't allow you to disable the dGPU manually or while on battery, so games automatically run on them and decimate your battery (100% -> 0% in less than an hour in some cases!). To prevent this, you must open the Graphics Settings and change the GPU preference — then when you plug your computer back in and want the game running on the dGPU, you need to remember to change the settings again. 
+
+2. You then face having to turn down your game's graphics settings so that they don't overload your iGPU. But then when you're back on the charger and using your dGPU for prettier graphics again, you have to change the settings *another* time to restore them. This is non top of having to memorize two sets of settings!
+
+3. Automatic frame limiter features like NVIDIA's BatteryBoost are also mostly ineffectual solutions. Due to dGPU boosting behavior, they can remain at unnecessarily high voltages and don't end up saving a lot of power, on top of capping your game to a dismal 30FPS by default.
+
+These points of contention practically defeat half the purpose of a gaming laptop: *To be a **portable** gaming machine.* Ironically, non-gaming laptops *without* discrete GPUs may even give a better experience in this regard! Because of these reasons, it's completely understandable that gaming laptops still harbor the reputation of being impractical. 
+
+This app aims to solve these problems by letting you configure apps to automatically target dGPU/iGPU, and also seamlessly switch between two sets of graphics settings for when you're plugged in and plugged out.
+
+## How does it work?
