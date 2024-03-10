@@ -412,6 +412,9 @@ namespace GPUPrefSwitcher
         {
             IEnumerable<AppEntry> appEntries = preferencesXML.GetAppEntries();
 
+            bool systemIsOnbattery = powerLineStatus == PowerLineStatus.Offline;
+            Logger.inst.Log($"System is on battery: {systemIsOnbattery}");
+
             foreach (AppEntry appEntry in appEntries)
             {
 
@@ -448,8 +451,6 @@ namespace GPUPrefSwitcher
                         continue;
                     }
                     Logger.inst.Log("Updating registry for pathvalue: " + pathvalue, 2000);
-
-                    bool systemIsOnbattery = powerLineStatus == PowerLineStatus.Offline;
 
                     try
                     {

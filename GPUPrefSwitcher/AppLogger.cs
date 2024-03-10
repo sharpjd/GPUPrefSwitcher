@@ -110,7 +110,7 @@ namespace GPUPrefSwitcher
             };
 
             //useful for capturing fire-and-forget tasks that error out
-            /* //TODO this doesn't actually work 
+            ///TODO this doesn't work?
             System.Threading.Tasks.TaskScheduler.UnobservedTaskException += (sender, e) => 
             {
                 logger.DumpStandardLogBufferToStandardLog().Wait();
@@ -119,7 +119,6 @@ namespace GPUPrefSwitcher
                 logger.ErrorLog(e.ToString()).Wait();
                 
             };
-            */
 
             return logger;
         }
