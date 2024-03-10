@@ -18,10 +18,12 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 - Windows 11 or newer versions of Windows 10
 
 #### Install (Wizard):
-- Download the latest [Release](https://github.com/sharpjd/GPUPrefSwitcher/releases).
+- Download the [latest installer Release](https://github.com/sharpjd/GPUPrefSwitcher/releases).
 - Extract all .zip contents and run `setup.exe` (not the .msi file)
 
-#### Install (Manual): [see step 4 of this section](https://github.com/sharpjd/GPUPrefSwitcher/edit/main/README.md#manual-installation-and-assembly--extra-notes)
+#### Install (Manual): 
+- Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.0-alpha/GPUPrefSwitcher_SelfContained_v0.0.0-alpha.zip)
+- [see step 4 of this section](https://github.com/sharpjd/GPUPrefSwitcher?tab=readme-ov-file#manual-installation-and-assembly--extra-notes)
 
 ## Planned features (high priority)
 - [ ] Option to preserve user data when uninstalling and updating with the installer
