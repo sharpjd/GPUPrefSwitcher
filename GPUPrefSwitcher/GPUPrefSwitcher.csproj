@@ -33,6 +33,8 @@
     <PackageReference Include="TaskScheduler" Version="2.10.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\murrayju_CreateProcessAsUser\ProcessExtensions\ProcessExtensions.csproj" />
+    <Reference Include="ProcessExtensions">
+      <HintPath>..\libraries\murrayju_CreateProcessAsUser\ProcessExtensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
