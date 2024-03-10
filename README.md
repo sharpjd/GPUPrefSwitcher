@@ -1,7 +1,7 @@
 # GPUPrefSwitcher
 Enables seamless switching of game settings and targeting the dGPU/iGPU for gaming laptops when they plug in or out, making portable gaming more convenient. 
 
-## [~~Download/install (directly downloads the latest release)~~](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.2-alpha/GPUPrefSwitcher_Installer_v0.0.2-alpha.zip)
+## [Download/install (directly downloads the latest release)](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.2-alpha/GPUPrefSwitcher_Installer_v0.0.2-alpha.zip)
 
 ## Features
 * When switching between plugged in / on battery, this app can:
