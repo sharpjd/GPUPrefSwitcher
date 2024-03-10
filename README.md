@@ -21,12 +21,12 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 - Download the latest [Release](https://github.com/sharpjd/GPUPrefSwitcher/releases).
 - Extract all .zip contents and run `setup.exe` (not the .msi file)
 
-#### Install (Manual): [read more here]()
+#### Install (Manual): [see here in the wiki.]()
 
 ## Planned features (high priority)
-- [] Option to preserve user data when uninstalling and updating with the installer
-- [] Stalling file swapping if the target .exe is still running (in case the target app saves settings *when it closes*)
-- [] Finish developer/detailed documentation
+- [ ] Option to preserve user data when uninstalling and updating with the installer
+- [ ] Stalling file swapping if the target .exe is still running (in case the target app saves settings *when it closes*)
+- [ ] Finish developer/detailed documentation
 
 ## Future feature ideas
 - Improving the definition and conditions for being "On Battery" or "Plugged In" (e.g. how much power input?)
@@ -78,9 +78,14 @@ Despite this, you may still encounter scenarios where this is not a seamless exp
 
 Many considerations have been put in place, but data loss can still result from the File Swapper system; do NOT manipulate important or sensitive data with it.
 
-See <here> for more more in-depth explanations (that are intended more for programmers or developers).
+See [this page in the wiki]() for more more in-depth explanations (that are intended more for programmers or developers).
 
 </details>
 
+## Build or develop: [See this page in the wiki.]()
 
+---
+
+Attributions
+* [CreateProcessAsUser](https://github.com/murrayju/CreateProcessAsUser)
 
