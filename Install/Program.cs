@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
 
 namespace Install
 {
@@ -26,6 +28,20 @@ namespace Install
                 processStartInfo2.UseShellExecute = true;
                 processStartInfo2.Arguments = $"/c sc start {SERVICE_NAME}";
                 Process.Start(processStartInfo2);
+
+                
+                string appDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\AppData");
+                DirectorySecurity directorySecurity = Directory.GetAccessControl(appDataPath);
+
+                //give everybody access to the AppData path otherwise ConfigGUI crashes if run from user context
+                directorySecurity.AddAccessRule(new FileSystemAccessRule(
+                    new SecurityIdentifier(WellKnownSidType.WorldSid, null),
+                    FileSystemRights.FullControl,
+                    InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
+                    PropagationFlags.None,
+                    AccessControlType.Allow));
+
+                Directory.SetAccessControl(appDataPath, directorySecurity);
 
             } catch (Exception ex)
             {
