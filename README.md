@@ -51,7 +51,6 @@ These points of contention practically defeat half the purpose of a gaming lapto
 This app aims to solve these problems by letting you configure apps to automatically target dGPU/iGPU, and also seamlessly switch between two sets of graphics settings for when you're plugged in and plugged out.
 
 <details>
- 
 <summary>
  
 ## How does it work? (click to expand)
@@ -78,14 +77,78 @@ Despite this, you may still encounter scenarios where this is not a seamless exp
 
 Many considerations have been put in place, but data loss can still result from the File Swapper system; do NOT manipulate important or sensitive data with it.
 
-See [this page in the wiki]() for more more in-depth explanations (that are intended more for programmers or developers).
-
 </details>
 
-## Build or develop: [See this page in the wiki.]()
+<details>
+<summary>
+ 
+## Build/develop (click to expand):
+</summary>
 
+- This app should only work if built for x64.
+- The Visual Studio Installer Projects extension is needed to build the installer.
+- **You may only need to follow these steps in case changes are made and/or the Setup project / installer build fails.**
+
+#### Step 1: Build the .EXEs and Assemblies:
+ - For the `x64` configuration, the relevant output files are found in the following locations:
+ 	- Primary GPUPrefSwitcher components: `/Assemble/x64/<Debug or Release>/net8.0-windows`. A shortcut named `WORKING DIR` takes you directly there. 
+ 	- Intall.exe and Uninstall.exe (NOT the Setup or .msi file): `/Assemble/install`
+ 	- Setup.exe and Setup.msi: **These may have to be reconfigured and built manually when certain parts of the project changes**. See the next step (Step 2).
+   - **This means that if you're simultaneously developing and running the project, Manual Installation (read even further below) is the more convenient method.**
+     
+#### Step 2: Assemble the files for the installer/Setup project:
+ Now it's time to update the Setup (.msi installer) project.
+  1. Open the Directory view by right clicking the `Setup` project -> View -> File System
+  2. Clear what's currently in the `Application Folder/install` folder. Some items must be selected and deleted before others.
+  3. You might only ever have to do this step once, but you may have to undo and repeat this every time you change the `Install` or `Uninstall` projects. First, build the Installer and Uninstaller (you can just build the whole project). By default, they output to `/Assemble/install/`. Drag these contents into the `Application Folder`. It should look like this:
+  4. Then, right click on the `Setup` project -> View -> Custom Actions. Right click `Install` and add `Install.exe` under the Application folder. You should end up with this:
+  5. Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, select them and look at the `Properties` pane, and set `InstallerClass` to `False` and `Run64Bit` to `True`.
+  6. This step is only applicable if you've changed what's in the `/Assemble/AppData` folder, in which you might need to update/register the changes by deleting the `AppData` folder inside the Setup project, and dragging it back into the Application Folder.
+  7. Check that you end up with this. Mismatches may result in files not being found by the program:
+  8. Select and build the Setup/Install (it does not automatically build with the whole project). You will find the output in the default directory (`/Setup/<Debug or Release>`).
+
+#### Manual installation and assembly + extra notes:
+1. It is required that all EXEs and their related files* are placed in the same directory, because the app will look for them in `AppDomain.CurrentDomain.BaseDirectory`. This has already been done by default, and a shortcut named `WORKING DIR (Debug)` or `WORKING DIR (Release)` should take you directly there. If you un-merge the build paths, you'll need to manually merge the built files and folders.
+ * It might not be necessary to drag in the Install/Uninstall .exe's or `install folder`. Nontheless — if you want them anyways (e.g. to uninstall/reinstall the service with a double click), you need to drag their parent `install` folder into the app directory. Both of them search for `..\GPUprefSwitcher.exe`. Don't forget to overwrite this folder every time you change `Install.exe` or `Uninstall.exe`
+	
+2. (Already done by default) Application data, user data, and settings currently go in the same folder as the program. Directly copy the `AppData` folder found under `/Assemble` into the app directory. 
+
+3. In the end, you should end up with exactly this structure:
+```
+net8.0-windows/
+  AppData/
+   * Settings files, user data, etc.
+   defaults/
+    * relevant default settings files
+  install/
+   * Install.exe + related files
+   * Uninstall.exe + related files
+  * GPUPrefSwitcher.exe + related files
+  * GPUPrefSwitcherGUI.exe + related files
+  * GPUPrefSwitcherRepairer.exe + related files
+  * GPUPrefSwitcherSvcRestarter.exe + related files
+  * GUIAdminFunctions.exe + related files
+```
+> net8.0-windows/
+> > AppData/
+> > > Settings files, user data, etc.
+> > > defaults/
+> > > > relevant default settings files
+> > install/
+> > > Install.exe + related files
+> > > Uninstall.exe + related files
+> > GPUPrefSwitcher.exe + related files
+> > GPUPrefSwitcherGUI.exe + related files
+> > GPUPrefSwitcherRepairer.exe + related files
+> > GPUPrefSwitcherSvcRestarter.exe + related files
+> > GUIAdminFunctions.exe + related files
+
+4. Double click and run `Install.exe` inside the `install` folder to install the service (and `Uninstall.exe` to uninstall). 
+* (Or, just use `sc` to register the project; e.g. `sc.exe create GPUPrefSwitcher binpath= "C:/path/to/App Directory/GPUPrefSwitcher.exe" start= auto` (Yes, the spaces after binpath= and start= above *are* important — don't ask me why))
+
+</details>
 ---
 
-Attributions
+## Attributions
 * [CreateProcessAsUser](https://github.com/murrayju/CreateProcessAsUser)
 
