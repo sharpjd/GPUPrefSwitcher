@@ -23,7 +23,7 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 
 #### Install (Manual): 
 - Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.0-alpha/GPUPrefSwitcher_SelfContained_v0.0.0-alpha.zip)
-- [see step 4 of this section](https://github.com/sharpjd/GPUPrefSwitcher?tab=readme-ov-file#manual-installation-and-assembly--extra-notes)
+- See step 4 of the Manual Installation section (expand the Build/Develop section below)
 
 ## Planned features (high priority)
 - [ ] Option to preserve user data when uninstalling and updating with the installer
@@ -40,11 +40,14 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 If you would like to show support for my work, you can do so at my [Ko-Fi](https://ko-fi.com/sharpjd)!
 
 ## Why this app?
-Integrated graphics (iGPU) and CPU power efficiency have evolved and are becoming viable for gaming on battery — without the use of a dedicated graphics card (dGPU) or a charger. But despite the hardware being capable, there is unfortunately too much software friction to justify doing so on Windows gaming laptops (or any hybrid graphics system):
 
-1. Many gaming laptops don't allow you to disable the dGPU manually or while on battery, so games automatically run on them and decimate your battery (100% -> 0% in less than an hour in some cases!). To prevent this, you must open the Graphics Settings and change the GPU preference to the iGPU — then when you plug your computer back in and want the game running on the dGPU, you need to remember to change the settings again. 
+TL;DR: You want to game on your gaming laptop while on battery, but not have it kill your battery and have to change settings every time.
 
-2. You then face having to turn down your game's graphics settings so that they don't overload your iGPU. But then when you're back on the charger and using your dGPU for prettier graphics again, you have to change the settings *another* time to restore them. This is on top of having to memorize two sets of settings!
+Integrated graphics (iGPU) and CPU power efficiency have evolved and are becoming viable for gaming on battery — without the use of a dedicated graphics card (dGPU) or a charger. But despite the hardware being capable, there is currently too much software friction to justify doing so on Windows gaming laptops (or any hybrid graphics system):
+
+1. Many gaming laptops don't allow you to disable the dGPU manually or while on battery, so games automatically run on them and decimate your battery (100% -> 0% in less than an hour in some cases!). To prevent this, you must first open the Graphics Settings and change the GPU preference to the iGPU, and then run your game. Then, when you plug your computer back in and want the game running on the dGPU, you need to remember to go back and change the GPU preference setting *again*. 
+
+2. Then, you face having to turn down your game's graphics settings so that they don't overload your iGPU. But when you're done, back on the charger and using your dGPU for prettier graphics again, you have to change the settings *another* time to restore those settings. This also means you need to memorize two distinct sets of settings!
 
 3. Automatic frame limiter features like NVIDIA's BatteryBoost are also mostly ineffectual solutions. Due to dGPU boosting behavior, they can remain at unnecessarily high voltages and don't end up saving a lot of power, on top of capping your game to a dismal 30FPS by default.
 
@@ -75,9 +78,9 @@ Now we boot up the game again, and the game is running on the dGPU. Normally, we
 
 The process was totally automatic, and required no intervention. 
 
-Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios (e.g. file locked, unexpected crash, or the .exe saving the config when it shuts down). The way these mechanisms work take a lot to explain, and for now, you will need to study the source code yourself to understand them.
+Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios (e.g. file locked, unexpected crash, or the .exe saving the config when it shuts down). The way these mechanisms work take a lot to explain — and for now, you will need to study the source code yourself to understand them.
 
-Many considerations have been put in place, but data loss can still result from the File Swapper system; do NOT manipulate important or sensitive data with it.
+Despite these safeguards, data loss can still result from the File Swapper system; **do NOT manipulate important or sensitive data with it.** 
 
 </details>
 
@@ -93,7 +96,7 @@ Many considerations have been put in place, but data loss can still result from 
 
 ### Step 1: Build the .EXEs and Assemblies:
  - For the `x64` configuration, the relevant output files are found in the following locations:
- 	- Primary GPUPrefSwitcher components: `/Assemble/x64/<Debug or Release>/net8.0-windows`. A shortcut named `WORKING DIR` takes you directly there. 
+ 	- Primary GPUPrefSwitcher components: `/Assemble/x64/<Debug or Release>/net8.0-windows`. 
  	- Intall.exe and Uninstall.exe (NOT the Setup or .msi file): `/Assemble/install`
  	- Setup.exe and Setup.msi: **These may have to be reconfigured and built manually when certain parts of the project changes**. See the next step (Step 2).
    - **This means that if you're simultaneously developing and running the project, Manual Installation (read even further below) is the more convenient method.**
@@ -114,9 +117,9 @@ Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, se
 ![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/e458a25e-8eba-4708-9595-9df51161bc18)
 
 
-
+<a name="manual-installation-and-assembly"></a>
 ### Manual installation and assembly + extra notes:
-1. It is required that all EXEs and their related files* are placed in the same directory, because the app will look for them in `AppDomain.CurrentDomain.BaseDirectory`. This has already been done by default, and a shortcut named `WORKING DIR (Debug)` or `WORKING DIR (Release)` should take you directly there. If you un-merge the build paths, you'll need to manually merge the built files and folders.
+1. It is required that all EXEs and their related files* are placed in the same directory, because the app will look for them in `AppDomain.CurrentDomain.BaseDirectory`. This has already been done by default. If you un-merge the build paths, you'll need to manually merge the built files and folders.
  * It might not be necessary to drag in the Install/Uninstall .exe's or `install folder`. Nontheless — if you want them anyways (e.g. to uninstall/reinstall the service with a double click), you need to drag their parent `install` folder into the app directory. Both of them search for `..\GPUprefSwitcher.exe`. Don't forget to overwrite this folder every time you change `Install.exe` or `Uninstall.exe`
 	
 2. (Already done by default) Application data, user data, and settings currently go in the same folder as the program. Directly copy the `AppData` folder found under `/Assemble` into the app directory. 
@@ -154,6 +157,7 @@ Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, se
 
 </details>
 
-## Attributions
+## Attributions/disclaimers
 * [CreateProcessAsUser](https://github.com/murrayju/CreateProcessAsUser)
+* Despite many safeguards and considerations, data loss may result from using the app (e.g. the File Swapper). **Do not manipulate important data with this app.** The author is not responsible for such scenarios.
 
