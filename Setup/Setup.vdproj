@@ -226,37 +226,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6CA84272E90442A099A05F84FEA7D68D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_11761084E27C44B0A7886696F83C329E"
+        "OwnerKey" = "8:_0BD6620C79554BEE888B595D6FDAB449"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_DFCF28F1B3C54C5CA121F7AA9F003BF0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1D884DA1FEC744F38BB4D72DCB402C32"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9E6E6498A4534DF6BE280DF21AAF316A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AC8FB7929CC64545AC69889DF0E87E64"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -280,7 +256,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6A42D61D35294AA689328B2E873AD59E"
+        "OwnerKey" = "8:_AC8FB7929CC64545AC69889DF0E87E64"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A3B2678751F249F18E2DC6DF17EEF0AC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9E6E6498A4534DF6BE280DF21AAF316A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -292,13 +280,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0BD6620C79554BEE888B595D6FDAB449"
+        "OwnerKey" = "8:_6CA84272E90442A099A05F84FEA7D68D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A3B2678751F249F18E2DC6DF17EEF0AC"
+        "OwnerKey" = "8:_6A42D61D35294AA689328B2E873AD59E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1D884DA1FEC744F38BB4D72DCB402C32"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_11761084E27C44B0A7886696F83C329E"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -1358,7 +1358,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GPUPrefSwitcher"
         "ProductCode" = "8:{3F274E14-176C-460E-8142-CFF4A1BE76BA}"
-        "PackageCode" = "8:{22476217-70E0-44F8-A178-EDBC32225EE5}"
+        "PackageCode" = "8:{4D72B6AC-F992-4D81-9856-1A81BDDDCF87}"
         "UpgradeCode" = "8:{F0777117-6636-4CCF-8D5F-E9C442B67086}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

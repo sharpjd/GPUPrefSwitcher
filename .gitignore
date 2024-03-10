@@ -8,9 +8,6 @@
 
 #BEGIN CUSTOM
 
-#ignore sub-repo folder
-murrayju_CreateProcessAsUser
-
 #END CUSTOM
 
 # dotenv files
