@@ -23,7 +23,7 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 
 #### Install (Manual): 
 - Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.0-alpha/GPUPrefSwitcher_SelfContained_v0.0.0-alpha.zip)
-- [see step 4 of the Manual Installation section](manual-installation-and-assembly)
+- [see step 4 of the Manual Installation section](#manual-installation-and-assembly)
 
 ## Planned features (high priority)
 - [ ] Option to preserve user data when uninstalling and updating with the installer
@@ -115,7 +115,6 @@ Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, se
 
 
 <a name="manual-installation-and-assembly"></a>
-
 ### Manual installation and assembly + extra notes:
 1. It is required that all EXEs and their related files* are placed in the same directory, because the app will look for them in `AppDomain.CurrentDomain.BaseDirectory`. This has already been done by default, and a shortcut named `WORKING DIR (Debug)` or `WORKING DIR (Release)` should take you directly there. If you un-merge the build paths, you'll need to manually merge the built files and folders.
  * It might not be necessary to drag in the Install/Uninstall .exe's or `install folder`. Nontheless — if you want them anyways (e.g. to uninstall/reinstall the service with a double click), you need to drag their parent `install` folder into the app directory. Both of them search for `..\GPUprefSwitcher.exe`. Don't forget to overwrite this folder every time you change `Install.exe` or `Uninstall.exe`
