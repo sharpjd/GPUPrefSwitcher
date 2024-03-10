@@ -24,9 +24,9 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 #### Install (Manual): [read more here]()
 
 ## Planned features (high priority)
--[] Option to preserve user data when uninstalling and updating with the installer
--[] Stalling file swapping if the target .exe is still running (in case the target app saves settings *when it closes*)
--[] Finish developer/detailed documentation
+- [] Option to preserve user data when uninstalling and updating with the installer
+- [] Stalling file swapping if the target .exe is still running (in case the target app saves settings *when it closes*)
+- [] Finish developer/detailed documentation
 
 ## Future feature ideas
 - Improving the definition and conditions for being "On Battery" or "Plugged In" (e.g. how much power input?)
@@ -36,8 +36,6 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 
 ## Donation
 If you would like to show support for my work, you can do so at my [Ko-Fi](https://ko-fi.com/sharpjd)!
-
----
 
 ## Why this app?
 Integrated graphics (iGPU) and CPU power efficiency have evolved and are becoming viable for gaming on battery — without the use of a dedicated graphics card (dGPU) or a charger. But despite the hardware being capable, there is unfortunately too much software friction to justify doing so on Windows gaming laptops (or any hybrid graphics system):
@@ -51,8 +49,14 @@ Integrated graphics (iGPU) and CPU power efficiency have evolved and are becomin
 These points of contention practically defeat half the purpose of a gaming laptop: *To be a **portable** gaming machine.* Ironically, non-gaming laptops *without* discrete GPUs may even give a better experience in this regard! Because of these reasons, it's completely understandable that gaming laptops still harbor the reputation of being impractical. 
 
 This app aims to solve these problems by letting you configure apps to automatically target dGPU/iGPU, and also seamlessly switch between two sets of graphics settings for when you're plugged in and plugged out.
+
 <details>
-<summary>## How does it work? (click to expand)</summary>
+ 
+<summary>
+ 
+## How does it work? (click to expand)
+</summary>
+
 #### GPU Preference Switcher:
 Windows stores per-app GPU preferences as values in the Registry. All existing values will get added to the XML file. You will see these in the GUI, and you can enable automatic GPU preference switching for each of them. When the computer's power state changes, the app changes the necessary part of each value's data that controls which GPU the target app will run on. 
 
@@ -78,5 +82,5 @@ See <here> for more more in-depth explanations (that are intended more for progr
 
 </details>
 
----
+
 
