@@ -96,8 +96,16 @@ namespace GPUPrefSwitcher
                     ForPowerLineStatus = forPowerLineStatus, 
                 };
 
-                //fire and forget
-                _ = InitiateSingleFileSwap(current, i);
+                
+                try
+                {
+                    Task swap = InitiateSingleFileSwap(current, i);
+                    swap.Wait(); //DEBUG
+                }
+                catch (AggregateException)
+                {
+                    throw;
+                }
 
             } //...repeat for every SwapPath
 
