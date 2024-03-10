@@ -93,7 +93,7 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 
 ### Step 1: Build the .EXEs and Assemblies:
  - For the `x64` configuration, the relevant output files are found in the following locations:
- 	- Primary GPUPrefSwitcher components: `/Assemble/x64/<Debug or Release>/net8.0-windows`. A shortcut named `WORKING DIR` takes you directly there. 
+ 	- Primary GPUPrefSwitcher components: `/Assemble/x64/<Debug or Release>/net8.0-windows`. 
  	- Intall.exe and Uninstall.exe (NOT the Setup or .msi file): `/Assemble/install`
  	- Setup.exe and Setup.msi: **These may have to be reconfigured and built manually when certain parts of the project changes**. See the next step (Step 2).
    - **This means that if you're simultaneously developing and running the project, Manual Installation (read even further below) is the more convenient method.**
@@ -116,7 +116,7 @@ Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, se
 
 <a name="manual-installation-and-assembly"></a>
 ### Manual installation and assembly + extra notes:
-1. It is required that all EXEs and their related files* are placed in the same directory, because the app will look for them in `AppDomain.CurrentDomain.BaseDirectory`. This has already been done by default, and a shortcut named `WORKING DIR (Debug)` or `WORKING DIR (Release)` should take you directly there. If you un-merge the build paths, you'll need to manually merge the built files and folders.
+1. It is required that all EXEs and their related files* are placed in the same directory, because the app will look for them in `AppDomain.CurrentDomain.BaseDirectory`. This has already been done by default. If you un-merge the build paths, you'll need to manually merge the built files and folders.
  * It might not be necessary to drag in the Install/Uninstall .exe's or `install folder`. Nontheless — if you want them anyways (e.g. to uninstall/reinstall the service with a double click), you need to drag their parent `install` folder into the app directory. Both of them search for `..\GPUprefSwitcher.exe`. Don't forget to overwrite this folder every time you change `Install.exe` or `Uninstall.exe`
 	
 2. (Already done by default) Application data, user data, and settings currently go in the same folder as the program. Directly copy the `AppData` folder found under `/Assemble` into the app directory. 
