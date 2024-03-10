@@ -75,9 +75,9 @@ Now we boot up the game again, and the game is running on the dGPU. Normally, we
 
 The process was totally automatic, and required no intervention. 
 
-Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios (e.g. file locked, unexpected crash, or the .exe saving the config when it shuts down). The way these mechanisms work take a lot to explain, and for now, you will need to study the source code yourself to understand them.
+Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios (e.g. file locked, unexpected crash, or the .exe saving the config when it shuts down). The way these mechanisms work take a lot to explain — and for now, you will need to study the source code yourself to understand them.
 
-Many considerations have been put in place, but data loss can still result from the File Swapper system; do NOT manipulate important or sensitive data with it.
+Despite these safeguards, data loss can still result from the File Swapper system; **do NOT manipulate important or sensitive data with it.** 
 
 </details>
 
@@ -154,6 +154,7 @@ Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, se
 
 </details>
 
-## Attributions
+## Attributions/disclaimers
 * [CreateProcessAsUser](https://github.com/murrayju/CreateProcessAsUser)
+* Despite many safeguards and considerations, data loss may result from using the app (e.g. the File Swapper). **Do not manipulate important data with this app.** The author is not responsible for such scenarios.
 
