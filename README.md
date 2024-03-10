@@ -97,15 +97,21 @@ Many considerations have been put in place, but data loss can still result from 
    - **This means that if you're simultaneously developing and running the project, Manual Installation (read even further below) is the more convenient method.**
      
 ### Step 2: Assemble the files for the installer/Setup project:
- Now it's time to update the Setup (.msi installer) project.
+ Now it's time to update the Setup (.msi installer) project. (Note: Some very specific settings or configurations may be necessary for this project to build successfully, so it's reccomended you modify only what you need. If at any point things get messed up, you can always delete, redownload, and add the Setup project again).
   1. Open the Directory view by right clicking the `Setup` project -> View -> File System
-  2. Clear what's currently in the `Application Folder/install` folder. Some items must be selected and deleted before others.
-  3. You might only ever have to do this step once, but you may have to undo and repeat this every time you change the `Install` or `Uninstall` projects. First, build the Installer and Uninstaller (you can just build the whole project). By default, they output to `/Assemble/install/`. Drag these contents into the `Application Folder`. It should look like this:
-  4. Then, right click on the `Setup` project -> View -> Custom Actions. Right click `Install` and add `Install.exe` under the Application folder. You should end up with this:
-  5. Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, select them and look at the `Properties` pane, and set `InstallerClass` to `False` and `Run64Bit` to `True`.
-  6. This step is only applicable if you've changed what's in the `/Assemble/AppData` folder, in which you might need to update/register the changes by deleting the `AppData` folder inside the Setup project, and dragging it back into the Application Folder.
-  7. Check that you end up with this. Mismatches may result in files not being found by the program:
-  8. Select and build the Setup/Install (it does not automatically build with the whole project). You will find the output in the default directory (`/Setup/<Debug or Release>`).
+![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/b2432462-655d-47b2-b367-33be844c921a)
+  2. You might only ever have to do this step once, but you may have to undo and repeat this every time you change the `Install` or `Uninstall` projects. First, build the Installer and Uninstaller (you can just build the whole project). By default, they output to `/Assemble/install/`. Drag these contents into `Application Folder/install`. It should look like this:
+![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/5d1e2cb4-6052-42ac-a770-99c16ef64dee)
+Then, right click on the `Setup` project -> View -> Custom Actions. Right click `Install` and add `Install.exe` under the Application folder. Do the same for `Uninstall` by adding `Uninstall.exe`. You should end up with this:
+![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/d111e123-eafd-44e4-8762-1a84d0e9eeaa)
+Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, select them and look at the `Properties` pane, and set `InstallerClass` to `False` and `Run64Bit` to `True`.
+![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/0fb77341-29d4-46e5-9ccd-c3b76bab1d0b)
+  4. This step is only applicable if you've changed what's in the `/Assemble/AppData` folder, in which you might need to update/register the changes by deleting the `AppData` folder inside the Setup project, and dragging it back into the Application Folder (remember that you must clear folder contents before deleting the folder itself). The following screenshots are for reference:
+![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/f3cff7c6-14e3-4f07-9bab-b3fabee9d553) ![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/0cd5e6ba-7c82-41cb-a14c-a7837f754106) ![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/95fdb28a-a51a-46f9-8107-af34a6f4cb54)
+  5. Finally, you can select and build the Setup project / .msi file. You will find the output in the default directory (`/Setup/<Debug or Release>`).
+![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/e458a25e-8eba-4708-9595-9df51161bc18)
+
+
 
 ### Manual installation and assembly + extra notes:
 1. It is required that all EXEs and their related files* are placed in the same directory, because the app will look for them in `AppDomain.CurrentDomain.BaseDirectory`. This has already been done by default, and a shortcut named `WORKING DIR (Debug)` or `WORKING DIR (Release)` should take you directly there. If you un-merge the build paths, you'll need to manually merge the built files and folders.
@@ -139,13 +145,12 @@ Many considerations have been put in place, but data loss can still result from 
 
 ### Other potential development tips or pitfalls:
 - **"Could not find metadata" or "could not find dll" errors:** fix compiler errors first, check the build order, and see this StackOverflow thread  https://stackoverflow.com/questions/44251030/vs-2017-metadata-file-dll-could-not-be-found
-- **Cannot find .exe or Error MSB4094:** Sometimes if you change build paths, it freaks out because projects will somehow generate a double reference and also attempt to search for .exe's in nonexistent locations; check in build-related files for this
+- **Cannot find .exe or Error MSB4094:** Sometimes if you change build paths, it freaks out because projects will somehow generate a double reference and also attempt to search for .exe's in nonexistent locations; check and fix build-related files (in my original case, the error pertained to an element/array containing two reference entries instead of just one).
 - **Unable to change the target architecture of builds:** try opening the .sln file and clearing everything between "GlobalSection(ProjectConfigurationPlatforms) = postSolution" and "EndGlobalSection"
 - If you change the service name, you must change the service name constant in GPUPrefSwitcherSvcRestarter -> Program.cs, otherwise it will do nothing
 - **Shortcuts to deployed executables:** https://stackoverflow.com/questions/3303962/visual-studio-deployment-project-create-shortcut-to-deployed-executable
 
 </details>
----
 
 ## Attributions
 * [CreateProcessAsUser](https://github.com/murrayju/CreateProcessAsUser)
