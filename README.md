@@ -23,7 +23,7 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 
 #### Install (Manual): 
 - Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.0-alpha/GPUPrefSwitcher_SelfContained_v0.0.0-alpha.zip)
-- [see step 4 of the Manual Installation section](#manual-installation-and-assembly)
+- See step 4 of the Manual Installation section (expand the Build/Develop section below)
 
 ## Planned features (high priority)
 - [ ] Option to preserve user data when uninstalling and updating with the installer
