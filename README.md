@@ -47,11 +47,13 @@ Integrated graphics (iGPU) and CPU power efficiency have evolved and are becomin
 
 2. Then, you face having to turn down your game's graphics settings so that they don't overload your iGPU. But when you're done, back on the charger and using your dGPU for prettier graphics again, you have to change the settings *another* time to restore those settings. This also means you need to memorize two distinct sets of settings!
 
-3. Automatic frame limiter features like NVIDIA's BatteryBoost don't work as well as due to their high base power draw in comparison to iGPU's, on top of capping your game to a dismal 30FPS by default.
+3. Automatic frame limiter features like NVIDIA's BatteryBoost don't work as well due to their high base power draw in comparison to iGPU's, on top of capping your game to a dismal 30FPS by default.
 
 These points of contention practically defeat half the purpose of a gaming laptop: *To be a **portable** gaming machine.* Ironically, non-gaming laptops *without* discrete GPUs may even give a better experience in this regard! Because of these reasons, it's completely understandable that gaming laptops still harbor the reputation of being impractical. 
 
 This app aims to solve these problems by letting you configure apps to automatically target dGPU/iGPU, and also seamlessly switch between two sets of graphics settings for when you're plugged in and plugged out.
+
+**Your laptop's iGPU may be faster than you realize.** If your laptop has Intel Iris Xe Graphics, an Intel Core Ultra Processor, or a Ryzen processor — all of which are/have strong iGPUs — and you have a game you play very often, or an indie gamer, you are a perfect candidate for this app! And even if you don't have a blazing fast iGPU, it's unlikely you'll care much about graphics while gaming on the go anyway — so go ahead and turn those settings down.
 
 <details>
 <summary>
@@ -64,7 +66,7 @@ Windows stores per-app GPU preferences as values in the Registry. All existing v
 
 #### File Swapper:
 Let's explain this one with an example. Assume our computer is currently plugged in. 
-Let's say that we have a GPU Preference entry for `ShooterGame.exe` and it stores its settings in `C:\users\Bob\Documents\ShooterGame\settings.config`. Let's say we add a *file swap path* pointing to that config file.
+Let's say that we have a GPU Preference entry for `ShooterGame.exe` and that the game stores its settings in `C:\users\Bob\Documents\ShooterGame\settings.config`. Let's say we add a *file swap path* pointing to that config file.
 
 The app will then copy and store this file internally. One copy will be stored for the Online (plugged in) state, and one for the Offline (on battery) state. Since this is our first time saving it, the same copy will be made for both. 
 
@@ -74,9 +76,10 @@ But after some time, we're done playing the game and go home and hit the charger
 
 Now we boot up the game again, and the game is running on the dGPU. Normally, we'd have to restore all our settings to make the game look good again — but because the app restored the original config, we don't have to do any of this. We can start playing the game again with our original beautiful graphics.
 
-The process was totally automatic, and required no intervention. 
+The process was totally automatic, requiring no intervention. 
 
-Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios (e.g. file locked, unexpected crash, or the .exe saving the config when it shuts down). The way these mechanisms work take a lot to explain — and for now, you will need to study the source code yourself to understand them.
+Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios (e.g. file locked, unexpected crash, or the .exe saving the config when it shuts down). The way these mechanisms work will take a lot to explain — and for now, you will need to study the source code yourself to understand them.
+
 
 Despite these safeguards, data loss can still result from the File Swapper system; **do NOT manipulate important or sensitive data with it.** 
 
