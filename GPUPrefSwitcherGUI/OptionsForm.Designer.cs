@@ -52,6 +52,8 @@
             toolTip1 = new System.Windows.Forms.ToolTip(components);
             OpenTaskSchedulerButton = new System.Windows.Forms.Button();
             button1 = new System.Windows.Forms.Button();
+            label5 = new System.Windows.Forms.Label();
+            OpenAppDirButton = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // UpdateIntervalTextbox
@@ -148,7 +150,7 @@
             // ResetAppPreferencesListButton
             // 
             ResetAppPreferencesListButton.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            ResetAppPreferencesListButton.Location = new System.Drawing.Point(10, 437);
+            ResetAppPreferencesListButton.Location = new System.Drawing.Point(10, 478);
             ResetAppPreferencesListButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             ResetAppPreferencesListButton.Name = "ResetAppPreferencesListButton";
             ResetAppPreferencesListButton.Size = new System.Drawing.Size(289, 22);
@@ -162,7 +164,7 @@
             // 
             label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             label2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            label2.Location = new System.Drawing.Point(10, 330);
+            label2.Location = new System.Drawing.Point(10, 371);
             label2.Name = "label2";
             label2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             label2.Size = new System.Drawing.Size(290, 2);
@@ -217,7 +219,7 @@
             // CleanSettingsBankButton
             // 
             CleanSettingsBankButton.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            CleanSettingsBankButton.Location = new System.Drawing.Point(10, 343);
+            CleanSettingsBankButton.Location = new System.Drawing.Point(10, 384);
             CleanSettingsBankButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             CleanSettingsBankButton.Name = "CleanSettingsBankButton";
             CleanSettingsBankButton.Size = new System.Drawing.Size(289, 26);
@@ -231,7 +233,7 @@
             // 
             label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             label4.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            label4.Location = new System.Drawing.Point(10, 422);
+            label4.Location = new System.Drawing.Point(10, 463);
             label4.Name = "label4";
             label4.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             label4.Size = new System.Drawing.Size(290, 2);
@@ -252,7 +254,7 @@
             // FolderStatsLabel1
             // 
             FolderStatsLabel1.AutoSize = true;
-            FolderStatsLabel1.Location = new System.Drawing.Point(7, 397);
+            FolderStatsLabel1.Location = new System.Drawing.Point(7, 438);
             FolderStatsLabel1.Name = "FolderStatsLabel1";
             FolderStatsLabel1.Size = new System.Drawing.Size(38, 15);
             FolderStatsLabel1.TabIndex = 19;
@@ -261,7 +263,7 @@
             // FolderStatsLabel2
             // 
             FolderStatsLabel2.AutoSize = true;
-            FolderStatsLabel2.Location = new System.Drawing.Point(7, 377);
+            FolderStatsLabel2.Location = new System.Drawing.Point(7, 418);
             FolderStatsLabel2.Name = "FolderStatsLabel2";
             FolderStatsLabel2.Size = new System.Drawing.Size(38, 15);
             FolderStatsLabel2.TabIndex = 20;
@@ -288,11 +290,33 @@
             button1.Visible = false;
             button1.Click += button1_Click;
             // 
+            // label5
+            // 
+            label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            label5.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            label5.Location = new System.Drawing.Point(10, 325);
+            label5.Name = "label5";
+            label5.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            label5.Size = new System.Drawing.Size(290, 2);
+            label5.TabIndex = 23;
+            // 
+            // OpenAppDirButton
+            // 
+            OpenAppDirButton.Location = new System.Drawing.Point(12, 337);
+            OpenAppDirButton.Name = "OpenAppDirButton";
+            OpenAppDirButton.Size = new System.Drawing.Size(287, 23);
+            OpenAppDirButton.TabIndex = 24;
+            OpenAppDirButton.Text = "Open App Data Directory (logs, settings, etc.)";
+            OpenAppDirButton.UseVisualStyleBackColor = true;
+            OpenAppDirButton.Click += OpenAppDirButton_Click;
+            // 
             // OptionsForm
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(311, 477);
+            ClientSize = new System.Drawing.Size(311, 513);
+            Controls.Add(OpenAppDirButton);
+            Controls.Add(label5);
             Controls.Add(button1);
             Controls.Add(OpenTaskSchedulerButton);
             Controls.Add(FolderStatsLabel2);
@@ -348,5 +372,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button OpenTaskSchedulerButton;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button OpenAppDirButton;
     }
 }

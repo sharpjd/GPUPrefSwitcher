@@ -172,11 +172,11 @@ namespace GPUPrefSwitcher
 
             if (!GpuPrefPathvalueExistsAndIsValid(pathvalue)) throw new ArgumentException("pathvalue " + pathvalue + " does not exist in the registry or doesn't have a GpuPreference data entry");
 
-            RegistryKey gpuPref = GetLoggedInGpuPrefKey();
+            RegistryKey gpuPrefKey = GetLoggedInGpuPrefKey();
 
-            Logger.inst.Log($"Modifiying registry key: setting {gpuPref} to {data}");
+            Logger.inst.Log($"Modifiying registry key: setting {pathvalue} to {data}");
 
-            gpuPref.SetValue(pathvalue, data);
+            gpuPrefKey.SetValue(pathvalue, data);
         }
 
 
