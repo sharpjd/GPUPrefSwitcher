@@ -26,14 +26,12 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 - See step 4 of the Manual Installation section (expand the Build/Develop section below)
 
 ## Planned features (high priority)
-- [ ] Option to preserve user data when uninstalling and updating with the installer
+- [x] Option to preserve user data when uninstalling and updating with the installer
 - [ ] Stalling file swapping if the target .exe is still running (in case the target app saves settings *when it closes*)
-- [ ] Finish developer/detailed documentation
 
 ## Future feature ideas
 - Improving the definition and conditions for being "On Battery" or "Plugged In" (e.g. how much power input?)
 - Multiple settings profiles
-- Ability to force a File Swapper state manually for individual apps
 - A config database or a forum
 
 ## Donation
@@ -98,44 +96,33 @@ Despite these safeguards, data loss can still result from the File Swapper syste
  - For the `x64` configuration, the relevant output files are found in the following locations:
  	- Primary GPUPrefSwitcher components: `/Assemble/x64/<Debug or Release>/net8.0-windows`. 
  	- Intall.exe and Uninstall.exe (NOT the Setup or .msi file): `/Assemble/install`
- 	- Setup.exe and Setup.msi: **These may have to be reconfigured and built manually when certain parts of the project changes**. See the next step (Step 2).
+ 	- The Setup.exe and .msi: `/Setup/<Debug or Release>`.
    - **This means that if you're simultaneously developing and running the project, Manual Installation (read even further below) is the more convenient method.**
      
-### Step 2: Assemble the files for the installer/Setup project:
- Now it's time to update the Setup (.msi installer) project. (Note: Some very specific settings or configurations may be necessary for this project to build successfully, so it's reccomended you modify only what you need. If at any point things get messed up, you can always delete, redownload, and add the Setup project again).
+### Step 2: The installer/Setup project:
+ **You probably only need these steps if you have changed what goes into the AppData folder, or how the app interacts with its directories.** (Note: Some very specific settings or configurations may be necessary for this project to build successfully, so it's reccomended you modify only what you need. If at any point things get messed up, you can always delete, redownload, and add the Setup project again).
+ * See the "Development Pitfalls" section for tips about the Setup project (which seems to have spotty online documentation).
   1. Open the Directory view by right clicking the `Setup` project -> View -> File System
 ![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/b2432462-655d-47b2-b367-33be844c921a)
-  2. You might only ever have to do this step once, but you may have to undo and repeat this every time you change the `Install` or `Uninstall` projects. First, build the Installer and Uninstaller (you can just build the whole project). By default, they output to `/Assemble/install/`. Drag these contents into `Application Folder/install`. It should look like this:
-![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/5d1e2cb4-6052-42ac-a770-99c16ef64dee)
-Then, right click on the `Setup` project -> View -> Custom Actions. Right click `Install` and add `Install.exe` under the Application folder. Do the same for `Uninstall` by adding `Uninstall.exe`. You should end up with this:
-![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/d111e123-eafd-44e4-8762-1a84d0e9eeaa)
-Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, select them and look at the `Properties` pane, and set `InstallerClass` to `False` and `Run64Bit` to `True`.
-![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/0fb77341-29d4-46e5-9ccd-c3b76bab1d0b)
-  4. This step is only applicable if you've changed what's in the `/Assemble/AppData` folder, in which you might need to update/register the changes by deleting the `AppData` folder inside the Setup project, and dragging it back into the Application Folder (remember that you must clear folder contents before deleting the folder itself). The following screenshots are for reference:
-![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/f3cff7c6-14e3-4f07-9bab-b3fabee9d553) ![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/0cd5e6ba-7c82-41cb-a14c-a7837f754106) ![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/95fdb28a-a51a-46f9-8107-af34a6f4cb54)
-  5. Finally, you can select and build the Setup project / .msi file. You will find the output in the default directory (`/Setup/<Debug or Release>`).
-![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/e458a25e-8eba-4708-9595-9df51161bc18)
-
+  2. This step is only applicable if you've changed what's in the `/Assemble/AppData` folder, in which you might need to update/register the changes by deleting the `AppData` folder inside the Setup project, and dragging it back into `Application Folder/install` (remember that you must clear folder contents before deleting the folder itself). The following screenshots are for reference:
+![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/5bb586f8-1b26-4828-b765-d9a7646c8b1e) ![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/1c54f931-19f1-45bb-a187-1dac3526ef31)
+  3. To build the Setup project / .msi file, right click the setup project and click `Build`. You will find the output in the default directory (`/Setup/<Debug or Release>`).
 
 <a name="manual-installation-and-assembly"></a>
 ### Manual installation and assembly + extra notes:
-1. It is required that all EXEs and their related files* are placed in the same directory, because the app will look for them in `AppDomain.CurrentDomain.BaseDirectory`. This has already been done by default. If you un-merge the build paths, you'll need to manually merge the built files and folders.
- * It might not be necessary to drag in the Install/Uninstall .exe's or `install folder`. Nontheless — if you want them anyways (e.g. to uninstall/reinstall the service with a double click), you need to drag their parent `install` folder into the app directory. Both of them search for `..\GPUprefSwitcher.exe`. Don't forget to overwrite this folder every time you change `Install.exe` or `Uninstall.exe`
+1. It is required that all EXEs and their related files* are placed in a fixed and specified directory, because the app looks for them in specific locations. This should already be done by default. If you un-merge the build paths, you'll need to manually merge the built files and folders.
 	
-2. (Already done by default) Application data, user data, and settings currently go in the same folder as the program. Directly copy the `AppData` folder found under `/Assemble` into the app directory. 
-
-3. In the end, you should end up with exactly this folder structure:
+2. In the end, you should end up with exactly this folder structure (before running `Install.exe`):
 ```
 .
 ├── <Application Folder>/
-|   ├── AppData/
-|   |   ├── Settings files, user data, etc.
-|   |   └── defaults/
-|   |       └── relevant default settings files
 |   ├── install/
 |   |   ├── Install.exe + related files
-|   |   └── Uninstall.exe + related files
-|   |
+|   |   ├── Uninstall.exe + related files
+|   |   └── AppData/
+|   |       ├── Settings files, user data, etc.
+|   |       └── defaults/
+|   |           └── relevant default settings files
 |   ├── GPUPrefSwitcher.exe + related files
 |   ├── GPUPrefSwitcherGUI.exe + related files
 |   ├── GPUPrefSwitcherRepairer.exe + related files
@@ -143,8 +130,7 @@ Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, se
 |   └── GUIAdminFunctions.exe + related files
 ```
 
-4. Double click and run `Install.exe` inside the `install` folder to install the service (and `Uninstall.exe` to uninstall). 
-* (Or, just use `sc` to register the project; e.g. `sc.exe create GPUPrefSwitcher binpath= "C:/path/to/App Directory/GPUPrefSwitcher.exe" start= auto` (Yes, the spaces after binpath= and start= above *are* important — don't ask me why))
+3. Double click and run `Install.exe` inside the `install` folder to install the service (and `Uninstall.exe` to uninstall).
 
 *The project was built in Visual Studio 2022. It was originally a .NET Framework 4.7.x project, but was migrated to .NET Core 8.x .
 
@@ -152,8 +138,10 @@ Now, right click `Uninstall` and add `Uninstall.exe`. Then, for each of them, se
 - **"Could not find metadata" or "could not find dll" errors:** fix compiler errors first, check the build order, and see this StackOverflow thread  https://stackoverflow.com/questions/44251030/vs-2017-metadata-file-dll-could-not-be-found
 - **Cannot find .exe or Error MSB4094:** Sometimes if you change build paths, it freaks out because projects will somehow generate a double reference and also attempt to search for .exe's in nonexistent locations; check and fix build-related files (in my original case, the error pertained to an element/array containing two reference entries instead of just one).
 - **Unable to change the target architecture of builds:** try opening the .sln file and clearing everything between "GlobalSection(ProjectConfigurationPlatforms) = postSolution" and "EndGlobalSection"
-- If you change the service name, you must change the service name constant in GPUPrefSwitcherSvcRestarter -> Program.cs, otherwise it will do nothing
-- **Shortcuts to deployed executables:** https://stackoverflow.com/questions/3303962/visual-studio-deployment-project-create-shortcut-to-deployed-executable
+- If you change the service name, you must change the service name constant in certain places (e.g. GPUPrefSwitcherSvcRestarter -> Program.cs)
+- **Setup Project:**
+	- **Shortcuts to deployed executables:** https://stackoverflow.com/questions/3303962/visual-studio-deployment-project-create-shortcut-to-deployed-executable
+	- **"Install" or "Uninstall" executables don't run:** Ensure that in the Setup project's Custom actions for Install and Uninstall, `InstallerClass` is set to `False` and `Run64Bit` is set to `True` (or accordingly otherwise)
 
 </details>
 
