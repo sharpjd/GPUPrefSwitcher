@@ -506,6 +506,7 @@ namespace GPUPrefSwitcher
         {
         }
 
+        //https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
         static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
         {
             // Get information about the source directory

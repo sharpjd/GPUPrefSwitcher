@@ -15,74 +15,50 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0BD6620C79554BEE888B595D6FDAB449"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0E839E9AC245491DBF6CEC7D8AF55D6D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_0EE1C3DEB1B247B0B3EA96E53EBB6856"
+        "MsmKey" = "8:_1208195C2444912B5B0CCAB29D67B77D"
+        "OwnerKey" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_150EB27567604FE3900FC3B71E18DBE9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_11761084E27C44B0A7886696F83C329E"
+        "MsmKey" = "8:_3475D9CE2EAE480EBF124B469B363AC1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_1D011FAF8C4E42CBB682A7372CF0A3D7"
+        "MsmKey" = "8:_4C1602640EA341E98A9C2675CCD69A91"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_1D884DA1FEC744F38BB4D72DCB402C32"
+        "MsmKey" = "8:_55A2FD99C9994774918079CB3D3FAA99"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_2A8A5A85C47645518D7670A006486D02"
+        "MsmKey" = "8:_55A4F4CA8BA2440A883584889E137AA1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_3104AFB5AD3D46519B94E9ECBC50E387"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_39A6340E8F654CF18A151AE0314ED271"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_40CCD0941C9A4342911397F8D5584955"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5073912AC38E0627ACBAFB615F0E3DB0"
-        "OwnerKey" = "8:_E08C9FCA9CA4318894CEC82179D012EB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5073912AC38E0627ACBAFB615F0E3DB0"
-        "OwnerKey" = "8:_B61B48D4E9B64F38B26F9E0F0A78EF6A"
+        "MsmKey" = "8:_56DC78C326989FA93DB01134798DC196"
+        "OwnerKey" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -93,25 +69,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_630087273A274E018E363A696E076AFF"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_68C2E798E16445662E9DEFFB5681D460"
+        "OwnerKey" = "8:_FCE11114060245AC8B9C167E41624955"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_6A42D61D35294AA689328B2E873AD59E"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_71196F7DED999B88EF938D15F10C812A"
+        "OwnerKey" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_6CA84272E90442A099A05F84FEA7D68D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_723478AAA1274B6EB4ADA220C31C839C"
+        "MsmKey" = "8:_783C7D098D9D4BA9B19D8430142E9D10"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -123,92 +93,92 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7A5BE0C9C6EFFDF4B1D838876E14FDD1"
+        "OwnerKey" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81BC61911E5A429D85EF2E52CE580762"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_88382AB3EB1D42DAB15EA5AB1228428F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9167CFE7FB6D4BDE84881E8B3FBAAE61"
+        "MsmKey" = "8:_8EA873494131424EB3BF78FAAC028ABA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9851D6390CBA438E843A330A88D8C4D3"
+        "MsmKey" = "8:_A83350FC7D27F559E5EEDF0CA7637E86"
+        "OwnerKey" = "8:_FCE11114060245AC8B9C167E41624955"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A83350FC7D27F559E5EEDF0CA7637E86"
+        "OwnerKey" = "8:_68C2E798E16445662E9DEFFB5681D460"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A83350FC7D27F559E5EEDF0CA7637E86"
+        "OwnerKey" = "8:_EE2D872437CDBCC158650469D57C8909"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C6DDF1F26352415989D419E97B4AC43F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9E6E6498A4534DF6BE280DF21AAF316A"
+        "MsmKey" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9EAAFFC6ACE547D888CEFAFBA64D9E90"
+        "MsmKey" = "8:_D2C07691D58E58D46EC69D91A9BD9594"
+        "OwnerKey" = "8:_FCE11114060245AC8B9C167E41624955"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D2C07691D58E58D46EC69D91A9BD9594"
+        "OwnerKey" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E737C1896C22466281BAC70AF1ABEFB9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A3B2678751F249F18E2DC6DF17EEF0AC"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_EE2D872437CDBCC158650469D57C8909"
+        "OwnerKey" = "8:_FCE11114060245AC8B9C167E41624955"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A6771B93C8CC4729BF0A5C39952A2B6F"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_EE2D872437CDBCC158650469D57C8909"
+        "OwnerKey" = "8:_68C2E798E16445662E9DEFFB5681D460"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_AC8FB7929CC64545AC69889DF0E87E64"
+        "MsmKey" = "8:_F0D29D4DAD5F4C58A386D6A497232DB7"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AE0C2BC241F14B18ADF9EE2A8F70E8EA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B61B48D4E9B64F38B26F9E0F0A78EF6A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B85C0A80BC054413A42D77267154BF53"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C2FBA6AE8FA849798521E1C6DFD32C6B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C541D53F2E164552B88575C8E8F9035C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DFCF28F1B3C54C5CA121F7AA9F003BF0"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E08C9FCA9CA4318894CEC82179D012EB"
-        "OwnerKey" = "8:_B61B48D4E9B64F38B26F9E0F0A78EF6A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -219,86 +189,68 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FFF59D007D1E4A53A5C791FA143588E4"
+        "MsmKey" = "8:_FCE11114060245AC8B9C167E41624955"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0BD6620C79554BEE888B595D6FDAB449"
+        "OwnerKey" = "8:_D2C07691D58E58D46EC69D91A9BD9594"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DFCF28F1B3C54C5CA121F7AA9F003BF0"
+        "OwnerKey" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B61B48D4E9B64F38B26F9E0F0A78EF6A"
+        "OwnerKey" = "8:_7A5BE0C9C6EFFDF4B1D838876E14FDD1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E08C9FCA9CA4318894CEC82179D012EB"
+        "OwnerKey" = "8:_1208195C2444912B5B0CCAB29D67B77D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5073912AC38E0627ACBAFB615F0E3DB0"
+        "OwnerKey" = "8:_56DC78C326989FA93DB01134798DC196"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AC8FB7929CC64545AC69889DF0E87E64"
+        "OwnerKey" = "8:_71196F7DED999B88EF938D15F10C812A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A3B2678751F249F18E2DC6DF17EEF0AC"
+        "OwnerKey" = "8:_FCE11114060245AC8B9C167E41624955"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9E6E6498A4534DF6BE280DF21AAF316A"
+        "OwnerKey" = "8:_68C2E798E16445662E9DEFFB5681D460"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9851D6390CBA438E843A330A88D8C4D3"
+        "OwnerKey" = "8:_EE2D872437CDBCC158650469D57C8909"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6CA84272E90442A099A05F84FEA7D68D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6A42D61D35294AA689328B2E873AD59E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1D884DA1FEC744F38BB4D72DCB402C32"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_11761084E27C44B0A7886696F83C329E"
+        "OwnerKey" = "8:_A83350FC7D27F559E5EEDF0CA7637E86"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -309,7 +261,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\Setup.msi"
+        "OutputFilename" = "8:Debug\\DO NOT RUN ME.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -328,10 +280,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.1"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    "Name" = "8:Microsoft .NET Framework 4.7.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.1"
                     }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.8.0.x64"
                     {
@@ -383,32 +335,32 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_C07B35BCA27143E8AE833D8E090F1EF0"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_27496112512048F28B637FCC5EFEA3F5"
             {
-            "Name" = "8:Uninstall.exe"
+            "Name" = "8:Primary output from Install (Active)"
             "Condition" = "8:"
-            "Object" = "8:_1D884DA1FEC744F38BB4D72DCB402C32"
-            "FileType" = "3:2"
-            "InstallAction" = "3:4"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_E26B6C81_5177_4B4C_996B_BF49E58AEE0F"
-            "InstallerClass" = "11:FALSE"
-            "CustomActionData" = "8:"
-            "Run64Bit" = "11:TRUE"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_E3947352238A448E8FC042536038BDA9"
-            {
-            "Name" = "8:Install.exe"
-            "Condition" = "8:"
-            "Object" = "8:_9851D6390CBA438E843A330A88D8C4D3"
+            "Object" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
             "FileType" = "3:2"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_97D627C7_3F86_4795_B569_0D598588CF74"
+            "Identifier" = "8:_46BDE564_E609_4AD0_9185_4784CC15463D"
+            "InstallerClass" = "11:FALSE"
+            "CustomActionData" = "8:"
+            "Run64Bit" = "11:TRUE"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_5BCF3B2782A3457886B847DF137C095B"
+            {
+            "Name" = "8:Primary output from Uninstall (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_FCE11114060245AC8B9C167E41624955"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_3AADB211_4956_4B7F_90D7_E99A55C6E53F"
             "InstallerClass" = "11:FALSE"
             "CustomActionData" = "8:"
             "Run64Bit" = "11:TRUE"
@@ -446,122 +398,20 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0BD6620C79554BEE888B595D6FDAB449"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1208195C2444912B5B0CCAB29D67B77D"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler.resources, Version=2.10.1.0, Culture=fr, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:System.Diagnostics.PerformanceCounter, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_0BD6620C79554BEE888B595D6FDAB449"
+                    "_1208195C2444912B5B0CCAB29D67B77D"
                     {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.resources.dll"
+                    "Name" = "8:System.Diagnostics.PerformanceCounter.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:..\\Assemble\\install\\fr\\Microsoft.Win32.TaskScheduler.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_04F1A14D215945F8B79F6F4342376921"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0EE1C3DEB1B247B0B3EA96E53EBB6856"
-            {
-            "SourcePath" = "8:..\\Assemble\\AppData\\Switcher.data"
-            "TargetName" = "8:Switcher.data"
-            "Tag" = "8:"
-            "Folder" = "8:_F2B7A140C671424BBA7C50F256B12D8A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_11761084E27C44B0A7886696F83C329E"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler.resources, Version=2.10.1.0, Culture=zh-Hant, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_11761084E27C44B0A7886696F83C329E"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Assemble\\install\\zh-Hant\\Microsoft.Win32.TaskScheduler.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_4FB6E81297664488AAC7533C092AB16F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1D011FAF8C4E42CBB682A7372CF0A3D7"
-            {
-            "SourcePath" = "8:..\\Assemble\\AppData\\SettingsBank\\WARNING - README.txt"
-            "TargetName" = "8:WARNING - README.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_92599FEE87704088BF7446C63C46F90C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1D884DA1FEC744F38BB4D72DCB402C32"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Uninstall, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64"
-                "ScatterAssemblies"
-                {
-                    "_1D884DA1FEC744F38BB4D72DCB402C32"
-                    {
-                    "Name" = "8:Uninstall.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Assemble\\install\\Uninstall.exe"
+            "SourcePath" = "8:System.Diagnostics.PerformanceCounter.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
@@ -576,15 +426,15 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2A8A5A85C47645518D7670A006486D02"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_150EB27567604FE3900FC3B71E18DBE9"
             {
-            "SourcePath" = "8:..\\Assemble\\AppData\\defaults\\Switcher.data"
-            "TargetName" = "8:Switcher.data"
+            "SourcePath" = "8:..\\Assemble\\AppData\\defaults\\AppOptions.xml"
+            "TargetName" = "8:AppOptions.xml"
             "Tag" = "8:"
-            "Folder" = "8:_5998AFAA67D748FA830863D2327A1C16"
+            "Folder" = "8:_DD997CE909A34AF4A79786F3BD3A2AF9"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -599,12 +449,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3104AFB5AD3D46519B94E9ECBC50E387"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3475D9CE2EAE480EBF124B469B363AC1"
             {
-            "SourcePath" = "8:..\\Assemble\\install\\Microsoft.Win32.TaskScheduler.xml"
-            "TargetName" = "8:Microsoft.Win32.TaskScheduler.xml"
+            "SourcePath" = "8:..\\Assemble\\AppData\\GUIErrorLog.txt"
+            "TargetName" = "8:GUIErrorLog.txt"
             "Tag" = "8:"
-            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
+            "Folder" = "8:_7E0479266056429D9EA0B8B0EC7F5D35"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -619,32 +469,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_39A6340E8F654CF18A151AE0314ED271"
-            {
-            "SourcePath" = "8:..\\Assemble\\AppData\\GPUPrefSwitcherErrorLog.txt"
-            "TargetName" = "8:GPUPrefSwitcherErrorLog.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_F2B7A140C671424BBA7C50F256B12D8A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_40CCD0941C9A4342911397F8D5584955"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4C1602640EA341E98A9C2675CCD69A91"
             {
             "SourcePath" = "8:..\\Assemble\\AppData\\Preferences.xml"
             "TargetName" = "8:Preferences.xml"
             "Tag" = "8:"
-            "Folder" = "8:_F2B7A140C671424BBA7C50F256B12D8A"
+            "Folder" = "8:_7E0479266056429D9EA0B8B0EC7F5D35"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -659,14 +489,238 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5073912AC38E0627ACBAFB615F0E3DB0"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_55A2FD99C9994774918079CB3D3FAA99"
+            {
+            "SourcePath" = "8:..\\Assemble\\AppData\\Switcher.data"
+            "TargetName" = "8:Switcher.data"
+            "Tag" = "8:"
+            "Folder" = "8:_7E0479266056429D9EA0B8B0EC7F5D35"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_55A4F4CA8BA2440A883584889E137AA1"
+            {
+            "SourcePath" = "8:..\\Assemble\\AppData\\GPUPrefSwitcherErrorLog.txt"
+            "TargetName" = "8:GPUPrefSwitcherErrorLog.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_7E0479266056429D9EA0B8B0EC7F5D35"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_56DC78C326989FA93DB01134798DC196"
             {
             "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:TRUE"
-            "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Diagnostics.EventLog, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5073912AC38E0627ACBAFB615F0E3DB0"
+                    "_56DC78C326989FA93DB01134798DC196"
+                    {
+                    "Name" = "8:System.Diagnostics.EventLog.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Diagnostics.EventLog.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_68C2E798E16445662E9DEFFB5681D460"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler, Version=2.10.1.0, Culture=neutral, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_68C2E798E16445662E9DEFFB5681D460"
+                    {
+                    "Name" = "8:Microsoft.Win32.TaskScheduler.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.Win32.TaskScheduler.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_71196F7DED999B88EF938D15F10C812A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_71196F7DED999B88EF938D15F10C812A"
+                    {
+                    "Name" = "8:Newtonsoft.Json.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Newtonsoft.Json.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_783C7D098D9D4BA9B19D8430142E9D10"
+            {
+            "SourcePath" = "8:..\\Assemble\\AppData\\SettingsBank\\WARNING - README.txt"
+            "TargetName" = "8:WARNING - README.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_7FD7303DEFF3404DB7E83AC00DDF853F"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7A5BE0C9C6EFFDF4B1D838876E14FDD1"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7A5BE0C9C6EFFDF4B1D838876E14FDD1"
+                    {
+                    "Name" = "8:System.Security.Principal.Windows.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Security.Principal.Windows.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_81BC61911E5A429D85EF2E52CE580762"
+            {
+            "SourcePath" = "8:..\\Assemble\\AppData\\defaults\\Switcher.data"
+            "TargetName" = "8:Switcher.data"
+            "Tag" = "8:"
+            "Folder" = "8:_DD997CE909A34AF4A79786F3BD3A2AF9"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8EA873494131424EB3BF78FAAC028ABA"
+            {
+            "SourcePath" = "8:..\\Assemble\\AppData\\defaults\\Preferences.xml"
+            "TargetName" = "8:Preferences.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_DD997CE909A34AF4A79786F3BD3A2AF9"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A83350FC7D27F559E5EEDF0CA7637E86"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                "ScatterAssemblies"
+                {
+                    "_A83350FC7D27F559E5EEDF0CA7637E86"
                     {
                     "Name" = "8:System.IO.Compression.dll"
                     "Attributes" = "3:512"
@@ -690,94 +744,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_630087273A274E018E363A696E076AFF"
-            {
-            "SourcePath" = "8:..\\Assemble\\AppData\\defaults\\AppOptions.xml"
-            "TargetName" = "8:AppOptions.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_5998AFAA67D748FA830863D2327A1C16"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6A42D61D35294AA689328B2E873AD59E"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler.resources, Version=2.10.1.0, Culture=it, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_6A42D61D35294AA689328B2E873AD59E"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Assemble\\install\\it\\Microsoft.Win32.TaskScheduler.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_7940AF3F894D40D8A06037B1F2782164"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6CA84272E90442A099A05F84FEA7D68D"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler.resources, Version=2.10.1.0, Culture=de, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_6CA84272E90442A099A05F84FEA7D68D"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Assemble\\install\\de\\Microsoft.Win32.TaskScheduler.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_39CDE0C324F94A86BDAC6674CF1BACCF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_723478AAA1274B6EB4ADA220C31C839C"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C6DDF1F26352415989D419E97B4AC43F"
             {
             "SourcePath" = "8:..\\Assemble\\AppData\\AppOptions.xml"
             "TargetName" = "8:AppOptions.xml"
             "Tag" = "8:"
-            "Folder" = "8:_F2B7A140C671424BBA7C50F256B12D8A"
+            "Folder" = "8:_7E0479266056429D9EA0B8B0EC7F5D35"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -792,40 +764,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9167CFE7FB6D4BDE84881E8B3FBAAE61"
-            {
-            "SourcePath" = "8:..\\Assemble\\install\\Uninstall.pdb"
-            "TargetName" = "8:Uninstall.pdb"
-            "Tag" = "8:"
-            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9851D6390CBA438E843A330A88D8C4D3"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D2C07691D58E58D46EC69D91A9BD9594"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Install, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_9851D6390CBA438E843A330A88D8C4D3"
+                    "_D2C07691D58E58D46EC69D91A9BD9594"
                     {
-                    "Name" = "8:Install.exe"
+                    "Name" = "8:System.Net.Http.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:..\\Assemble\\install\\Install.exe"
+            "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
@@ -840,219 +792,15 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9E6E6498A4534DF6BE280DF21AAF316A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler.resources, Version=2.10.1.0, Culture=ru, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_9E6E6498A4534DF6BE280DF21AAF316A"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Assemble\\install\\ru\\Microsoft.Win32.TaskScheduler.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_737CBDDAFEE54C5AAA5EC921EFCE1040"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9EAAFFC6ACE547D888CEFAFBA64D9E90"
-            {
-            "SourcePath" = "8:..\\Assemble\\install\\Install.pdb"
-            "TargetName" = "8:Install.pdb"
-            "Tag" = "8:"
-            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A3B2678751F249F18E2DC6DF17EEF0AC"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler.resources, Version=2.10.1.0, Culture=es, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_A3B2678751F249F18E2DC6DF17EEF0AC"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Assemble\\install\\es\\Microsoft.Win32.TaskScheduler.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_D5918296991844B49D31033246CCA2EB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A6771B93C8CC4729BF0A5C39952A2B6F"
-            {
-            "SourcePath" = "8:..\\Assemble\\install\\Install.exe.config"
-            "TargetName" = "8:Install.exe.config"
-            "Tag" = "8:"
-            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AC8FB7929CC64545AC69889DF0E87E64"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler.resources, Version=2.10.1.0, Culture=pl, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_AC8FB7929CC64545AC69889DF0E87E64"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Assemble\\install\\pl\\Microsoft.Win32.TaskScheduler.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_18AD7FCB4D8841DB8A9AFD0FEAC9B55E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AE0C2BC241F14B18ADF9EE2A8F70E8EA"
-            {
-            "SourcePath" = "8:..\\Assemble\\AppData\\GUIErrorLog.txt"
-            "TargetName" = "8:GUIErrorLog.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_F2B7A140C671424BBA7C50F256B12D8A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B61B48D4E9B64F38B26F9E0F0A78EF6A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler, Version=2.10.1.0, Culture=neutral, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_B61B48D4E9B64F38B26F9E0F0A78EF6A"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Assemble\\install\\Microsoft.Win32.TaskScheduler.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B85C0A80BC054413A42D77267154BF53"
-            {
-            "SourcePath" = "8:..\\Assemble\\AppData\\defaults\\Preferences.xml"
-            "TargetName" = "8:Preferences.xml"
-            "Tag" = "8:"
-            "Folder" = "8:_5998AFAA67D748FA830863D2327A1C16"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C2FBA6AE8FA849798521E1C6DFD32C6B"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E737C1896C22466281BAC70AF1ABEFB9"
             {
             "SourcePath" = "8:..\\Assemble\\AppData\\GPUPrefSwitcherLog.txt"
             "TargetName" = "8:GPUPrefSwitcherLog.txt"
             "Tag" = "8:"
-            "Folder" = "8:_F2B7A140C671424BBA7C50F256B12D8A"
+            "Folder" = "8:_7E0479266056429D9EA0B8B0EC7F5D35"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1067,65 +815,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C541D53F2E164552B88575C8E8F9035C"
-            {
-            "SourcePath" = "8:..\\Assemble\\AppData\\GUILog.txt"
-            "TargetName" = "8:GUILog.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_F2B7A140C671424BBA7C50F256B12D8A"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DFCF28F1B3C54C5CA121F7AA9F003BF0"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EE2D872437CDBCC158650469D57C8909"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler.resources, Version=2.10.1.0, Culture=zh-CN, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:System.IO.Compression.FileSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 "ScatterAssemblies"
                 {
-                    "_DFCF28F1B3C54C5CA121F7AA9F003BF0"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\Assemble\\install\\zh-CN\\Microsoft.Win32.TaskScheduler.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_5D0B3EAFBDFB424BA7D4B574C9F0EA3F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E08C9FCA9CA4318894CEC82179D012EB"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:TRUE"
-            "AssemblyAsmDisplayName" = "8:System.IO.Compression.FileSystem, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_E08C9FCA9CA4318894CEC82179D012EB"
+                    "_EE2D872437CDBCC158650469D57C8909"
                     {
                     "Name" = "8:System.IO.Compression.FileSystem.dll"
                     "Attributes" = "3:512"
@@ -1149,12 +846,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FFF59D007D1E4A53A5C791FA143588E4"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F0D29D4DAD5F4C58A386D6A497232DB7"
             {
-            "SourcePath" = "8:..\\Assemble\\install\\Uninstall.exe.config"
-            "TargetName" = "8:Uninstall.exe.config"
+            "SourcePath" = "8:..\\Assemble\\AppData\\GUILog.txt"
+            "TargetName" = "8:GUILog.txt"
             "Tag" = "8:"
-            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
+            "Folder" = "8:_7E0479266056429D9EA0B8B0EC7F5D35"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1205,125 +902,37 @@
                     "Property" = "8:_BA9323646EB84A02A420317D9A1CAE36"
                         "Folders"
                         {
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_04F1A14D215945F8B79F6F4342376921"
+                            "{9EF0B969-E518-4E46-987F-47570745A589}:_7E0479266056429D9EA0B8B0EC7F5D35"
                             {
-                            "Name" = "8:fr"
+                            "Name" = "8:AppData"
                             "AlwaysCreate" = "11:FALSE"
                             "Condition" = "8:"
                             "Transitive" = "11:FALSE"
-                            "Property" = "8:_60E4D71A21AC4161846AF7E263B5ABA7"
+                            "Property" = "8:_50F804B24576469C971E74F7F78CBA3F"
                                 "Folders"
                                 {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_18AD7FCB4D8841DB8A9AFD0FEAC9B55E"
-                            {
-                            "Name" = "8:pl"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_FF88F49DADEF4AA19673523C6D666FD9"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_39CDE0C324F94A86BDAC6674CF1BACCF"
-                            {
-                            "Name" = "8:de"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_EFC7B7220BE94BC28470F01E29496C97"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_4FB6E81297664488AAC7533C092AB16F"
-                            {
-                            "Name" = "8:zh-Hant"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_5F3BB0B298AB494AADAAAF324AA8BCC2"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_5D0B3EAFBDFB424BA7D4B574C9F0EA3F"
-                            {
-                            "Name" = "8:zh-CN"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_73FB5140B07C4832826FE6324A83C86B"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_737CBDDAFEE54C5AAA5EC921EFCE1040"
-                            {
-                            "Name" = "8:ru"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_B4F671B83748458B87069294828B11D3"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_7940AF3F894D40D8A06037B1F2782164"
-                            {
-                            "Name" = "8:it"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_90E84DB404EB48FC83E895909E6867AB"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_D5918296991844B49D31033246CCA2EB"
-                            {
-                            "Name" = "8:es"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_D9461AD6C9504ECCAB1629E505A22013"
-                                "Folders"
-                                {
-                                }
-                            }
-                        }
-                    }
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_F2B7A140C671424BBA7C50F256B12D8A"
-                    {
-                    "Name" = "8:AppData"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_992C34AD5D2E4066BEF725D660DA0AA2"
-                        "Folders"
-                        {
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_5998AFAA67D748FA830863D2327A1C16"
-                            {
-                            "Name" = "8:defaults"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_C4A422120B674A4A8F11D3026D2DD93D"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_92599FEE87704088BF7446C63C46F90C"
-                            {
-                            "Name" = "8:SettingsBank"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_AEB34A31D24942829B4E84831617B56D"
-                                "Folders"
-                                {
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_7FD7303DEFF3404DB7E83AC00DDF853F"
+                                    {
+                                    "Name" = "8:SettingsBank"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_C105CBCF0C69416B85C505667F0A760F"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
+                                    "{9EF0B969-E518-4E46-987F-47570745A589}:_DD997CE909A34AF4A79786F3BD3A2AF9"
+                                    {
+                                    "Name" = "8:defaults"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "Condition" = "8:"
+                                    "Transitive" = "11:FALSE"
+                                    "Property" = "8:_E9D0A81DA6F844D886D97C8D931ADCEC"
+                                        "Folders"
+                                        {
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1358,7 +967,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GPUPrefSwitcher"
         "ProductCode" = "8:{3F274E14-176C-460E-8142-CFF4A1BE76BA}"
-        "PackageCode" = "8:{4D72B6AC-F992-4D81-9856-1A81BDDDCF87}"
+        "PackageCode" = "8:{65A21447-F767-44A2-B574-93B46696D76A}"
         "UpgradeCode" = "8:{F0777117-6636-4CCF-8D5F-E9C442B67086}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1907,7 +1516,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_0E839E9AC245491DBF6CEC7D8AF55D6D"
             {
-            "SourcePath" = "8:..\\GPUPrefSwitcher\\obj\\x64\\Release\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\GPUPrefSwitcher\\obj\\x64\\Debug\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9A141D4CCCCF41DFBE0305A9FEAA5C25"
@@ -1935,7 +1544,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_591EB6B1F6D5439BAB3D1AC4D94119D6"
             {
-            "SourcePath" = "8:..\\GPUPrefSwitcherGUI\\obj\\x64\\Release\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\GPUPrefSwitcherGUI\\obj\\x64\\Debug\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9A141D4CCCCF41DFBE0305A9FEAA5C25"
@@ -1963,7 +1572,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_79396C5FEBF34AEFA05E62B4576B4C13"
             {
-            "SourcePath" = "8:..\\GPUPrefSwitcherSvcRestarter\\obj\\x64\\Release\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\GPUPrefSwitcherSvcRestarter\\obj\\x64\\Debug\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9A141D4CCCCF41DFBE0305A9FEAA5C25"
@@ -1991,7 +1600,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_88382AB3EB1D42DAB15EA5AB1228428F"
             {
-            "SourcePath" = "8:..\\GUIAdminFunctions\\obj\\x64\\Release\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\GUIAdminFunctions\\obj\\x64\\Debug\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9A141D4CCCCF41DFBE0305A9FEAA5C25"
@@ -2017,9 +1626,37 @@
                 {
                 }
             }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
+            {
+            "SourcePath" = "8:..\\Install\\obj\\Debug\\Install.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{50ACD4CC-BF2C-48AF-99D2-19E459906E42}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F9E629FEF507494F96C9AA53D5B80F39"
             {
-            "SourcePath" = "8:..\\GPUPrefSwitcherRepairer\\obj\\x64\\Release\\net8.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\GPUPrefSwitcherRepairer\\obj\\x64\\Debug\\net8.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_9A141D4CCCCF41DFBE0305A9FEAA5C25"
@@ -2040,6 +1677,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{00F4B331-AC94-41BE-8937-4CBA466CF3B0}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FCE11114060245AC8B9C167E41624955"
+            {
+            "SourcePath" = "8:..\\Uninstall\\obj\\Debug\\Uninstall.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_8D26C009E67748208510450008E8FE1E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{8FCFDC1A-B66C-4409-9186-3F06E126506C}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
