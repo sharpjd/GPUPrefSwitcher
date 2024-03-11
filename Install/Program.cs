@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace Install
