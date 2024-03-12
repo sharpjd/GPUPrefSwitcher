@@ -83,12 +83,13 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 </details>
 
 <details>
-<summary>
 
 ## Future feature ideas
 - Improving the definition and conditions for being "On Battery" or "Plugged In" (e.g. how much power input?)
 - Multiple settings profiles
 - A config database
+ 
+<summary>
  
 ## Build/develop (click to expand):
 </summary>
