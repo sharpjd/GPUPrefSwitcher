@@ -1,7 +1,7 @@
 # GPUPrefSwitcher
 Enables seamless switching of game settings and targeting the dGPU/iGPU for gaming laptops when they plug in or out, making portable gaming more convenient. 
 
-## [Download/install (directly downloads the latest release)](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.2-alpha/GPUPrefSwitcher_Installer_v0.0.2-alpha.zip)
+## [Download/install (directly downloads the latest release)](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.1.0/GPUPrefSwitcher_Installer_v0.1.0.zip)
 
 ## Features
 * When switching between plugged in / on battery, this app can:
@@ -13,26 +13,21 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 * Runs as a service
 
 ## Installation
-#### Prerequisites:
-- A 64-bit system
-- Windows 11 or newer versions of Windows 10
 
 #### Install (Wizard):
 - Download the [latest installer Release](https://github.com/sharpjd/GPUPrefSwitcher/releases).
 - Extract all .zip contents and run `setup.exe` (not the .msi file)
 
 #### Install (Manual): 
-- Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.2-alpha/GPUPrefSwitcher_SelfContained_v0.0.2-alpha.zip)
+- Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.1.0/GPUPrefSwitcher_SelfContained_v0.1.0.zip)
 - See step 4 of the Manual Installation section (expand the Build/Develop section below)
 
-## Planned features (high priority)
-- [x] Option to preserve user data when uninstalling and updating with the installer
-- [ ] Stalling file swapping if the target .exe is still running (in case the target app saves settings *when it closes*)
-
-## Future feature ideas
-- Improving the definition and conditions for being "On Battery" or "Plugged In" (e.g. how much power input?)
-- Multiple settings profiles
-- A config database or a forum
+#### Prerequisites:
+- A 64-bit system
+- Windows 11 or newer versions of Windows 10
+- .NET **Desktop** Runtime 8.0.1 
+- .NET Framework 4.7.1
+- (The installer should automatically download the latter two if they're not yet installed)
 
 ## Donation
 If you would like to show support for my work, you can do so at my [Ko-Fi](https://ko-fi.com/sharpjd)!
@@ -78,8 +73,10 @@ Now we boot up the game again, and the game is running on the dGPU. Normally, we
 
 The process was totally automatic, requiring no intervention. 
 
-Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios (e.g. file locked, unexpected crash, or the .exe saving the config when it shuts down). The way these mechanisms work will take a lot to explain — and for now, you will need to study the source code yourself to understand them.
-
+Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios:
+* **Target file locked:** The app will simply stall the file swap and retry repeatedly.
+* **The target .exe saves the file *when it closes:*** The app is designed to delay swapping the file if the target .exe is still running. Data loss or an inappropriate overwrite can still occur if the target .exe spawns a separate process that modifies the file, but that seems like a very specific and unlikely scenario.
+* **Unexpected crashes or ungraceful termination:** Is unlikely to cause inconsistent states or inappropriate overwrites. The state tracking string in the app data file for each corresponding file swapper state is immediately updated and saved after the each file swap occurs, and is not touched if the file swap doesn't occur.
 
 Despite these safeguards, data loss can still result from the File Swapper system; **do NOT manipulate important or sensitive data with it.** 
 
@@ -87,6 +84,11 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 
 <details>
 <summary>
+
+## Future feature ideas
+- Improving the definition and conditions for being "On Battery" or "Plugged In" (e.g. how much power input?)
+- Multiple settings profiles
+- A config database
  
 ## Build/develop (click to expand):
 </summary>
