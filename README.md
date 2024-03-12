@@ -40,7 +40,7 @@ Integrated graphics (iGPU) and CPU power efficiency have evolved and are becomin
 
 1. Many gaming laptops don't allow you to disable the dGPU manually or while on battery, so games automatically run on them and decimate your battery (100% -> 0% in less than an hour in some cases!). To prevent this, you must first open the Graphics Settings and change the GPU preference to the iGPU, and then run your game. Then, when you plug your computer back in and want the game running on the dGPU, you need to remember to go back and change the GPU preference setting *again*. 
 
-2. Then, you face having to turn down your game's graphics settings so that they don't overload your iGPU. But when you're done, back on the charger and using your dGPU for prettier graphics again, you have to change the settings *another* time to restore those settings. This also means you need to memorize two distinct sets of settings!
+2. Then you face having to turn down your game's graphics settings so that they don't overload your iGPU. But then when you're done, back on the charger, and using your dGPU for prettier graphics again, you have to change the settings *another* time to restore those settings. This also means you need to memorize two distinct sets of settings!
 
 3. Automatic frame limiter features like NVIDIA's BatteryBoost don't work as well due to their high base power draw in comparison to iGPU's, on top of capping your game to a dismal 30FPS by default.
 
