@@ -31,20 +31,21 @@ namespace Install
 
                 if (Directory.Exists(appDataPath_app))
                 {
-                    DialogResult result = MessageBox.Show("An existing AppData folder has been detected in the install location. Would you like to delete and overwrite it?" +
-                        "\n\nIf you select \"Yes\", the folder will be deleted, and all previous data in that folder will be lost and overwritten with installer defaults." +
-                        "\n\nIf you select \"No\", the folder will not be touched, and the app will utilize the preexisting data in the folder.",
+                    DialogResult result = MessageBox.Show("An existing AppData folder has been detected in the install location. Would you like to use the preexisting data (e.g. if you're just updating)?" +
+                        "\n\nIf you select \"Yes\", the existing folder will not be touched, and the app will utilize the preexisting data in the folder." +
+                        "\n\nIf you select \"No\", the existing folder will be deleted, and all previous data in that folder will be lost and overwritten with installer defaults.",
                         "Old AppData detected", 
                         MessageBoxButtons.YesNo, 
                         MessageBoxIcon.Information);
 
                     if(result == DialogResult.Yes)
                     {
+                        //do nothing
+                    }
+                    else if (result == DialogResult.No)
+                    {
                         Directory.Delete(appDataPath_app, true);
                         CopyDirectory(appDataPath_installer, appDataPath_app, true);
-                    } else if (result == DialogResult.No)
-                    {
-                        //do nothing
                     }
                 } else
                 {
