@@ -148,13 +148,13 @@
         "Entry"
         {
         "MsmKey" = "8:_D2C07691D58E58D46EC69D91A9BD9594"
-        "OwnerKey" = "8:_FCE11114060245AC8B9C167E41624955"
+        "OwnerKey" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_D2C07691D58E58D46EC69D91A9BD9594"
-        "OwnerKey" = "8:_CF7E2B68BD7E4F61A94C6FCF9DD99A9B"
+        "OwnerKey" = "8:_FCE11114060245AC8B9C167E41624955"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -196,7 +196,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_D2C07691D58E58D46EC69D91A9BD9594"
+        "OwnerKey" = "8:_FCE11114060245AC8B9C167E41624955"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_68C2E798E16445662E9DEFFB5681D460"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_EE2D872437CDBCC158650469D57C8909"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A83350FC7D27F559E5EEDF0CA7637E86"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -232,25 +250,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FCE11114060245AC8B9C167E41624955"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_68C2E798E16445662E9DEFFB5681D460"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EE2D872437CDBCC158650469D57C8909"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A83350FC7D27F559E5EEDF0CA7637E86"
+        "OwnerKey" = "8:_D2C07691D58E58D46EC69D91A9BD9594"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -966,15 +966,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:GPUPrefSwitcher"
-        "ProductCode" = "8:{3F274E14-176C-460E-8142-CFF4A1BE76BA}"
-        "PackageCode" = "8:{65A21447-F767-44A2-B574-93B46696D76A}"
-        "UpgradeCode" = "8:{F0777117-6636-4CCF-8D5F-E9C442B67086}"
+        "ProductCode" = "8:{B4117A64-8AAD-48E8-82FF-E62211E594FA}"
+        "PackageCode" = "8:{5EDD554C-4C84-4C12-9E3B-F4E13ACC7322}"
+        "UpgradeCode" = "8:{9E0DEB4D-3C25-4F4A-BA3D-52F0224FCC46}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.1"
+        "ProductVersion" = "8:0.1.0"
         "Manufacturer" = "8:sharpjd"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

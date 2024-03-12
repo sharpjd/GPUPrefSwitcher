@@ -159,6 +159,14 @@ namespace GPUPrefSwitcher
                 goto WaitForOlderFileSwaps;
             }
 
+        WaitForAppToClose:
+            if (IsProcessRunning(AppEntry.AppPath))
+            {
+                Task log = Logger.inst.Log($"Target app {AppEntry.AppPath} is still running, delaying File Swap for {swapPath}");
+                await Task.Delay(5000);
+                goto WaitForAppToClose;
+            }
+
             //check if this individual SwapPath has a folder
             string swapPathHash = GetSwapPathSettingsBankFolderName(swapPath);
             string swapPathBankFolderPath = SettingsBankFolderPath + "\\" + swapPathHash;
@@ -173,8 +181,18 @@ namespace GPUPrefSwitcher
             bool onBatteryStoredFileExists = File.Exists(onBatteryStoredFilePath);
             if (!onBatteryStoredFileExists)
             {
-                FileCopyConsiderAccessRules(swapPath, onBatteryStoredFilePath, true, false);
-                File.Create(Path.Combine(SettingsBankFolderPath, $"{Path.GetFileName(swapPath)} is in {swapPathHash}"));
+            StoreFile_OnBattery:
+                try
+                {
+                    FileCopyConsiderAccessRules(swapPath, onBatteryStoredFilePath, true, false);
+                    File.Create(Path.Combine(SettingsBankFolderPath, $"{Path.GetFileName(swapPath)} is in {swapPathHash}"));
+                } 
+                catch (IOException)
+                {
+                    Logger.inst.Log($"Could not copy and store file for OnBattery state for {swapPath}, trying again in a bit");
+                    await Task.Delay(5000);
+                    goto StoreFile_OnBattery;
+                }    
             }
 
             string pluggedInStoredFileName = PluggedInPrefix + nameOfFileToSwap;
@@ -182,8 +200,18 @@ namespace GPUPrefSwitcher
             bool pluggedInStoredFileExists = File.Exists(pluggedInStoredFilePath);
             if (!pluggedInStoredFileExists)
             {
-                FileCopyConsiderAccessRules(swapPath, pluggedInStoredFilePath, true, false);
-                File.Create(Path.Combine(SettingsBankFolderPath, $"{Path.GetFileName(swapPath)} is in {swapPathHash}"));
+            StoreFile_PluggedIn:
+                try
+                {
+                    FileCopyConsiderAccessRules(swapPath, pluggedInStoredFilePath, true, false);
+                    File.Create(Path.Combine(SettingsBankFolderPath, $"{Path.GetFileName(swapPath)} is in {swapPathHash}"));
+                }
+                catch (IOException)
+                {
+                    Logger.inst.Log($"Could not copy and store file for PluggedIn state for {swapPath}, trying again in a bit");
+                    await Task.Delay(5000);
+                    goto StoreFile_PluggedIn;
+                }
             }
 
             //finally perform the swap
@@ -212,11 +240,11 @@ namespace GPUPrefSwitcher
 
                         if (errorFlag == 0)
                         {
-                            _ = Logger.inst.Log($"Could not copy to destination {onBatteryStoredFilePath}, retrying in some time.");
+                            Logger.inst.Log($"Could not copy to destination {onBatteryStoredFilePath}, retrying in some time.");
                         }
                         else if (errorFlag == 1)
                         {
-                            _ = Logger.inst.Log($"Could not copy to destination {swapPath}, retrying in some time.");
+                            Logger.inst.Log($"Could not copy to destination {swapPath}, retrying in some time.");
                         }
                         await Task.Delay(5000);
                         goto TryAgain;
@@ -227,7 +255,7 @@ namespace GPUPrefSwitcher
 
                     preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified);
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
-                    _ = Logger.inst.Log(s3);
+                    Logger.inst.Log(s3);
                 }
             }
             else if (forPowerLineStatus == PowerLineStatus.Online)
@@ -281,6 +309,29 @@ namespace GPUPrefSwitcher
 
             OngoingFileSwapTasks.Remove(fileSwapPathTask);
 
+        }
+
+        static bool IsProcessRunning(string processPath)
+        {
+            Process[] processes = Process.GetProcesses();
+
+            foreach (Process process in processes)
+            {
+                try
+                {
+                    // Compare the process's main module file name with the specified process path
+                    if (string.Equals(process.MainModule.FileName, processPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception)
+                {
+                    // Some processes may not have a valid MainModule property, so ignore any exceptions
+                }
+            }
+
+            return false;
         }
 
 

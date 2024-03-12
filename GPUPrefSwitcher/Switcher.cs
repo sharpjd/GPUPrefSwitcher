@@ -217,9 +217,11 @@ namespace GPUPrefSwitcher
             if (forPowerLineStatus == PowerLineStatus.Online)
             {
                 TaskSchedulerUtils.RunPluggedInTask();
+                Logger.inst.Log("Ran Plugged In Task Scheduler entry");
             } else if (forPowerLineStatus == PowerLineStatus.Offline)
             {
                 TaskSchedulerUtils.RunOnBatteryTask();
+                Logger.inst.Log("Ran On Battery Task Scheduler entry");
             } else
             {
                 throw new NotImplementedException();
