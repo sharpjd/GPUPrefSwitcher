@@ -116,7 +116,7 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 
 <a name="manual-installation-and-assembly"></a>
 ### Manual installation and assembly + extra notes:
-1. It is required that all EXEs and their related files* are placed in a fixed and specified directory, because the app looks for them in specific locations. This should already be done by default. If you un-merge the build paths, you'll need to manually merge the built files and folders.
+1. It is required that all EXEs and their related files are placed in a fixed and specified directory, because the app looks for them in specific locations. This should already be done by default. If you un-merge the build paths, you'll need to manually merge the built files and folders.
 	
 2. In the end, you should end up with exactly this folder structure (before running `Install.exe`):
 ```
