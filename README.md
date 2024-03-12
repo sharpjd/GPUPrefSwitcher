@@ -48,7 +48,7 @@ These points of contention practically defeat half the purpose of a gaming lapto
 
 This app aims to solve these problems by letting you configure apps to automatically target dGPU/iGPU, and also seamlessly switch between two sets of graphics settings for when you're plugged in and plugged out.
 
-**Your laptop's iGPU may be faster than you realize.** If your laptop has Intel Iris Xe Graphics, an Intel Core Ultra Processor, or a Ryzen processor — all of which are/have strong iGPUs — and you have a game you play very often or an indie gamer, you are a perfect candidate for this app! And even if you don't have a blazing fast iGPU, it's unlikely you'll care much about graphics while gaming on the go anyway — so go ahead and turn those settings down.
+**Your laptop's iGPU may be faster than you realize.** If your laptop has Intel Iris Xe Graphics, an Intel Core Ultra Processor, or a Ryzen processor (all of which have/are strong iGPUs); and you have a game you play very often or an indie gamer, then you are a perfect candidate for this app! And even if you don't have a fast iGPU, it's unlikely you'll care much about graphics while gaming on the go anyway — so go ahead and turn those settings down.
 
 <details>
 <summary>
