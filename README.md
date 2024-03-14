@@ -12,6 +12,19 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 * Activity and error logging + notifying the user of errors
 * Runs as a service
 
+<details open>
+
+<summary>
+	
+## Screenshots (click to expand)
+
+</summary>
+
+![gpuprefswitcher automatic swap(1)](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/08ceb997-c5da-4ba9-a77f-0ba5ef72e951)
+![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/c57c6004-60d2-484e-9c03-e395dde4d6f4)
+
+</details>
+
 ## Installation
 
 #### Install (Wizard):
