@@ -12,7 +12,7 @@ namespace GPUPrefSwitcher
     /// The Standard Log is buffered (not written immediately) by default. It is only dumped to the file upon an unhandled exception, or if live logging is set to true.
     /// Logs that have their file size exceed 1MB are moved into an archive folder.
     /// 
-    /// If this class throws an unhandled exception before it successfully initializes, the Event Viewer can still help to find errors.
+    /// If the app throws an unhandled exception before it successfully initializes, the Event Viewer can still help to find errors.
     /// </summary>
     public class AppLogger
     {

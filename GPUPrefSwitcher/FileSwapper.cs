@@ -99,7 +99,7 @@ namespace GPUPrefSwitcher
                 
                 try
                 {
-                    await InitiateSingleFileSwap(current, i);
+                    Task singleFileSwap = InitiateSingleFileSwap(current, i);
                 }
                 catch (AggregateException)
                 {
@@ -305,7 +305,7 @@ namespace GPUPrefSwitcher
                 Debug.WriteLine($"Unknown power state: " + forPowerLineStatus.ToString());
             }
 
-            Logger.inst.Log($"FileSwaps Task finished for {AppEntry.AppPath}");
+            await Logger.inst.Log($"FileSwaps Task finished for {AppEntry.AppPath}");
 
             OngoingFileSwapTasks.Remove(fileSwapPathTask);
 

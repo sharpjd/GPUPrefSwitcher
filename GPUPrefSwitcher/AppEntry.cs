@@ -47,7 +47,7 @@ namespace GPUPrefSwitcher
             return obj is AppEntry entry &&
                    AppPath == entry.AppPath &&
                    AppName == entry.AppName &&
-                   //appName == entry.appName && //breaks for some reason; null comparison, perhaps?
+                   //appName == entry.appName && //breaks for some reason; null comparison with empty string... let's just exclude this since we're not using it for now
                    EnableSwitcher == entry.EnableSwitcher &&
                    EnableFileSwapper == entry.EnableFileSwapper &&
                    FileSwapperPaths.SequenceEqual(entry.FileSwapperPaths) &&
@@ -63,7 +63,7 @@ namespace GPUPrefSwitcher
         {
             int hashCode = -985154422;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AppPath);
-            //hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(appName); //for some reason this breaks the hashcode, but it's not necessary anyway
+            //hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(appName); //see above comment for appName
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AppName);
             hashCode = hashCode * -1521134295 + EnableSwitcher.GetHashCode();
             hashCode = hashCode * -1521134295 + EnableFileSwapper.GetHashCode();
