@@ -212,14 +212,14 @@ namespace GPUPrefSwitcher
         /// <param name="str"></param>
         /// <param name="logLevel"></param>
         /// <returns></returns>
-        public Task Log(string str, int logLevel = 1000)
+        public void Log(string str, int logLevel = 1000)
         {
 
             if(logLevel < 0) { throw new ArgumentOutOfRangeException("logLevel must be positive"); }
             if(logLevel > GlobalLogLevel)
             {
                 skippedLogs++;
-                return Task.CompletedTask; 
+                return;
             }
 
             standardLogCount += 1;
@@ -228,12 +228,12 @@ namespace GPUPrefSwitcher
 
             if (EnableRealtimeStandardLogWrites)
             {
-                semaphoreSlim_Standard.AvailableWaitHandle.WaitOne();//block if unavailable
-                return WriteAsyncInternal_Standard(toWrite);
+                semaphoreSlim_Standard.AvailableWaitHandle.WaitOne();//block if there's still a write in progress
+                _ = WriteAsyncInternal_Standard(toWrite);
             }
             
             StandardLogBuffer.Add(toWrite);
-            return Task.CompletedTask;
+            return;
              
         }
 
@@ -261,7 +261,6 @@ namespace GPUPrefSwitcher
         /// <returns></returns>
         private async Task WriteAsyncInternal_Standard(string str)
         {
-
             await semaphoreSlim_Standard.WaitAsync();
 
             try
@@ -274,6 +273,7 @@ namespace GPUPrefSwitcher
             {
                 semaphoreSlim_Standard.Release();
             }
+
         }
 
         /// <summary>

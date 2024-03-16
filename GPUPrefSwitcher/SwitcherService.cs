@@ -30,7 +30,7 @@ namespace GPUPrefSwitcher
         private void OnSessionEnd(object sender, SessionEndingEventArgs e)
         {
             e.Cancel = true;
-            Logger.inst.Log($"OnSessionEnd received (reason: {e.Reason})").Wait();
+            Logger.inst.Log($"OnSessionEnd received (reason: {e.Reason})");
             if (e.Reason == SessionEndReasons.SystemShutdown)
             {
                 CleanUpService();
@@ -41,7 +41,7 @@ namespace GPUPrefSwitcher
         public Task StopAsync(CancellationToken cancellationToken)
         {
 
-            Logger.inst.Log("Service StopAsync called").Wait();
+            Logger.inst.Log("Service StopAsync called");
 
             CleanUpService();
 
@@ -55,7 +55,7 @@ namespace GPUPrefSwitcher
 
         private void CleanUpService()
         {
-            Logger.inst.Log("Service ending cleanup called.").Wait();
+            Logger.inst.Log("Service ending cleanup called.");
 
             Logger.inst.DumpStandardLogBufferToStandardLog().Wait();
 

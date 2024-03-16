@@ -17,6 +17,7 @@ namespace GPUPrefSwitcher
                 string description = "The GPUPrefSwitcher service runs this task once when the system is considered on battery." +
                     "\n It is up to you to add actions (e.g. start a script).";
                 CreateTask(TASK_NAME_ON_BATTERY, description, FOLDER_NAME);
+                Logger.inst.Log("Created On Battery Task Scheduler entry because it doesn't exist yet");
             }
 
             RunTask(TASK_NAME_ON_BATTERY);
@@ -29,6 +30,7 @@ namespace GPUPrefSwitcher
                 string description = "The GPUPrefSwitcher service runs this task once when the system is considered plugged in." +
                     "\n It is up to you to add actions (e.g. start a script).";
                 CreateTask(TASK_NAME_PLUGGED_IN, description, FOLDER_NAME);
+                Logger.inst.Log("Created Plugged In Task Scheduler entry because it doesn't exist yet");
             }
 
             RunTask(TASK_NAME_PLUGGED_IN);
@@ -52,6 +54,8 @@ namespace GPUPrefSwitcher
                 //we need to create at least one action otherwise it complains
                 taskDefinition.Actions.Add(new ExecAction("cmd.exe", "/c echo Dummy task executed", null));
 
+                taskDefinition.Settings.DisallowStartIfOnBatteries = false;
+                taskDefinition.Settings.StopIfGoingOnBatteries = false;
 
                 TaskFolder folder = taskService.GetFolder(folderPath);
                 if (folder == null)

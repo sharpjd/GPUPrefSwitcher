@@ -70,7 +70,7 @@ namespace GPUPrefSwitcher
         
         public async Task InitiateFileSwaps(PowerLineStatus forPowerLineStatus, PreferencesXML preferencesXML)
         {
-            Logger.inst.Log($"Initiating FileSwap for AppEntry with target path {AppEntry.AppPath}");
+            Logger.inst.Log($"Initiating File Swaps for AppEntry with target path {AppEntry.AppPath}");
 
             //if the AppEntry doesn't yet have its own FileSwap folder, create it
             bool appEntryFolderExists = Directory.Exists(SettingsBankFolderPath);
@@ -80,6 +80,7 @@ namespace GPUPrefSwitcher
                 File.Create(Path.Combine(SettingsBankFolderPath, $"{AppEntry.AppName} settings are in {SettingsBankFolderPath}"));
             }
 
+            List<Task> fileSwapTasks = new();
             //commence the swap for each FileSwapPath
             for (int i = 0; i < AppEntry.FileSwapperPaths.Length; i++)
             {
@@ -99,7 +100,7 @@ namespace GPUPrefSwitcher
                 
                 try
                 {
-                    Task singleFileSwap = InitiateSingleFileSwap(current, i);
+                    fileSwapTasks.Add(InitiateSingleFileSwap(current, i));
                 }
                 catch (AggregateException)
                 {
@@ -108,7 +109,11 @@ namespace GPUPrefSwitcher
 
             } //...repeat for every SwapPath
 
-            Logger.inst.Log($"Finished firing FileSwap logic for AppEntry with target path {AppEntry.AppPath}");
+            Logger.inst.Log($"Finished firing single FileSwap tasks for AppEntry with target path {AppEntry.AppPath}");
+
+            await Task.WhenAll(fileSwapTasks);
+
+            Logger.inst.Log($"Completed all FileSwap tasks for AppEntry with target path {AppEntry.AppPath}");
 
         }
 
@@ -154,15 +159,15 @@ namespace GPUPrefSwitcher
         WaitForOlderFileSwaps:
             if (OngoingFileSwapTasks.Any(x => x.FileSwapPath == fileSwapPathTask.FileSwapPath && x.ID < fileSwapPathTask.ID))
             {
-                Task log = Logger.inst.Log($"An older FileSwap task for {swapPath} already exists, delaying");
+                Logger.inst.Log($"An older FileSwap task for {swapPath} already exists, delaying");
                 await Task.Delay(10000);
                 goto WaitForOlderFileSwaps;
             }
 
         WaitForAppToClose:
-            if (IsProcessRunning(AppEntry.AppPath))
+            if (await IsProcessRunning(AppEntry.AppPath)) //IsProcessRunning is apparently VERY expensive
             {
-                Task log = Logger.inst.Log($"Target app {AppEntry.AppPath} is still running, delaying File Swap for {swapPath}");
+                Logger.inst.Log($"Target app {AppEntry.AppPath} is still running, delaying File Swap for {swapPath}");
                 await Task.Delay(5000);
                 goto WaitForAppToClose;
             }
@@ -184,7 +189,7 @@ namespace GPUPrefSwitcher
             StoreFile_OnBattery:
                 try
                 {
-                    FileCopyConsiderAccessRules(swapPath, onBatteryStoredFilePath, true, false);
+                    await FileCopyConsiderAccessRules(swapPath, onBatteryStoredFilePath, true, false);
                     File.Create(Path.Combine(SettingsBankFolderPath, $"{Path.GetFileName(swapPath)} is in {swapPathHash}"));
                 } 
                 catch (IOException)
@@ -203,7 +208,7 @@ namespace GPUPrefSwitcher
             StoreFile_PluggedIn:
                 try
                 {
-                    FileCopyConsiderAccessRules(swapPath, pluggedInStoredFilePath, true, false);
+                    await FileCopyConsiderAccessRules(swapPath, pluggedInStoredFilePath, true, false);
                     File.Create(Path.Combine(SettingsBankFolderPath, $"{Path.GetFileName(swapPath)} is in {swapPathHash}"));
                 }
                 catch (IOException)
@@ -224,13 +229,13 @@ namespace GPUPrefSwitcher
                     try
                     {
                         //no need to cancel the save if the substitution fails
-                        FileCopyConsiderAccessRules(swapPath, pluggedInStoredFilePath, true, false); //save current config to PluggedIn store
+                        await FileCopyConsiderAccessRules(swapPath, pluggedInStoredFilePath, true, false); //save current config to PluggedIn store
                         string s1 = $"Saved SwapPath {swapPath} for app {AppEntry.AppPath} as PluggedIn";
                         Logger.inst.Log(s1);
 
                         errorFlag = 1;
 
-                        FileCopyConsiderAccessRules(onBatteryStoredFilePath, swapPath, true, true); //then substitute with OnBattery config
+                        await FileCopyConsiderAccessRules(onBatteryStoredFilePath, swapPath, true, true); //then substitute with OnBattery config
                         string s2 = $"Substituted OnBattery config into SwapPath {swapPath} for app {AppEntry.AppPath}";
                         Logger.inst.Log(s2);
 
@@ -256,6 +261,9 @@ namespace GPUPrefSwitcher
                     preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified);
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
                     Logger.inst.Log(s3);
+                } else
+                {
+                    Logger.inst.Log($"Skipped operations for File Swap path {swapPath} because it's already in its correct state.");
                 }
             }
             else if (forPowerLineStatus == PowerLineStatus.Online)
@@ -268,13 +276,13 @@ namespace GPUPrefSwitcher
                     {
 
                         //no need to cancel the save if the substitution fails 
-                        FileCopyConsiderAccessRules(swapPath, onBatteryStoredFilePath, true, false); //save current config to OnBattery store
+                        await FileCopyConsiderAccessRules(swapPath, onBatteryStoredFilePath, true, false); //save current config to OnBattery store
                         string s1 = $"Saved SwapPath {swapPath} for app {AppEntry.AppPath} as OnBattery";
                         Logger.inst.Log(s1);
 
                         errorFlag = 1;
 
-                        FileCopyConsiderAccessRules(pluggedInStoredFilePath, swapPath, true, true); //then substitute with PluggedIn config
+                        await FileCopyConsiderAccessRules(pluggedInStoredFilePath, swapPath, true, true); //then substitute with PluggedIn config
                         string s2 = $"Substituted PluggedIn config into SwapPath {swapPath} for app {AppEntry.AppPath}";
                         Logger.inst.Log(s2);
                     }
@@ -298,6 +306,9 @@ namespace GPUPrefSwitcher
                     preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified);
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
                     Logger.inst.Log(s3);
+                } else
+                {
+                    Logger.inst.Log($"Skipped operations for File Swap path {swapPath} because it's already in its correct state.");
                 }
             }
             else
@@ -305,13 +316,13 @@ namespace GPUPrefSwitcher
                 Debug.WriteLine($"Unknown power state: " + forPowerLineStatus.ToString());
             }
 
-            await Logger.inst.Log($"FileSwaps Task finished for {AppEntry.AppPath}");
+            Logger.inst.Log($"FileSwap Task {fileSwapPathTask.FileSwapPath} finished for {AppEntry.AppPath}");
 
             OngoingFileSwapTasks.Remove(fileSwapPathTask);
 
         }
 
-        static bool IsProcessRunning(string processPath)
+        static async Task<bool> IsProcessRunning(string processPath) //this function is apparently VERY expensive to run (many mores times than this app itself) so await it!
         {
             Process[] processes = Process.GetProcesses();
 
@@ -320,7 +331,7 @@ namespace GPUPrefSwitcher
                 try
                 {
                     // Compare the process's main module file name with the specified process path
-                    if (string.Equals(process.MainModule.FileName, processPath, StringComparison.OrdinalIgnoreCase))
+                    if (await Task.Run(() => string.Equals(process.MainModule.FileName, processPath, StringComparison.OrdinalIgnoreCase))) //the expensive line in question
                     {
                         return true;
                     }
@@ -379,7 +390,7 @@ namespace GPUPrefSwitcher
         /// </summary>
         /// 
         /// And yes, I think it's clearer to throw exceptions instead of returning false, unless there is a better way (in which I have tried TWICE; this is perfectly functional)
-        public static void FileCopyConsiderAccessRules(string sourceFileName, string destinationFileName, bool overwrite, bool ensureDestinationExists = true)
+        public static Task FileCopyConsiderAccessRules(string sourceFileName, string destinationFileName, bool overwrite, bool ensureDestinationExists = true)
         {
 
             FileInfo sourceInfo = new FileInfo(sourceFileName);
@@ -437,6 +448,8 @@ namespace GPUPrefSwitcher
             sourceFileSecurity.SetAccessRuleProtection(true, true); //supposedly this doesn't change the existing file's security settings?
             File.Copy(sourceFileName, destinationFileName, true);
             destinationInfo.SetAccessControl(sourceFileSecurity); //requires the file to exist, duh
+
+            return Task.CompletedTask;
         }
 
         /*

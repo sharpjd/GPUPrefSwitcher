@@ -251,15 +251,15 @@ namespace GPUPrefSwitcher
             }
         }
 
-        private static Task BeginFileSwapLogic(PowerLineStatus forPowerLineStatus, IEnumerable<AppEntry> forAppEntries)
+        private static async Task BeginFileSwapLogic(PowerLineStatus forPowerLineStatus, IEnumerable<AppEntry> forAppEntries)
         {
             Logger.inst.Log("Commence file swap logic.");
-            //shorten these long names
 
             //create the SettingsBank directory if it doesn't exist
             bool fileSwapperFolderExists = Directory.Exists(FileSwapper.SwapPathFolder);
             if (!fileSwapperFolderExists) { Directory.CreateDirectory(FileSwapper.SwapPathFolder); }
 
+            List<Task> fileSwapTasks = new();
             foreach (AppEntry appEntry in forAppEntries)
             {
                 var fileSwap = new FileSwapper(appEntry, preferencesXML);
@@ -267,13 +267,14 @@ namespace GPUPrefSwitcher
                 if (!appEntry.EnableFileSwapper) continue;
                 if (appEntry.FileSwapperPaths.Length == 0) continue;
 
-                fileSwap.InitiateFileSwaps(forPowerLineStatus, preferencesXML);
+                Task fileSwapTask = fileSwap.InitiateFileSwaps(forPowerLineStatus, preferencesXML);
+                fileSwapTasks.Add(fileSwapTask);
 
-            } //...repeat for every AppEntry
+            }
+
+            await Task.WhenAll(fileSwapTasks);
 
             Logger.inst.Log("File swap logic finished.");
-
-            return Task.CompletedTask;
         }
 
         static string[] ignoreList = RegistryHelper.ignoreValues;
