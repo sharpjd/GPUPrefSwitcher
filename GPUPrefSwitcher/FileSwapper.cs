@@ -59,16 +59,16 @@ namespace GPUPrefSwitcher
             get => SwapPathFolder + "\\" + SettingsBankFolderName;
         }
 
-        public PreferencesXML ForPreferencesXML { get; init; }
+        public AppEntrySaveHandler AppEntrySaveHandler { get; init; }
 
-        public FileSwapper(AppEntry appEntry, PreferencesXML preferencesXML) 
+        public FileSwapper(AppEntry appEntry, AppEntrySaveHandler appEntrySaveHandler) 
         { 
             AppEntry = appEntry;
-            ForPreferencesXML = preferencesXML;
+            appEntrySaveHandler = AppEntrySaveHandler;
         }
 
         
-        public async Task InitiateFileSwaps(PowerLineStatus forPowerLineStatus, PreferencesXML preferencesXML)
+        public async Task InitiateFileSwaps(PowerLineStatus forPowerLineStatus, AppEntrySaveHandler appEntrySaveHandler)
         {
             Logger.inst.Log($"Initiating File Swaps for AppEntry with target path {AppEntry.AppPath}");
 
@@ -153,7 +153,7 @@ namespace GPUPrefSwitcher
 
             string swapPath = fileSwapPathTask.FileSwapPath;
             PowerLineStatus forPowerLineStatus = fileSwapPathTask.ForPowerLineStatus;
-            PreferencesXML preferencesXML = ForPreferencesXML;
+            AppEntrySaveHandler forAppEntrySaveHandler = AppEntrySaveHandler;
 
         //use caution when modifying the sequence of logic here and note where this block is placed
         WaitForOlderFileSwaps:
@@ -258,7 +258,10 @@ namespace GPUPrefSwitcher
                     AppEntry modified = AppEntry; //struct copy
                     modified.SwapperStates[swapPathIndex] = PowerLineStatus.Offline;
 
-                    preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified);
+                    //await new Task(new Action( () => preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified)));
+                    AppEntrySaveHandler.ChangeAppEntryByPath(AppEntry.AppPath, modified);
+                    AppEntrySaveHandler.SaveAppEntryChanges();
+
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
                     Logger.inst.Log(s3);
                 } else
@@ -303,7 +306,8 @@ namespace GPUPrefSwitcher
                     AppEntry modified = AppEntry; //struct copy
                     modified.SwapperStates[swapPathIndex] = PowerLineStatus.Online;
 
-                    preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified);
+                    AppEntrySaveHandler.ChangeAppEntryByPath(AppEntry.AppPath, modified);
+                    AppEntrySaveHandler.SaveAppEntryChanges();
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
                     Logger.inst.Log(s3);
                 } else
@@ -472,7 +476,7 @@ namespace GPUPrefSwitcher
         }
         */
 
-        public static string[] GetOrphanedSwapPathFoldersFor(AppEntry appEntry, PreferencesXML forPreferencesXML)
+        public static string[] GetOrphanedSwapPathFoldersFor(AppEntry appEntry, AppEntrySaveHandler forAppEntrySaveHandler)
         {
 
             /*
@@ -480,7 +484,7 @@ namespace GPUPrefSwitcher
              * that don't correspond to a SwapPath
              */
 
-            var fileSwap = new FileSwapper(appEntry, forPreferencesXML);
+            var fileSwap = new FileSwapper(appEntry, forAppEntrySaveHandler);
 
             string entryBankFolderName = fileSwap.SettingsBankFolderName;
             string pathToAppEntryBank = Path.Combine(SwapPathFolder, entryBankFolderName);
@@ -509,7 +513,7 @@ namespace GPUPrefSwitcher
             return orphanedBankedFolderPaths.ToArray();
         }
 
-        public static string[] GetOrphanedAppEntryFolders(IEnumerable<AppEntry> appEntries, PreferencesXML forPreferencesXML)
+        public static string[] GetOrphanedAppEntryFolders(IEnumerable<AppEntry> appEntries, AppEntrySaveHandler forAppEntrySaveHandler)
         {
 
             string[] bankedFolderPaths = Directory.GetDirectories(SwapPathFolder);
@@ -518,7 +522,7 @@ namespace GPUPrefSwitcher
             List<string> nonOrphanedFolderPaths = new();
             foreach (AppEntry appEntry in appEntries)
             {
-                var fileSwap = new FileSwapper(appEntry, forPreferencesXML);
+                var fileSwap = new FileSwapper(appEntry, forAppEntrySaveHandler);
 
                 string correspondingFolderName = fileSwap.SettingsBankFolderName;
                 string correspondingFolderPath = Path.Combine(SwapPathFolder, correspondingFolderName);
@@ -535,17 +539,17 @@ namespace GPUPrefSwitcher
             return orphanedFolderPaths.ToArray();
         }
 
-        public static long GetOrphanedSize(IEnumerable<AppEntry> appEntries, PreferencesXML forPreferencesXML)
+        public static long GetOrphanedSize(IEnumerable<AppEntry> appEntries, AppEntrySaveHandler forAppEntrySaveHandler)
         {
-            string[] orphanedAppEntryFolders = GetOrphanedAppEntryFolders(appEntries, forPreferencesXML);
+            string[] orphanedAppEntryFolders = GetOrphanedAppEntryFolders(appEntries, forAppEntrySaveHandler);
 
             List<string> orphanedSwapPathFolders = new();
 
             foreach(AppEntry appEntry in appEntries)
             {
-                FileSwapper fileSwapper = new FileSwapper(appEntry, forPreferencesXML);
+                FileSwapper fileSwapper = new FileSwapper(appEntry, forAppEntrySaveHandler);
                 if(Directory.Exists(fileSwapper.SettingsBankFolderName))
-                    orphanedSwapPathFolders.AddRange(GetOrphanedSwapPathFoldersFor(appEntry, forPreferencesXML));
+                    orphanedSwapPathFolders.AddRange(GetOrphanedSwapPathFoldersFor(appEntry, forAppEntrySaveHandler));
             }
 
             long totalSizeOfOrphaned = 0;
@@ -627,11 +631,8 @@ namespace GPUPrefSwitcher
             return size;
         }
 
-        public static long DirSize_Orphaned(DirectoryInfo d, IEnumerable<AppEntry> appEntries, PreferencesXML preferencesXML)
+        public static long DirSize_Orphaned(DirectoryInfo d, IEnumerable<AppEntry> appEntries, AppEntrySaveHandler forAppEntrySaveHandler)
         {
-            
-
-
 
             long size = 0;
             // Add file sizes.

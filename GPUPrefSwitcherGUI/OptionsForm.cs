@@ -63,8 +63,8 @@ namespace GPUPrefSwitcherGUI
             RunOnBatteryCheckBox.Checked = current.RunTaskOnBattery;
             RealTimeLoggingCheckbox.Checked = current.EnableRealtimeLogging;
             long orphanedSize = FileSwapper.GetOrphanedSize(
-                parentMainForm.appEntrySaver.PreferencesXML.GetAppEntries(),
-                parentMainForm.appEntrySaver.PreferencesXML
+                parentMainForm.appEntrySaver.CurrentAppEntries,
+                parentMainForm.appEntrySaver    
                 );
             FolderStatsLabel1.Text = $"Total size of orphaned files/folders: {orphanedSize / 1024d / 1024d:f4}MB";
             long settingsBankSize = FileSwapper.GetSettingsBankDirectorySize();
@@ -292,8 +292,8 @@ namespace GPUPrefSwitcherGUI
             }
 
             long orphanedSize = FileSwapper.GetOrphanedSize(
-                        parentMainForm.appEntrySaver.PreferencesXML.GetAppEntries(),
-                        parentMainForm.appEntrySaver.PreferencesXML
+                        parentMainForm.appEntrySaver.CurrentAppEntries,
+                        parentMainForm.appEntrySaver
                     );
 
             DialogResult delete = MessageBox.Show(

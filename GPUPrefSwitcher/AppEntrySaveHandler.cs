@@ -37,7 +37,7 @@ namespace GPUPrefSwitcher
         }
 
 
-        public readonly PreferencesXML PreferencesXML;
+        internal readonly PreferencesXML PreferencesXML;
 
         public AppEntrySaveHandler()
         {
@@ -46,9 +46,8 @@ namespace GPUPrefSwitcher
             currentAppEntries = PreferencesXML.GetAppEntries();
         }
 
-        public void UpdateAppEntryByPath(string path, AppEntry updatedAppEntry)
+        public void ChangeAppEntryByPath(string path, AppEntry updatedAppEntry)
         {
-
             int index = CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path));
             
             /* //for-loop alternative, but the above should throw an error with an obvious enough meaning
@@ -67,7 +66,6 @@ namespace GPUPrefSwitcher
             */
 
             CurrentAppEntries[index] = updatedAppEntry;
-            
         }
 
         /*
@@ -89,7 +87,7 @@ namespace GPUPrefSwitcher
             List<AppEntry> differences = new();
             differences.AddRange(currentAppEntries.Where( entry => NotSameOrInPrevAppEntries(entry) ));
 
-            List<string> existingAppPaths = PreferencesXML.GetAppPaths().ToList();
+            List<string> existingAppPaths = new List<string>(from appEntry in PreferencesXML.GetAppEntries() select appEntry.AppPath);
             List<AppEntry> needToAdd = new();
             needToAdd.AddRange(currentAppEntries.Where( entry => !existingAppPaths.Contains(entry.AppPath) ));
 

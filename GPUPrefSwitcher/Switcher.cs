@@ -20,10 +20,12 @@ namespace GPUPrefSwitcher
          * Registry always takes priority over the XML; if there's a mismatch, alert user
          * If there are registry entries not in the XML, add to XML
          */
-        private static PreferencesXML preferencesXML;
+        //private static PreferencesXML preferencesXML;
 
         static AppOptions appOptions;
         private static SwitcherData switcherData;
+
+        public static AppEntrySaveHandler appEntrySaveHandler;
 
         public static readonly string CRASHED_FILE_PATH = Path.Combine(Program.SavedDataPath + "CRASHED");
 
@@ -44,7 +46,7 @@ namespace GPUPrefSwitcher
             switcherData = SwitcherData.Initialize();
             Logger.inst.Log($"Initialized {nameof(SwitcherData)}.");
 
-            preferencesXML = new PreferencesXML(); //exceptions get thrown from this too if there are problems with the XML (e.g. syntax)
+            appEntrySaveHandler = new AppEntrySaveHandler(); //exceptions get thrown from this too if there are problems with the XML (e.g. syntax)
             Logger.inst.Log($"Initialized {nameof(PreferencesXML)}.");
 
             //SystemEvents.PowerModeChanged += HandlePowerChangeEvent; **NOT the right event, this is for resume/suspend
@@ -204,7 +206,7 @@ namespace GPUPrefSwitcher
 
             UpdateSeenInRegistryStatuses(); //sets the SeenInRegistry entry accordingly
 
-            BeginFileSwapLogic(currentPowerLineStatus, preferencesXML.GetAppEntries());
+            BeginFileSwapLogic(currentPowerLineStatus, appEntrySaveHandler.CurrentAppEntries);
 
             BeginTaskSchedulerLogic(currentPowerLineStatus);
 
@@ -238,16 +240,20 @@ namespace GPUPrefSwitcher
         private static void UpdateSeenInRegistryStatuses()
         {
             List<string> regPathValues = RegistryHelper.GetGpuPrefPathvalueNames().ToList();
-            List<AppEntry> appEntries = preferencesXML.GetAppEntries();
+            List<AppEntry> appEntries = appEntrySaveHandler.CurrentAppEntries;
 
             foreach(AppEntry appEntry in appEntries)
             {
                 if (regPathValues.Contains(appEntry.AppPath)){
-                    if(appEntry.SeenInRegistry==false)
-                        preferencesXML.ModifyAppEntryAndSave(appEntry.AppPath, appEntry with { SeenInRegistry = true });
+                    if (appEntry.SeenInRegistry == false)
+                    {
+                        appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { SeenInRegistry = true });
+                        appEntrySaveHandler.SaveAppEntryChanges();
+                    }
                 } else
                 {
-                    preferencesXML.ModifyAppEntryAndSave(appEntry.AppPath, appEntry with { SeenInRegistry = false });
+                    appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { SeenInRegistry = false });
+                    appEntrySaveHandler.SaveAppEntryChanges();
                 }
             }
         }
@@ -263,12 +269,12 @@ namespace GPUPrefSwitcher
             List<Task> fileSwapTasks = new();
             foreach (AppEntry appEntry in forAppEntries)
             {
-                var fileSwap = new FileSwapper(appEntry, preferencesXML);
+                var fileSwap = new FileSwapper(appEntry, appEntrySaveHandler);
 
                 if (!appEntry.EnableFileSwapper) continue;
                 if (appEntry.FileSwapperPaths.Length == 0) continue;
 
-                Task fileSwapTask = fileSwap.InitiateFileSwaps(forPowerLineStatus, preferencesXML);
+                Task fileSwapTask = fileSwap.InitiateFileSwaps(forPowerLineStatus, appEntrySaveHandler);
                 fileSwapTasks.Add(fileSwapTask);
 
             }
@@ -284,7 +290,7 @@ namespace GPUPrefSwitcher
             
             //TODO: get apps from UWP apps: https://stackoverflow.com/questions/50217328/get-icon-from-uwp-app
 
-            IEnumerable<string> xmlPaths = preferencesXML.GetAppPaths();
+            IEnumerable<string> xmlPaths = from appEntry in appEntrySaveHandler.CurrentAppEntries select appEntry.AppPath;
             IEnumerable<string> registryPathValues = RegistryHelper.GetGpuPrefPathvalueNames();
 
             //DEBUG
@@ -359,7 +365,7 @@ namespace GPUPrefSwitcher
 
             Logger.inst.Log("FixRegXmlMismatch running: ");
             List<string> regPathValues = RegistryHelper.GetGpuPrefPathvalueNames().ToList();
-            List<string> xmlPaths = preferencesXML.GetAppPaths().ToList();
+            List<string> xmlPaths = (from appEntry in appEntrySaveHandler.CurrentAppEntries select appEntry.AppPath).ToList();
 
             for (int i = 0; i < regPathValues.Count(); i++)
             {
@@ -393,7 +399,7 @@ namespace GPUPrefSwitcher
 
                     //TODO but there's no SwapPaths to use the above on lol
                     */
-                    preferencesXML.AddAppEntryAndSave(
+                    appEntrySaveHandler.CurrentAppEntries.Add(
                             new AppEntry()
                             {
                                 AppPath = regPathValue,
@@ -409,6 +415,7 @@ namespace GPUPrefSwitcher
                                 SeenInRegistry = true //if we're adding from the registry, shouldn't this be true?
                             }
                         ); 
+                    appEntrySaveHandler.SaveAppEntryChanges();
                 }
             }
 
@@ -417,7 +424,7 @@ namespace GPUPrefSwitcher
 
         internal static void WriteXMLToRegistry(PowerLineStatus powerLineStatus)
         {
-            IEnumerable<AppEntry> appEntries = preferencesXML.GetAppEntries();
+            IEnumerable<AppEntry> appEntries = appEntrySaveHandler.CurrentAppEntries;
 
             bool systemIsOnbattery = powerLineStatus == PowerLineStatus.Offline;
             Logger.inst.Log($"System is on battery: {systemIsOnbattery}");
@@ -442,7 +449,8 @@ namespace GPUPrefSwitcher
 
                     AppEntry modifiedAppEntry = appEntry with { PendingAddToRegistry = false } ;
 
-                    preferencesXML.ModifyAppEntryAndSave(appEntry.AppPath, modifiedAppEntry);
+                    appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, modifiedAppEntry);
+                    appEntrySaveHandler.SaveAppEntryChanges();
                 }
 
                 bool enabled = appEntry.EnableSwitcher;

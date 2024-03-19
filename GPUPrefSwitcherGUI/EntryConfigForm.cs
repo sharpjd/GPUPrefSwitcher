@@ -39,7 +39,7 @@ namespace GPUPrefSwitcherGUI
             PrevSavedAppEntry = appEntry;
             CurrentAppEntry = appEntry;
 
-            fileSwap = new FileSwapper(appEntry, mainForm.appEntrySaver.PreferencesXML);
+            fileSwap = new FileSwapper(appEntry, mainForm.appEntrySaver);
 
             GPUChoicesPluggedIn = MainForm.GetGPUPreferences();
             GPUChoicesOnBattery = MainForm.GetGPUPreferences();
