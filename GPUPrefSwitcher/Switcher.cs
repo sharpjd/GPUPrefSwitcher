@@ -68,6 +68,12 @@ namespace GPUPrefSwitcher
 
             _ = BeginTimerForever();
             Logger.inst.Log($"Begin update logic timer.");
+
+            if (!lastShutdownWasClean)
+            {
+                //doesn't actually serve a purpose for now
+                Logger.inst.Log("Detected that service stop was not completed on the last run.");
+            }
         }
         private static int updateInterval; 
 
@@ -163,29 +169,24 @@ namespace GPUPrefSwitcher
                 }
             }
 
-            
-            if (!lastShutdownWasClean)
+            if (!runOnce)
             {
-                //doesn't actually serve a purpose for now
-                Logger.inst.Log("Detected that service stop was not completed on the last run.");
+                Logger.inst.Log("Updating preferences regardless since this is the first update.");
+                goto RunUpdateLogic;
             }
 
             //skip update if powerline status hasn't changed
-            if (prevPowerLineStatus == currentPowerLineStatus && runOnce)
+            if (prevPowerLineStatus == currentPowerLineStatus)
             {
                 Logger.inst.Log($"PowerLine status has NOT changed since last update. (Current state: {currentPowerLineStatus}; last state: {prevPowerLineStatus})", 2000);
                 return Task.CompletedTask;
-            }
-            else
+            } else
             {
-                if (!runOnce)
-                {
-                    Logger.inst.Log("Updating preferences regardless since this is the first update.");
-                } else
-                {
-                    Logger.inst.Log($"PowerLine status has changed since last update. Previous: {prevPowerLineStatus}; Current: {currentPowerLineStatus}");
-                }
+                Logger.inst.Log($"PowerLine status has changed since last update. Previous: {prevPowerLineStatus}; Current: {currentPowerLineStatus}");
+                goto RunUpdateLogic;
             }
+            
+        RunUpdateLogic:
 
             runOnce = true;
 

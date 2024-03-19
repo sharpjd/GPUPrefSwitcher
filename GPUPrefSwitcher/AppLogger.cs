@@ -116,7 +116,7 @@ namespace GPUPrefSwitcher
                 logger.DumpStandardLogBufferToStandardLog().Wait();
                 logger.DumpStandardLogBufferToErrorLog().Wait(); //do this before the app terminates
                 logger.ErrorLog("<<<AN UNOBSERVED TASK EXCEPTION HAS OCCURRED>>>").Wait();
-                logger.ErrorLog(e.ToString()).Wait();
+                logger.ErrorLog(e.Exception.ToString()).Wait();
                 
             };
 
