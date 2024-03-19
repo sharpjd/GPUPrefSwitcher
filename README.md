@@ -100,7 +100,7 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 - Multiple settings profiles
 - A config database
 
-<details>
+<details open>
  
 <summary>
  
