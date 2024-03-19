@@ -44,7 +44,7 @@ namespace GPUPrefSwitcher
          * 
          * Writing a function to abstract each part of this path would cause as many problems as it solves for now
          */
-        public static readonly string SwapPathFolder = Path.Combine(Program.SavedDataPath, "SettingsBank/");
+        public static readonly string SwapPathFolder = Program.SavedDataPath + "SettingsBank";
         public static readonly string OnBatteryPrefix = "OnBattery_";
         public static readonly string PluggedInPrefix = "PluggedIn_";
 
@@ -56,7 +56,7 @@ namespace GPUPrefSwitcher
         }
         public string SettingsBankFolderPath
         {
-            get => Path.Combine(SwapPathFolder, SettingsBankFolderName);
+            get => SwapPathFolder + "\\" + SettingsBankFolderName;
         }
 
         public PreferencesXML ForPreferencesXML { get; init; }
