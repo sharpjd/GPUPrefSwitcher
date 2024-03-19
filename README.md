@@ -1,7 +1,7 @@
 # GPUPrefSwitcher
 Enables seamless switching of game settings and targeting the dGPU/iGPU for gaming laptops when they plug in or out, making portable gaming more convenient. 
 
-## [Download/install (directly downloads the latest release)](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.2-alpha/GPUPrefSwitcher_Installer_v0.0.2-alpha.zip)
+## [Download/install (directly downloads the latest release)](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.1.0/GPUPrefSwitcher_Installer_v0.1.0.zip)
 
 ## Features
 * When switching between plugged in / on battery, this app can:
@@ -12,27 +12,35 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 * Activity and error logging + notifying the user of errors
 * Runs as a service
 
+<details open>
+
+<summary>
+	
+## Screenshots (click to expand)
+
+</summary>
+
+![gpuprefswitcher automatic swap(1)](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/08ceb997-c5da-4ba9-a77f-0ba5ef72e951)
+![image](https://github.com/sharpjd/GPUPrefSwitcher/assets/59419827/c57c6004-60d2-484e-9c03-e395dde4d6f4)
+
+</details>
+
 ## Installation
-#### Prerequisites:
-- A 64-bit system
-- Windows 11 or newer versions of Windows 10
 
 #### Install (Wizard):
 - Download the [latest installer Release](https://github.com/sharpjd/GPUPrefSwitcher/releases).
 - Extract all .zip contents and run `setup.exe` (not the .msi file)
 
 #### Install (Manual): 
-- Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.0.2-alpha/GPUPrefSwitcher_SelfContained_v0.0.2-alpha.zip)
-- See step 4 of the Manual Installation section (expand the Build/Develop section below)
+- Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v0.1.0/GPUPrefSwitcher_SelfContained_v0.1.0.zip)
+- See step 3 of the Manual Installation section (expand the Build/Develop section below)
 
-## Planned features (high priority)
-- [x] Option to preserve user data when uninstalling and updating with the installer
-- [ ] Stalling file swapping if the target .exe is still running (in case the target app saves settings *when it closes*)
-
-## Future feature ideas
-- Improving the definition and conditions for being "On Battery" or "Plugged In" (e.g. how much power input?)
-- Multiple settings profiles
-- A config database or a forum
+#### Prerequisites:
+- A 64-bit system
+- Windows 11 or newer versions of Windows 10
+- .NET **Desktop** Runtime 8.0.1 
+- .NET Framework 4.7.1
+- (The installer should automatically download the latter two if they're not yet installed)
 
 ## Donation
 If you would like to show support for my work, you can do so at my [Ko-Fi](https://ko-fi.com/sharpjd)!
@@ -45,7 +53,7 @@ Integrated graphics (iGPU) and CPU power efficiency have evolved and are becomin
 
 1. Many gaming laptops don't allow you to disable the dGPU manually or while on battery, so games automatically run on them and decimate your battery (100% -> 0% in less than an hour in some cases!). To prevent this, you must first open the Graphics Settings and change the GPU preference to the iGPU, and then run your game. Then, when you plug your computer back in and want the game running on the dGPU, you need to remember to go back and change the GPU preference setting *again*. 
 
-2. Then, you face having to turn down your game's graphics settings so that they don't overload your iGPU. But when you're done, back on the charger and using your dGPU for prettier graphics again, you have to change the settings *another* time to restore those settings. This also means you need to memorize two distinct sets of settings!
+2. Then you face having to turn down your game's graphics settings so that they don't overload your iGPU. But then when you're done, back on the charger, and using your dGPU for prettier graphics again, you have to change the settings *another* time to restore those settings. This also means you need to memorize two distinct sets of settings!
 
 3. Automatic frame limiter features like NVIDIA's BatteryBoost don't work as well due to their high base power draw in comparison to iGPU's, on top of capping your game to a dismal 30FPS by default.
 
@@ -53,7 +61,7 @@ These points of contention practically defeat half the purpose of a gaming lapto
 
 This app aims to solve these problems by letting you configure apps to automatically target dGPU/iGPU, and also seamlessly switch between two sets of graphics settings for when you're plugged in and plugged out.
 
-**Your laptop's iGPU may be faster than you realize.** If your laptop has Intel Iris Xe Graphics, an Intel Core Ultra Processor, or a Ryzen processor — all of which are/have strong iGPUs — and you have a game you play very often or an indie gamer, you are a perfect candidate for this app! And even if you don't have a blazing fast iGPU, it's unlikely you'll care much about graphics while gaming on the go anyway — so go ahead and turn those settings down.
+**Your laptop's iGPU may be faster than you realize.** If your laptop has Intel Iris Xe Graphics, an Intel Core Ultra Processor, or a Ryzen processor (all of which have/are strong iGPUs); and you have a game you play very often or an indie gamer, then you are a perfect candidate for this app! And even if you don't have a fast iGPU, it's unlikely you'll care much about graphics while gaming on the go anyway — so go ahead and turn those settings down.
 
 <details>
 <summary>
@@ -78,14 +86,22 @@ Now we boot up the game again, and the game is running on the dGPU. Normally, we
 
 The process was totally automatic, requiring no intervention. 
 
-Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios (e.g. file locked, unexpected crash, or the .exe saving the config when it shuts down). The way these mechanisms work will take a lot to explain — and for now, you will need to study the source code yourself to understand them.
-
+Despite this, you may still encounter scenarios where this is not a seamless experience. The app has been designed with considerations and safeguards against some of these scenarios:
+* **Target file locked:** The app will simply stall the file swap and retry repeatedly.
+* **The target .exe saves the file *when it closes:*** The app is designed to delay swapping the file if the target .exe is still running. Data loss or an inappropriate overwrite can still occur if the target .exe spawns a separate process that modifies the file, but that seems like a very specific and unlikely scenario.
+* **Unexpected crashes or ungraceful termination:** Is unlikely to cause inconsistent states or inappropriate overwrites. The state tracking string in the app data file for each corresponding file swapper state is immediately updated and saved after the each file swap occurs, and is not touched if the file swap doesn't occur.
 
 Despite these safeguards, data loss can still result from the File Swapper system; **do NOT manipulate important or sensitive data with it.** 
 
 </details>
 
-<details>
+## Future feature ideas
+- Improving the definition and conditions for being "On Battery" or "Plugged In" (e.g. how much power input?)
+- Multiple settings profiles
+- A config database
+
+<details open>
+ 
 <summary>
  
 ## Build/develop (click to expand):
@@ -113,7 +129,7 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 
 <a name="manual-installation-and-assembly"></a>
 ### Manual installation and assembly + extra notes:
-1. It is required that all EXEs and their related files* are placed in a fixed and specified directory, because the app looks for them in specific locations. This should already be done by default. If you un-merge the build paths, you'll need to manually merge the built files and folders.
+1. It is required that all EXEs and their related files are placed in a fixed and specified directory, because the app looks for them in specific locations. This should already be done by default. If you un-merge the build paths, you'll need to manually merge the built files and folders.
 	
 2. In the end, you should end up with exactly this folder structure (before running `Install.exe`):
 ```
