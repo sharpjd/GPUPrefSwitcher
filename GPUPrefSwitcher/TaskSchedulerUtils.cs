@@ -12,7 +12,7 @@ namespace GPUPrefSwitcher
 
         public static void RunOnBatteryTask()
         {
-            if (!TaskExists(TASK_NAME_ON_BATTERY))
+            if (!TaskAndFolderExists(TASK_NAME_ON_BATTERY))
             {
                 string description = "The GPUPrefSwitcher service runs this task once when the system is considered on battery." +
                     "\n It is up to you to add actions (e.g. start a script).";
@@ -25,7 +25,7 @@ namespace GPUPrefSwitcher
 
         public static void RunPluggedInTask()
         {
-            if (!TaskExists(TASK_NAME_PLUGGED_IN))
+            if (!TaskAndFolderExists(TASK_NAME_PLUGGED_IN))
             {
                 string description = "The GPUPrefSwitcher service runs this task once when the system is considered plugged in." +
                     "\n It is up to you to add actions (e.g. start a script).";
@@ -36,11 +36,28 @@ namespace GPUPrefSwitcher
             RunTask(TASK_NAME_PLUGGED_IN);
         }
 
-        public static bool TaskExists(string taskName)
+        public static bool TaskAndFolderExists(string taskName)
         {
             using (TaskService taskService = new())
             {
-                return taskService.FindTask(taskName, false) != null;
+
+                TaskFolder gpuPrefSwitcherFolder = taskService.GetFolder(FOLDER_NAME);
+                if (gpuPrefSwitcherFolder == null) return false;
+
+                // Get the folder with the specified name
+                TaskFolder folder = taskService.RootFolder.SubFolders[FOLDER_NAME];
+
+                // Iterate through the tasks in the folder
+                foreach (Task task in folder.Tasks)
+                {
+                    // Check if the task has the specified name
+                    if (task.Name.Equals(taskName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true; // Return the task if found
+                    }
+                }
+                return false;
+                //return taskService.FindTask(taskName, true) != null;
             }
         }
 
