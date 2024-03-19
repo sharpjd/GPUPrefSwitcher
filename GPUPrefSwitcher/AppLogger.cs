@@ -95,7 +95,7 @@ namespace GPUPrefSwitcher
             logger.outputFile_Error.WriteLine(); //prepend newlines, looks better
             logger.outputFile_Standard.WriteLine();
 
-            logger.ErrorLog("---<<<<< BEGIN ERROR LOG SESSION >>>>>--- \n(Note that newer logs go at the end of the file, you can press CTRL+END to skip there in most editors)\n").Wait();
+            logger.ErrorLog("---<<<<< BEGIN ERROR LOG SESSION >>>>>--- \n(Note that newer logs go at the end of the file, you can press CTRL+END to skip there in most editors)\n");
             logger.ForceStandardLog("---<<<<< BEGIN STANDARD LOG SESSION >>>>>--- \n(Note that newer logs go at the end of the file, you can press CTRL+END to skip there in most editors)\n");
 
             //AppDomain.CurrentDomain.FirstChanceException += (sender, e) => //FirstChanceException triggers upon ALL exceptions, even those caught; this is excessive, and they can still be observed from Event Viewer
@@ -105,8 +105,8 @@ namespace GPUPrefSwitcher
             {
                 logger.DumpStandardLogBufferToStandardLog().Wait();
                 logger.DumpStandardLogBufferToErrorLog().Wait(); //do this before the app terminates
-                logger.ErrorLog("<<<AN UNHANDLED ERROR HAS OCCURRED>>>").Wait();
-                logger.ErrorLog(e.ExceptionObject.ToString()).Wait();
+                logger.ErrorLog("<<<AN UNHANDLED ERROR HAS OCCURRED>>>");
+                logger.ErrorLog(e.ExceptionObject.ToString());
             };
 
             //useful for capturing fire-and-forget tasks that error out
@@ -115,8 +115,8 @@ namespace GPUPrefSwitcher
             {
                 logger.DumpStandardLogBufferToStandardLog().Wait();
                 logger.DumpStandardLogBufferToErrorLog().Wait(); //do this before the app terminates
-                logger.ErrorLog("<<<AN UNOBSERVED TASK EXCEPTION HAS OCCURRED>>>").Wait();
-                logger.ErrorLog(e.Exception.ToString()).Wait();
+                logger.ErrorLog("<<<AN UNOBSERVED TASK EXCEPTION HAS OCCURRED>>>");
+                logger.ErrorLog(e.Exception.ToString());
                 
             };
 
@@ -173,7 +173,7 @@ namespace GPUPrefSwitcher
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public Task ErrorLog(string str)
+        public void ErrorLog(string str)
         {
 
             errorLogCount += 1;
@@ -181,8 +181,7 @@ namespace GPUPrefSwitcher
             string toPrint = $"[(T:{TotalLogCount}, {errorLogCount}) {DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}]: {str}";
 
             semaphoreSlim_Error.AvailableWaitHandle.WaitOne();//block if unavailable
-
-            return WriteAsyncInternal_Error(toPrint);
+            _ = WriteAsyncInternal_Error(toPrint);
         }
 
         public int GlobalLogLevel

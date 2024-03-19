@@ -64,7 +64,7 @@ namespace GPUPrefSwitcher
         public FileSwapper(AppEntry appEntry, AppEntrySaveHandler appEntrySaveHandler) 
         { 
             AppEntry = appEntry;
-            appEntrySaveHandler = AppEntrySaveHandler;
+            AppEntrySaveHandler = appEntrySaveHandler;
         }
 
         
@@ -77,7 +77,7 @@ namespace GPUPrefSwitcher
             if (!appEntryFolderExists)
             {
                 Directory.CreateDirectory(SettingsBankFolderPath);
-                File.Create(Path.Combine(SettingsBankFolderPath, $"{AppEntry.AppName} settings are in {SettingsBankFolderPath}"));
+                File.Create(Path.Combine(SettingsBankFolderPath, $"{AppEntry.AppName} settings are in {SettingsBankFolderName}"));
             }
 
             List<Task> fileSwapTasks = new();

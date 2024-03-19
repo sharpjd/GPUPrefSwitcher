@@ -61,7 +61,6 @@ namespace GPUPrefSwitcher
 
         public static readonly string XML_PREFERENCES_PATH = Program.SavedDataPath + "Preferences.xml";
         private XmlDocument xmlDocument = new();
-        //private SemaphoreSlim semaphoreSlim = new(1);
 
         internal PreferencesXML()
         {

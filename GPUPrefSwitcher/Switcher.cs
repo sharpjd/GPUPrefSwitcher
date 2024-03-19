@@ -68,7 +68,15 @@ namespace GPUPrefSwitcher
 
             File.Delete(CRASHED_FILE_PATH);//"successful" initialization yippee
 
-            _ = BeginTimerForever();
+            Task forever = BeginTimerForever();
+
+            /*
+            forever.ContinueWith(
+                (task) =>
+                { throw task.Exception; }
+                );
+            */
+
             Logger.inst.Log($"Begin update logic timer.");
 
             if (!lastShutdownWasClean)
@@ -118,7 +126,14 @@ namespace GPUPrefSwitcher
                 /*
                  * Only ever run one of this task at once
                  */
-                if(runningUpdateTask == Task.CompletedTask)
+
+                if (runningUpdateTask != null && runningUpdateTask.IsFaulted)
+                {
+                    Logger.inst.ErrorLog(runningUpdateTask.Exception.ToString());
+                    throw runningUpdateTask.Exception;
+                }
+
+                if (runningUpdateTask == Task.CompletedTask)
                 {
                     runningUpdateTask = null;
                 }
@@ -131,7 +146,7 @@ namespace GPUPrefSwitcher
             }
         }
 
-        private static Task RunUpdateLogic()
+        private static async Task RunUpdateLogic()
         {
             Logger.inst.Log("Begin update logic.", 2000);
 
@@ -181,7 +196,8 @@ namespace GPUPrefSwitcher
             if (prevPowerLineStatus == currentPowerLineStatus)
             {
                 Logger.inst.Log($"PowerLine status has NOT changed since last update. (Current state: {currentPowerLineStatus}; last state: {prevPowerLineStatus})", 2000);
-                return Task.CompletedTask;
+                //return Task.CompletedTask;
+                return;
             } else
             {
                 Logger.inst.Log($"PowerLine status has changed since last update. Previous: {prevPowerLineStatus}; Current: {currentPowerLineStatus}");
@@ -203,16 +219,18 @@ namespace GPUPrefSwitcher
             }
 
             WriteXMLToRegistry(currentPowerLineStatus);
-
+            
             UpdateSeenInRegistryStatuses(); //sets the SeenInRegistry entry accordingly
 
-            BeginFileSwapLogic(currentPowerLineStatus, appEntrySaveHandler.CurrentAppEntries);
+            Task swaps = BeginFileSwapLogic(currentPowerLineStatus, appEntrySaveHandler.CurrentAppEntries);
 
             BeginTaskSchedulerLogic(currentPowerLineStatus);
 
             prevPowerLineStatus = currentPowerLineStatus; //THIS MUST GO AT THE END
 
-            return Task.CompletedTask;
+            await swaps;
+
+            //return Task.CompletedTask;
         }
 
         private static void BeginTaskSchedulerLogic(PowerLineStatus forPowerLineStatus)
@@ -242,20 +260,21 @@ namespace GPUPrefSwitcher
             List<string> regPathValues = RegistryHelper.GetGpuPrefPathvalueNames().ToList();
             List<AppEntry> appEntries = appEntrySaveHandler.CurrentAppEntries;
 
-            foreach(AppEntry appEntry in appEntries)
+            for (int i = 0; i < appEntries.Count; i++)
             {
+                AppEntry appEntry = appEntries[i];
+
                 if (regPathValues.Contains(appEntry.AppPath)){
                     if (appEntry.SeenInRegistry == false)
                     {
                         appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { SeenInRegistry = true });
-                        appEntrySaveHandler.SaveAppEntryChanges();
                     }
                 } else
                 {
                     appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { SeenInRegistry = false });
-                    appEntrySaveHandler.SaveAppEntryChanges();
                 }
             }
+            appEntrySaveHandler.SaveAppEntryChanges();
         }
 
         private static async Task BeginFileSwapLogic(PowerLineStatus forPowerLineStatus, IEnumerable<AppEntry> forAppEntries)
