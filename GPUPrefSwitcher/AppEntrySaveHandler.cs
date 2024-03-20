@@ -15,6 +15,21 @@ namespace GPUPrefSwitcher
         /// !!! This should always contain deep copies !!!
         /// </summary>
         private List<AppEntry> prevAppEntries;
+        /*
+        private List<AppEntry> prevAppEntries
+        {
+            get
+            {
+                return prevAppEntries_;
+            }
+            set
+            {
+                Logger.inst.Log("Set PrevAppEntries");
+                prevAppEntries_ = value;
+            }
+        }
+        private List<AppEntry> prevAppEntries_;
+        */
 
         public List<AppEntry> CurrentAppEntries
         {
@@ -29,17 +44,33 @@ namespace GPUPrefSwitcher
         {
             try
             {
+                semaphoreSlim.Wait();
                 currentAppEntries = DeepCopyAppEntries(prevAppEntries);
             } finally
             {
-                semaphoreSlim.Wait();
+                semaphoreSlim.Release();
             }
         }
         private static List<AppEntry> DeepCopyAppEntries(List<AppEntry> appEntries)
         {
-            AppEntry[] appEntryCopies = appEntries.ToArray();
+            /*
+            //AppEntry[] appEntryCopies = appEntries.ToArray();
+
+            var appEntryCopies = new AppEntry[appEntries.Count()];
+            for(int i = 0; i < appEntryCopies.Length; i++)
+            {
+                appEntryCopies[i] = appEntries[i]; //struct copy 
+            }
+
             List<AppEntry> newList = new();
             newList.AddRange(appEntryCopies);
+            */
+            List<AppEntry> newList = new();
+            foreach(AppEntry a in appEntries)
+            {
+                newList.Add((AppEntry)a.Clone());
+            }
+
             return newList;
         }
 
@@ -49,10 +80,22 @@ namespace GPUPrefSwitcher
 
         public AppEntrySaveHandler()
         {
-            PreferencesXML = new PreferencesXML();
-            prevAppEntries = PreferencesXML.GetAppEntries();
-            currentAppEntries = PreferencesXML.GetAppEntries();
-            semaphoreSlim = new SemaphoreSlim(1);
+            try
+            {
+                semaphoreSlim = new SemaphoreSlim(1);
+
+                semaphoreSlim.Wait();
+
+                PreferencesXML = new PreferencesXML();
+                prevAppEntries = PreferencesXML.GetAppEntries();
+                //currentAppEntries = PreferencesXML.GetAppEntries();
+                currentAppEntries = DeepCopyAppEntries(prevAppEntries);
+
+            } finally { semaphoreSlim.Release(); }
+            
+
+            Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+            Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
         }
 
         public void ChangeAppEntryByPath(string path, AppEntry updatedAppEntry)
@@ -61,7 +104,10 @@ namespace GPUPrefSwitcher
             {
                 semaphoreSlim.Wait();
 
+                Logger.inst.Log($"prev: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
+
                 int index = CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path));
+                
 
                 /* //for-loop alternative, but the above should throw an error with an obvious enough meaning
                 int index = -1;
@@ -79,8 +125,11 @@ namespace GPUPrefSwitcher
                 */
 
                 CurrentAppEntries[index] = updatedAppEntry;
+
+                Logger.inst.Log($"new: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
             } finally
             {
+                Logger.inst.Log("ChangeAppEntryByPath released a semaphore.");
                 semaphoreSlim.Release();
             }
         }
@@ -104,6 +153,8 @@ namespace GPUPrefSwitcher
             {
                 semaphoreSlim.Wait();
 
+                //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+                //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
                 List<AppEntry> differences = new();
                 differences.AddRange(currentAppEntries.Where(entry => NotSameOrInPrevAppEntries(entry)));
 
@@ -141,10 +192,21 @@ namespace GPUPrefSwitcher
 
                 prevAppEntries = DeepCopyAppEntries(currentAppEntries); //update the saved entries
 
-                Logger.inst.Log("Concluded saving");
+                //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+                //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+
+                Logger.inst.Log($"Concluded saving. Differences: {differences.Count} Added: {needToAdd.Count} Removed: {needToRemoveFromXML.Count}");
 
                 bool NotSameOrInPrevAppEntries(AppEntry appEntry)
                 {
+                    /*
+                    if (appEntry.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe")
+                    {
+                        Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+                        Logger.inst.Log(CurrentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+                        Logger.inst.Log($"{appEntry} not in prev app entries: {!prevAppEntries.Contains(appEntry)}");
+                    }
+                    */
                     return !prevAppEntries.Contains(appEntry); //Contains uses Equals() which is implemented in AppEntry
                 }
             } finally

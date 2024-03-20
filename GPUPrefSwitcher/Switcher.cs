@@ -43,15 +43,18 @@ namespace GPUPrefSwitcher
         /// </summary>
         internal static void Start()
         {
+            appOptions = new AppOptions();
+            Logger.inst.EnableRealtimeStandardLogWrites = appOptions.CurrentOptions.EnableRealtimeLogging;
+            Logger.inst.Log($"Initialized {nameof(AppOptions)}.");
+
             switcherData = SwitcherData.Initialize();
             Logger.inst.Log($"Initialized {nameof(SwitcherData)}.");
 
             appEntrySaveHandler = new AppEntrySaveHandler(); //exceptions get thrown from this too if there are problems with the XML (e.g. syntax)
-            Logger.inst.Log($"Initialized {nameof(PreferencesXML)}.");
+            Logger.inst.Log($"Initialized {nameof(AppEntrySaveHandler)}.");
 
             //SystemEvents.PowerModeChanged += HandlePowerChangeEvent; **NOT the right event, this is for resume/suspend
-            appOptions = new AppOptions();
-            Logger.inst.Log($"Initialized {nameof(AppOptions)}.");
+            
 
             prevPowerLineStatus = switcherData.CurrentSwitcherData.PrevPowerStatus_enum;
             spoofPowerStateEnabled = appOptions.CurrentOptions.SpoofPowerStateEnabled;
@@ -64,7 +67,6 @@ namespace GPUPrefSwitcher
             switcherData.SaveToXML();
 
             updateInterval = appOptions.CurrentOptions.UpdateInterval;
-            Logger.inst.EnableRealtimeStandardLogWrites = appOptions.CurrentOptions.EnableRealtimeLogging;
 
             File.Delete(CRASHED_FILE_PATH);//"successful" initialization yippee
 
