@@ -94,21 +94,20 @@ namespace GPUPrefSwitcher
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(AppName);
             hashCode = hashCode * -1521134295 + EnableSwitcher.GetHashCode();
             hashCode = hashCode * -1521134295 + EnableFileSwapper.GetHashCode();
-            hashCode = hashCode * -1521134295 + GetArrHash(FileSwapperPaths);
-            hashCode = hashCode * -1521134295 + GetArrHash(FileSwapperPaths);
+            hashCode = hashCode * -1521134295 + GetStrArrHash(FileSwapperPaths);
             hashCode = hashCode * -1521134295 + GPUPrefOnBattery.GetHashCode();
             hashCode = hashCode * -1521134295 + GPUPrefPluggedIn.GetHashCode();
             hashCode = hashCode * -1521134295 + RunOnBatteryPath.GetHashCode();
             hashCode = hashCode * -1521134295 + RunPluggedInPath.GetHashCode();
             hashCode = hashCode * -1521134295 + PendingAddToRegistry.GetHashCode();
             hashCode = hashCode * -1521134295 + SeenInRegistry.GetHashCode();
-            hashCode = hashCode * -1521134295 + GetArrHash(from s in SwapperStates select s.ToString()); //a bit hacky but it should work
+            hashCode = hashCode * -1521134295 + GetStrArrHash(from s in SwapperStates select s.ToString()); //a bit hacky but it should work
 
             //TODO: need for AppName
             return hashCode;
         }
         
-        public static int GetArrHash(IEnumerable<object> objs)
+        public static int GetStrArrHash(IEnumerable<string> strs)
         {
             int hash = -335392656;
             /*
@@ -117,9 +116,9 @@ namespace GPUPrefSwitcher
                 hash = hash * -130699793 + objs[i].GetHashCode();
             }
             */
-            foreach(object obj in objs)
+            foreach(string s in strs)
             {
-                hash = hash * -130699793 + obj.GetHashCode();
+                hash = hash * -130699793 + strs.GetHashCode();
             }
             return hash;
         }

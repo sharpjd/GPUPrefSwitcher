@@ -229,6 +229,7 @@ namespace GPUPrefSwitcher
             {
                 semaphoreSlim_Standard.AvailableWaitHandle.WaitOne();//block if there's still a write in progress
                 _ = WriteAsyncInternal_Standard(toWrite);
+                //WriteAsyncInternal_Standard(toWrite).Wait();
             }
             
             StandardLogBuffer.Add(toWrite);

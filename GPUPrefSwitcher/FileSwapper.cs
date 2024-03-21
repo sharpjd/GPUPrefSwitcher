@@ -258,9 +258,10 @@ namespace GPUPrefSwitcher
                     AppEntry modified = AppEntry; //struct copy
                     modified.SwapperStates[swapPathIndex] = PowerLineStatus.Offline;
 
+                    Logger.inst.Log($"Saving SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}");
                     //await new Task(new Action( () => preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified)));
-                    AppEntrySaveHandler.ChangeAppEntryByPath(AppEntry.AppPath, modified);
-                    AppEntrySaveHandler.SaveAppEntryChanges();
+                    AppEntrySaveHandler.ChangeAppEntryByPathAndSave(AppEntry.AppPath, modified);
+                    //AppEntrySaveHandler.SaveAppEntryChanges();
 
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
                     Logger.inst.Log(s3);
@@ -306,8 +307,8 @@ namespace GPUPrefSwitcher
                     AppEntry modified = AppEntry; //struct copy
                     modified.SwapperStates[swapPathIndex] = PowerLineStatus.Online;
 
-                    AppEntrySaveHandler.ChangeAppEntryByPath(AppEntry.AppPath, modified);
-                    AppEntrySaveHandler.SaveAppEntryChanges();
+                    AppEntrySaveHandler.ChangeAppEntryByPathAndSave(AppEntry.AppPath, modified);
+                    //AppEntrySaveHandler.SaveAppEntryChanges();
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
                     Logger.inst.Log(s3);
                 } else

@@ -31,11 +31,11 @@ namespace GPUPrefSwitcher
         private List<AppEntry> prevAppEntries_;
         */
 
-        public List<AppEntry> CurrentAppEntries
+        public IReadOnlyList<AppEntry> CurrentAppEntries
         {
             get
             {
-                return currentAppEntries;
+                return currentAppEntries.AsReadOnly();
             }
         }
         private List<AppEntry> currentAppEntries;
@@ -94,46 +94,54 @@ namespace GPUPrefSwitcher
             } finally { semaphoreSlim.Release(); }
             
 
-            Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-            Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+            //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+            //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
         }
 
-        public void ChangeAppEntryByPath(string path, AppEntry updatedAppEntry)
+        public void ChangeAppEntryByPathAndSave(string path, AppEntry updatedAppEntry)
+        {
+            try
+            {
+                Logger.inst.Log($"ChangeAppEntryByPath waiting on a semaphore ({path})");
+                semaphoreSlim.Wait();
+                Logger.inst.Log($"ChangeAppEntryByPath entered a semaphore ({path}).");
+
+                Logger.inst.Log($"Attempting to change \n {currentAppEntries.Single(x=>x.AppPath==path)}\n to \n {updatedAppEntry}");
+
+                //Logger.inst.Log($"prev: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
+
+                int index = currentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path));
+
+                currentAppEntries[index] = updatedAppEntry;
+
+                SaveAppEntryChanges_Internal();
+
+                //Logger.inst.Log($"new: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
+            } finally
+            {
+                Logger.inst.Log($"ChangeAppEntryByPath released a semaphore ({path})");
+                semaphoreSlim.Release();
+            }
+        }
+
+        public int RemoveAll(Predicate<AppEntry> predicate)
+        {
+            return currentAppEntries.RemoveAll(predicate);
+        }
+
+        public void AddAppEntryAndSave(AppEntry appEntry)
         {
             try
             {
                 semaphoreSlim.Wait();
 
-                Logger.inst.Log($"prev: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
+                currentAppEntries.Add(appEntry);
 
-                int index = CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path));
-                
+                SaveAppEntryChanges_Internal();
 
-                /* //for-loop alternative, but the above should throw an error with an obvious enough meaning
-                int index = -1;
-                for (int i = 0; i < CurrentAppEntries.Count; i++)
-                {
-                    AppEntry appEntry = CurrentAppEntries[i];
-                    if (appEntry.AppPath == path)
-                    {
-                        index = i; break;
-                    }
-                }
-
-                if(index<0)
-                    throw new AppEntrySaverException($"UpdateAppEntry: No AppEntry with path {path} was found");
-                */
-
-                CurrentAppEntries[index] = updatedAppEntry;
-
-                Logger.inst.Log($"new: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
-            } finally
-            {
-                Logger.inst.Log("ChangeAppEntryByPath released a semaphore.");
-                semaphoreSlim.Release();
             }
+            finally { semaphoreSlim.Release(); }
         }
-
         /*
          * DECISION: Replacement or overwrite?
          * Per-Entry Replacement (SELECTED):
@@ -147,71 +155,88 @@ namespace GPUPrefSwitcher
          * 
          * UPDATE: Only per-entry eplacement is viable because the XML can still contain stuff that isn't in the registry!!
          */
+        /// <summary>
+        /// NOT THREAD SAFE
+        /// </summary>
         public void SaveAppEntryChanges()
         {
             try
             {
                 semaphoreSlim.Wait();
 
-                //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-                //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-                List<AppEntry> differences = new();
-                differences.AddRange(currentAppEntries.Where(entry => NotSameOrInPrevAppEntries(entry)));
-
-                List<string> existingAppPaths = new List<string>(from appEntry in PreferencesXML.GetAppEntries() select appEntry.AppPath);
-                List<AppEntry> needToAdd = new();
-                needToAdd.AddRange(currentAppEntries.Where(entry => !existingAppPaths.Contains(entry.AppPath)));
-
-                //remove appentries whose *paths* exist in the prev but not the current
-                List<AppEntry> needToRemoveFromXML = new();
-                foreach (AppEntry entry in prevAppEntries)
-                {
-                    if (!currentAppEntries.Exists(a => a.AppPath == entry.AppPath))
-                    {
-                        needToRemoveFromXML.Add(entry);
-                    }
-                }
-
-                //new AppEntries should be added first so that ModifyAppEntry can actually find the AppEntry with the path
-                foreach (AppEntry appEntry in needToAdd)
-                {
-                    PreferencesXML.AddAppEntryAndSave(appEntry);
-                }
-
-                foreach (AppEntry appEntry in differences)
-                {
-                    PreferencesXML.ModifyAppEntryAndSave(appEntry.AppPath, appEntry);
-                }
-
-                foreach (AppEntry appEntry in needToRemoveFromXML)
-                {
-                    bool success = PreferencesXML.TryDeleteAppEntryAndSave(appEntry.AppPath);
-                    if (!success) //this would probably only ever fail if AppEntries were deleted externally whilst the GUI or Service was still running 
-                        throw new XMLHelperException($"DeleteAppEntry: AppEntry with the specified path not found in data store: {appEntry.AppPath}");
-                }
-
-                prevAppEntries = DeepCopyAppEntries(currentAppEntries); //update the saved entries
-
-                //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-                //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-
-                Logger.inst.Log($"Concluded saving. Differences: {differences.Count} Added: {needToAdd.Count} Removed: {needToRemoveFromXML.Count}");
-
-                bool NotSameOrInPrevAppEntries(AppEntry appEntry)
-                {
-                    /*
-                    if (appEntry.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe")
-                    {
-                        Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-                        Logger.inst.Log(CurrentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-                        Logger.inst.Log($"{appEntry} not in prev app entries: {!prevAppEntries.Contains(appEntry)}");
-                    }
-                    */
-                    return !prevAppEntries.Contains(appEntry); //Contains uses Equals() which is implemented in AppEntry
-                }
+                SaveAppEntryChanges_Internal();
+                
             } finally
             {
                 semaphoreSlim.Release();
+            }
+        }
+
+        private void SaveAppEntryChanges_Internal()
+        {
+            //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+            //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+            List<AppEntry> differences = new();
+            differences.AddRange(currentAppEntries.Where(entry => NotSameOrInPrevAppEntries(entry)));
+
+            List<string> existingAppPaths = new List<string>(from appEntry in PreferencesXML.GetAppEntries() select appEntry.AppPath);
+            List<AppEntry> needToAdd = new();
+            needToAdd.AddRange(currentAppEntries.Where(entry => !existingAppPaths.Contains(entry.AppPath)));
+
+            //remove appentries whose *paths* exist in the prev but not the current
+            List<AppEntry> needToRemoveFromXML = new();
+            foreach (AppEntry entry in prevAppEntries)
+            {
+                if (!currentAppEntries.Exists(a => a.AppPath == entry.AppPath))
+                {
+                    needToRemoveFromXML.Add(entry);
+                }
+            }
+
+            //new AppEntries should be added first so that ModifyAppEntry can actually find the AppEntry with the path
+            foreach (AppEntry appEntry in needToAdd)
+            {
+                PreferencesXML.AddAppEntryAndSave(appEntry);
+            }
+
+            foreach (AppEntry appEntry in differences)
+            {
+                PreferencesXML.ModifyAppEntryAndSave(appEntry.AppPath, appEntry);
+            }
+
+            foreach (AppEntry appEntry in needToRemoveFromXML)
+            {
+                bool success = PreferencesXML.TryDeleteAppEntryAndSave(appEntry.AppPath);
+                if (!success) //this would probably only ever fail if AppEntries were deleted externally whilst the GUI or Service was still running 
+                    throw new XMLHelperException($"DeleteAppEntry: AppEntry with the specified path not found in data store: {appEntry.AppPath}");
+            }
+
+            prevAppEntries = DeepCopyAppEntries(currentAppEntries); //update the saved entries
+
+            //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+            //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+
+            Logger.inst.Log($"Concluded saving. Differences: {differences.Count} Added: {needToAdd.Count} Removed: {needToRemoveFromXML.Count}");
+            if(differences.Count > 0)
+            {
+                Logger.inst.Log("Changed:");
+                foreach(AppEntry appEntry in differences)
+                {
+                    Logger.inst.Log(appEntry.ToString());
+                }
+            }
+
+            bool NotSameOrInPrevAppEntries(AppEntry appEntry)
+            {
+                /*
+                if (appEntry.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe")
+                {
+                    Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+                    Logger.inst.Log(CurrentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
+                    Logger.inst.Log($"{appEntry} not in prev app entries: {!prevAppEntries.Contains(appEntry)}");
+                }
+                */
+                return !prevAppEntries.Contains(appEntry); //Contains uses Equals() which is implemented in AppEntry
             }
         }
 

@@ -409,6 +409,7 @@ namespace GPUPrefSwitcher
             string newSeenInRegistry = newAppEntry.SeenInRegistry.ToString().ToLower();
 
             string[] newFileSwapperPaths = newAppEntry.FileSwapperPaths;
+            PowerLineStatus[] newSwapperStates = newAppEntry.SwapperStates;
 
             if (newAppPath == null)
                 throw new InvalidOperationException("AppEntry passed in had a null AppPath value");
@@ -481,7 +482,7 @@ namespace GPUPrefSwitcher
 
                         XmlElement xmlElement = xmlDocument.CreateElement(XML_SWAP_PATH);
 
-                        xmlElement.SetAttribute(XML_ATTR_SWAPPATHSTATUS, PowerLineStatusConversions.PowerLineStatusToOfflineOrOnline(newAppEntry.SwapperStates[i]));//TODO: does this gauruntee order?
+                        xmlElement.SetAttribute(XML_ATTR_SWAPPATHSTATUS, PowerLineStatusConversions.PowerLineStatusToOfflineOrOnline(newSwapperStates[i]));//TODO: does this gauruntee order?
 
                         xmlElement.InnerText = newFileSwapperPath;
 

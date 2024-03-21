@@ -260,7 +260,7 @@ namespace GPUPrefSwitcher
         private static void UpdateSeenInRegistryStatuses()
         {
             List<string> regPathValues = RegistryHelper.GetGpuPrefPathvalueNames().ToList();
-            List<AppEntry> appEntries = appEntrySaveHandler.CurrentAppEntries;
+            IReadOnlyList<AppEntry> appEntries = appEntrySaveHandler.CurrentAppEntries;
 
             for (int i = 0; i < appEntries.Count; i++)
             {
@@ -269,14 +269,14 @@ namespace GPUPrefSwitcher
                 if (regPathValues.Contains(appEntry.AppPath)){
                     if (appEntry.SeenInRegistry == false)
                     {
-                        appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { SeenInRegistry = true });
+                        appEntrySaveHandler.ChangeAppEntryByPathAndSave(appEntry.AppPath, appEntry with { SeenInRegistry = true });
                     }
                 } else
                 {
-                    appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { SeenInRegistry = false });
+                    appEntrySaveHandler.ChangeAppEntryByPathAndSave(appEntry.AppPath, appEntry with { SeenInRegistry = false });
                 }
             }
-            appEntrySaveHandler.SaveAppEntryChanges();
+            //appEntrySaveHandler.SaveAppEntryChanges();
         }
 
         private static async Task BeginFileSwapLogic(PowerLineStatus forPowerLineStatus, IEnumerable<AppEntry> forAppEntries)
@@ -420,7 +420,7 @@ namespace GPUPrefSwitcher
 
                     //TODO but there's no SwapPaths to use the above on lol
                     */
-                    appEntrySaveHandler.CurrentAppEntries.Add(
+                    appEntrySaveHandler.AddAppEntryAndSave(
                             new AppEntry()
                             {
                                 AppPath = regPathValue,
@@ -436,7 +436,7 @@ namespace GPUPrefSwitcher
                                 SeenInRegistry = true //if we're adding from the registry, shouldn't this be true?
                             }
                         ); 
-                    appEntrySaveHandler.SaveAppEntryChanges();
+                    //appEntrySaveHandler.SaveAppEntryChanges();
                 }
             }
 
@@ -470,8 +470,8 @@ namespace GPUPrefSwitcher
 
                     AppEntry modifiedAppEntry = appEntry with { PendingAddToRegistry = false } ;
 
-                    appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, modifiedAppEntry);
-                    appEntrySaveHandler.SaveAppEntryChanges();
+                    appEntrySaveHandler.ChangeAppEntryByPathAndSave(appEntry.AppPath, modifiedAppEntry);
+                    //appEntrySaveHandler.SaveAppEntryChanges();
                 }
 
                 bool enabled = appEntry.EnableSwitcher;

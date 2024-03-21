@@ -227,7 +227,7 @@ namespace GPUPrefSwitcherGUI
             }
 
             AppEntry updatedAppEntry = appEntryFromRow(e.RowIndex);
-            appEntrySaver.ChangeAppEntryByPath(updatedAppEntry.AppPath, updatedAppEntry);
+            appEntrySaver.ChangeAppEntryByPathAndSave(updatedAppEntry.AppPath, updatedAppEntry);
 
             if (e.ColumnIndex == ConfigureCol)
             {
@@ -237,7 +237,7 @@ namespace GPUPrefSwitcherGUI
                 if (form.DialogResult == DialogResult.OK)
                 {
                     AppEntry returned = form.CurrentAppEntry;
-                    appEntrySaver.ChangeAppEntryByPath(updatedAppEntry.AppPath, returned);
+                    appEntrySaver.ChangeAppEntryByPathAndSave(updatedAppEntry.AppPath, returned);
                     UpdateGrid();
                 }
 
@@ -302,7 +302,7 @@ namespace GPUPrefSwitcherGUI
             //object updatedValue = dataGridView1[e.ColumnIndex, e.RowIndex].Value;
 
             AppEntry updatedAppEntry = appEntryFromRow(e.RowIndex);
-            appEntrySaver.ChangeAppEntryByPath(updatedAppEntry.AppPath, updatedAppEntry);
+            appEntrySaver.ChangeAppEntryByPathAndSave(updatedAppEntry.AppPath, updatedAppEntry);
 
             //this should come after replacing the AppEntry
             UpdateActionButtons();
@@ -473,7 +473,7 @@ namespace GPUPrefSwitcherGUI
 
 
                         AppEntry newAppEntry = GetDefaultAppEntry(newPath) with { PendingAddToRegistry = true };
-                        appEntrySaver.CurrentAppEntries.Add(newAppEntry);
+                        appEntrySaver.AddAppEntryAndSave(newAppEntry);
 
                         UpdateGrid();
                         UpdateActionButtons();
@@ -543,7 +543,7 @@ namespace GPUPrefSwitcherGUI
                 selectedAppEntries.Add(appEntryFromRow(row.Index));
             }
 
-            appEntrySaver.CurrentAppEntries.RemoveAll(a => selectedAppEntries.Contains(a));
+            appEntrySaver.RemoveAll(a => selectedAppEntries.Contains(a));
 
             UpdateGrid();
             UpdateActionButtons();
