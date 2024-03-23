@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,27 +16,12 @@ namespace GPUPrefSwitcher
         /// !!! This should always contain deep copies !!!
         /// </summary>
         private List<AppEntry> prevAppEntries;
-        /*
-        private List<AppEntry> prevAppEntries
-        {
-            get
-            {
-                return prevAppEntries_;
-            }
-            set
-            {
-                Logger.inst.Log("Set PrevAppEntries");
-                prevAppEntries_ = value;
-            }
-        }
-        private List<AppEntry> prevAppEntries_;
-        */
 
         public IReadOnlyList<AppEntry> CurrentAppEntries
         {
             get
             {
-                return currentAppEntries.AsReadOnly();
+                return currentAppEntries;
             }
         }
         private List<AppEntry> currentAppEntries;
@@ -98,7 +84,7 @@ namespace GPUPrefSwitcher
             //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
         }
 
-        public void ChangeAppEntryByPathAndSave(string path, AppEntry updatedAppEntry)
+        public void ChangeAppEntryByPath(string path, AppEntry updatedAppEntry)
         {
             try
             {
@@ -124,24 +110,6 @@ namespace GPUPrefSwitcher
             }
         }
 
-        public int RemoveAll(Predicate<AppEntry> predicate)
-        {
-            return currentAppEntries.RemoveAll(predicate);
-        }
-
-        public void AddAppEntryAndSave(AppEntry appEntry)
-        {
-            try
-            {
-                semaphoreSlim.Wait();
-
-                currentAppEntries.Add(appEntry);
-
-                SaveAppEntryChanges_Internal();
-
-            }
-            finally { semaphoreSlim.Release(); }
-        }
         /*
          * DECISION: Replacement or overwrite?
          * Per-Entry Replacement (SELECTED):

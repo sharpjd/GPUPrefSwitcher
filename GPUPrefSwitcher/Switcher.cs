@@ -269,11 +269,11 @@ namespace GPUPrefSwitcher
                 if (regPathValues.Contains(appEntry.AppPath)){
                     if (appEntry.SeenInRegistry == false)
                     {
-                        appEntrySaveHandler.ChangeAppEntryByPathAndSave(appEntry.AppPath, appEntry with { SeenInRegistry = true });
+                        appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { SeenInRegistry = true });
                     }
                 } else
                 {
-                    appEntrySaveHandler.ChangeAppEntryByPathAndSave(appEntry.AppPath, appEntry with { SeenInRegistry = false });
+                    appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { SeenInRegistry = false });
                 }
             }
             //appEntrySaveHandler.SaveAppEntryChanges();
@@ -470,7 +470,7 @@ namespace GPUPrefSwitcher
 
                     AppEntry modifiedAppEntry = appEntry with { PendingAddToRegistry = false } ;
 
-                    appEntrySaveHandler.ChangeAppEntryByPathAndSave(appEntry.AppPath, modifiedAppEntry);
+                    appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, modifiedAppEntry);
                     //appEntrySaveHandler.SaveAppEntryChanges();
                 }
 

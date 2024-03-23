@@ -227,7 +227,7 @@ namespace GPUPrefSwitcherGUI
             }
 
             AppEntry updatedAppEntry = appEntryFromRow(e.RowIndex);
-            appEntrySaver.ChangeAppEntryByPathAndSave(updatedAppEntry.AppPath, updatedAppEntry);
+            appEntrySaver.ChangeAppEntryByPath(updatedAppEntry.AppPath, updatedAppEntry);
 
             if (e.ColumnIndex == ConfigureCol)
             {
@@ -237,7 +237,7 @@ namespace GPUPrefSwitcherGUI
                 if (form.DialogResult == DialogResult.OK)
                 {
                     AppEntry returned = form.CurrentAppEntry;
-                    appEntrySaver.ChangeAppEntryByPathAndSave(updatedAppEntry.AppPath, returned);
+                    appEntrySaver.ChangeAppEntryByPath(updatedAppEntry.AppPath, returned);
                     UpdateGrid();
                 }
 
@@ -302,7 +302,7 @@ namespace GPUPrefSwitcherGUI
             //object updatedValue = dataGridView1[e.ColumnIndex, e.RowIndex].Value;
 
             AppEntry updatedAppEntry = appEntryFromRow(e.RowIndex);
-            appEntrySaver.ChangeAppEntryByPathAndSave(updatedAppEntry.AppPath, updatedAppEntry);
+            appEntrySaver.ChangeAppEntryByPath(updatedAppEntry.AppPath, updatedAppEntry);
 
             //this should come after replacing the AppEntry
             UpdateActionButtons();
