@@ -37,7 +37,7 @@ namespace GUIAdminFunctions
 
                 var appEntrySaveHandler = new AppEntrySaveHandler();
 
-                DeleteOrphanedFoldersAndFiles(appEntrySaveHandler.CurrentAppEntries, appEntrySaveHandler);
+                DeleteOrphanedFoldersAndFiles(appEntrySaveHandler.CurrentAppEntries);
                 Console.WriteLine("Operation complete. Press any key to continue...");
                 Console.ReadKey();
                 return;
@@ -65,17 +65,17 @@ namespace GUIAdminFunctions
         /// <param name="appEntries"></param>
         /// <param name="forAppEntrySaveHandler"></param>
         /// <returns></returns>
-        public static void DeleteOrphanedFoldersAndFiles(IEnumerable<AppEntry> appEntries, AppEntrySaveHandler forAppEntrySaveHandler)
+        public static void DeleteOrphanedFoldersAndFiles(IEnumerable<AppEntry> appEntries)
         {
-            string[] orphanedAppEntryFolders = FileSwapper.GetOrphanedAppEntryFolders(appEntries, forAppEntrySaveHandler);
+            string[] orphanedAppEntryFolders = FileSwapperUtils.GetOrphanedAppEntryFolders(appEntries);
 
             List<string> orphanedSwapPathFolders = new();
 
             foreach (AppEntry appEntry in appEntries)
             {
-                FileSwapper fileSwapper = new FileSwapper(appEntry, forAppEntrySaveHandler);
+                FileSwapperData fileSwapper = new(appEntry);
                 if (Directory.Exists(fileSwapper.SettingsBankFolderPath))
-                    orphanedSwapPathFolders.AddRange(FileSwapper.GetOrphanedSwapPathFoldersFor(appEntry, forAppEntrySaveHandler));
+                    orphanedSwapPathFolders.AddRange(FileSwapperUtils.GetOrphanedSwapPathFoldersFor(appEntry));
             }
 
             foreach (string orphanedAppEntryFolder in orphanedAppEntryFolders)

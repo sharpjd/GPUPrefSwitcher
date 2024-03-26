@@ -20,7 +20,10 @@ namespace GPUPrefSwitcher
 
         private SemaphoreSlim semaphoreSlim = new(1);
 
-        private AppEntrySaveHandler appEntrySaveHandler;
+        /// <summary>
+        /// No thread safety is provided. Directly accesses the <see cref="AppEntrySaveHandler"/>. 
+        /// </summary>
+        public AppEntrySaveHandler appEntrySaveHandler;
 
         /// <summary>
         /// You must call <see cref="Return(AppEntrySaveHandler)"/> after you're done with the <see cref="AppEntrySaveHandler"/> otherwise a deadlock will occur.
@@ -152,7 +155,7 @@ namespace GPUPrefSwitcher
         public void ChangeAppEntryByPath(string path, AppEntry updatedAppEntry)
         {
 
-            Logger.inst.Log($"Attempting to change \n {currentAppEntries.Single(x => x.AppPath == path)}\n to \n {updatedAppEntry}");
+            //Logger.inst.Log($"Attempting to change \n {currentAppEntries.Single(x => x.AppPath == path)}\n to \n {updatedAppEntry}");
 
             //Logger.inst.Log($"prev: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
 

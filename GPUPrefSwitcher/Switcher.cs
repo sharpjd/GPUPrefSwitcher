@@ -303,7 +303,7 @@ namespace GPUPrefSwitcher
             List<Task> fileSwapTasks = new();
             foreach (AppEntry appEntry in forAppEntries)
             {
-                var fileSwap = new FileSwapper(appEntry, appEntrySaver);
+                var fileSwap = new FileSwapper(appEntry, appEntryLibrarian);
 
                 if (!appEntry.EnableFileSwapper) continue;
                 if (appEntry.FileSwapperPaths.Length == 0) continue;

@@ -62,12 +62,9 @@ namespace GPUPrefSwitcherGUI
             RunTaskPluggedInCheckbox.Checked = current.RunTaskPluggedIn;
             RunOnBatteryCheckBox.Checked = current.RunTaskOnBattery;
             RealTimeLoggingCheckbox.Checked = current.EnableRealtimeLogging;
-            long orphanedSize = FileSwapper.GetOrphanedSize(
-                parentMainForm.appEntrySaver.CurrentAppEntries,
-                parentMainForm.appEntrySaver    
-                );
+            long orphanedSize = FileSwapperUtils.GetOrphanedSize(parentMainForm.appEntrySaver.CurrentAppEntries);
             FolderStatsLabel1.Text = $"Total size of orphaned files/folders: {orphanedSize / 1024d / 1024d:f4}MB";
-            long settingsBankSize = FileSwapper.GetSettingsBankDirectorySize();
+            long settingsBankSize = FileSwapperUtils.GetSettingsBankDirectorySize();
             FolderStatsLabel2.Text = $"Size of entire SettingsBank directory: {settingsBankSize / 1024d / 1024d:f4}MB";
 
             UpdateSpoofPowerStateComboBox();
@@ -291,10 +288,7 @@ namespace GPUPrefSwitcherGUI
 
             }
 
-            long orphanedSize = FileSwapper.GetOrphanedSize(
-                        parentMainForm.appEntrySaver.CurrentAppEntries,
-                        parentMainForm.appEntrySaver
-                    );
+            long orphanedSize = FileSwapperUtils.GetOrphanedSize(parentMainForm.appEntrySaver.CurrentAppEntries);
 
             DialogResult delete = MessageBox.Show(
                     "Would you like to delete all orphaned folders and files in the SettingsBank " +
