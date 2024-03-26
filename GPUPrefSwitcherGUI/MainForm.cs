@@ -12,6 +12,7 @@ namespace GPUPrefSwitcherGUI
     public partial class MainForm : Form
     {
 
+        //internal AppEntryLibrarian appEntrySaveHandlerCoordinator { get; private set; }
         internal AppEntrySaveHandler appEntrySaver { get; private set; }
 
         public MainForm()
@@ -98,6 +99,7 @@ namespace GPUPrefSwitcherGUI
         /// </summary>
         internal void UpdateGrid()
         {
+
             dataGridView1.Rows.Clear();
             //for each row
             for (int i = 0; i < appEntrySaver.CurrentAppEntries.Count; i++)
@@ -473,7 +475,6 @@ namespace GPUPrefSwitcherGUI
 
 
                         AppEntry newAppEntry = GetDefaultAppEntry(newPath) with { PendingAddToRegistry = true };
-                        appEntrySaver.AddAppEntryAndSave(newAppEntry);
 
                         UpdateGrid();
                         UpdateActionButtons();
@@ -543,7 +544,7 @@ namespace GPUPrefSwitcherGUI
                 selectedAppEntries.Add(appEntryFromRow(row.Index));
             }
 
-            appEntrySaver.RemoveAll(a => selectedAppEntries.Contains(a));
+            appEntrySaver.CurrentAppEntries.RemoveAll(a => selectedAppEntries.Contains(a));
 
             UpdateGrid();
             UpdateActionButtons();

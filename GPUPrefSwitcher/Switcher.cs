@@ -25,7 +25,7 @@ namespace GPUPrefSwitcher
         static AppOptions appOptions;
         private static SwitcherData switcherData;
 
-        public static AppEntrySaveHandler appEntrySaveHandler;
+        public static AppEntryLibrarian appEntryLibrarian;
 
         public static readonly string CRASHED_FILE_PATH = Path.Combine(Program.SavedDataPath + "CRASHED");
 
@@ -50,7 +50,7 @@ namespace GPUPrefSwitcher
             switcherData = SwitcherData.Initialize();
             Logger.inst.Log($"Initialized {nameof(SwitcherData)}.");
 
-            appEntrySaveHandler = new AppEntrySaveHandler(); //exceptions get thrown from this too if there are problems with the XML (e.g. syntax)
+            appEntryLibrarian = new AppEntryLibrarian(); //exceptions get thrown from this too if there are problems with the XML (e.g. syntax)
             Logger.inst.Log($"Initialized {nameof(AppEntrySaveHandler)}.");
 
             //SystemEvents.PowerModeChanged += HandlePowerChangeEvent; **NOT the right event, this is for resume/suspend
@@ -224,7 +224,9 @@ namespace GPUPrefSwitcher
             
             UpdateSeenInRegistryStatuses(); //sets the SeenInRegistry entry accordingly
 
+            AppEntrySaveHandler appEntrySaveHandler = await appEntryLibrarian.Borrow();
             Task swaps = BeginFileSwapLogic(currentPowerLineStatus, appEntrySaveHandler.CurrentAppEntries);
+            appEntryLibrarian.Return(appEntrySaveHandler);
 
             BeginTaskSchedulerLogic(currentPowerLineStatus);
 
@@ -260,6 +262,11 @@ namespace GPUPrefSwitcher
         private static void UpdateSeenInRegistryStatuses()
         {
             List<string> regPathValues = RegistryHelper.GetGpuPrefPathvalueNames().ToList();
+
+            var hold = appEntryLibrarian.Borrow();
+            hold.Wait();
+            AppEntrySaveHandler appEntrySaveHandler = hold.Result;
+
             IReadOnlyList<AppEntry> appEntries = appEntrySaveHandler.CurrentAppEntries;
 
             for (int i = 0; i < appEntries.Count; i++)
@@ -276,7 +283,9 @@ namespace GPUPrefSwitcher
                     appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { SeenInRegistry = false });
                 }
             }
-            //appEntrySaveHandler.SaveAppEntryChanges();
+            appEntrySaveHandler.SaveAppEntryChanges();
+
+            appEntryLibrarian.Return(appEntrySaveHandler);
         }
 
         private static async Task BeginFileSwapLogic(PowerLineStatus forPowerLineStatus, IEnumerable<AppEntry> forAppEntries)
@@ -287,19 +296,23 @@ namespace GPUPrefSwitcher
             bool fileSwapperFolderExists = Directory.Exists(FileSwapper.SwapPathFolder);
             if (!fileSwapperFolderExists) { Directory.CreateDirectory(FileSwapper.SwapPathFolder); }
 
+            var hold = appEntryLibrarian.Borrow();
+            hold.Wait();
+            AppEntrySaveHandler appEntrySaver = hold.Result;
+
             List<Task> fileSwapTasks = new();
             foreach (AppEntry appEntry in forAppEntries)
             {
-                var fileSwap = new FileSwapper(appEntry, appEntrySaveHandler);
+                var fileSwap = new FileSwapper(appEntry, appEntrySaver);
 
                 if (!appEntry.EnableFileSwapper) continue;
                 if (appEntry.FileSwapperPaths.Length == 0) continue;
 
-                Task fileSwapTask = fileSwap.InitiateFileSwaps(forPowerLineStatus, appEntrySaveHandler);
+                Task fileSwapTask = fileSwap.InitiateFileSwaps(forPowerLineStatus, appEntrySaver);
                 fileSwapTasks.Add(fileSwapTask);
-
             }
 
+            appEntryLibrarian.Return(appEntrySaver);
             await Task.WhenAll(fileSwapTasks);
 
             Logger.inst.Log("File swap logic finished.");
@@ -308,10 +321,17 @@ namespace GPUPrefSwitcher
         static string[] ignoreList = RegistryHelper.ignoreValues;
         private static RegAndXMLMatchState GetRegAndXmlMatchState()
         {
-            
+
             //TODO: get apps from UWP apps: https://stackoverflow.com/questions/50217328/get-icon-from-uwp-app
 
+            var hold = appEntryLibrarian.Borrow();
+            hold.Wait();
+            AppEntrySaveHandler appEntrySaveHandler = hold.Result;
+
             IEnumerable<string> xmlPaths = from appEntry in appEntrySaveHandler.CurrentAppEntries select appEntry.AppPath;
+
+            appEntryLibrarian.Return(appEntrySaveHandler);
+
             IEnumerable<string> registryPathValues = RegistryHelper.GetGpuPrefPathvalueNames();
 
             //DEBUG
@@ -338,7 +358,6 @@ namespace GPUPrefSwitcher
                 }
                     
             }
-
 
             foreach (string registryPathValue in registryPathValues)
             {
@@ -384,9 +403,13 @@ namespace GPUPrefSwitcher
         internal static void WriteRegistryToXML()
         {
 
+            var hold = appEntryLibrarian.Borrow();
+            hold.Wait();
+            AppEntrySaveHandler appEntrySaver = hold.Result;
+
             Logger.inst.Log("FixRegXmlMismatch running: ");
             List<string> regPathValues = RegistryHelper.GetGpuPrefPathvalueNames().ToList();
-            List<string> xmlPaths = (from appEntry in appEntrySaveHandler.CurrentAppEntries select appEntry.AppPath).ToList();
+            List<string> xmlPaths = (from appEntry in appEntrySaver.CurrentAppEntries select appEntry.AppPath).ToList();
 
             for (int i = 0; i < regPathValues.Count(); i++)
             {
@@ -420,7 +443,7 @@ namespace GPUPrefSwitcher
 
                     //TODO but there's no SwapPaths to use the above on lol
                     */
-                    appEntrySaveHandler.AddAppEntryAndSave(
+                    appEntrySaver.CurrentAppEntries.Add(
                             new AppEntry()
                             {
                                 AppPath = regPathValue,
@@ -436,15 +459,22 @@ namespace GPUPrefSwitcher
                                 SeenInRegistry = true //if we're adding from the registry, shouldn't this be true?
                             }
                         ); 
+                    appEntrySaver.SaveAppEntryChanges();
                     //appEntrySaveHandler.SaveAppEntryChanges();
                 }
             }
+
+            appEntryLibrarian.Return(appEntrySaver);
 
             Logger.inst.Log("Concluded Registry and XML mismatch fixing.");
         }
 
         internal static void WriteXMLToRegistry(PowerLineStatus powerLineStatus)
         {
+            var hold = appEntryLibrarian.Borrow();
+            hold.Wait();
+            AppEntrySaveHandler appEntrySaveHandler = hold.Result;
+
             IEnumerable<AppEntry> appEntries = appEntrySaveHandler.CurrentAppEntries;
 
             bool systemIsOnbattery = powerLineStatus == PowerLineStatus.Offline;
@@ -507,6 +537,7 @@ namespace GPUPrefSwitcher
 
                 }
             }
+            appEntryLibrarian.Return(appEntrySaveHandler);
 
         }
     }

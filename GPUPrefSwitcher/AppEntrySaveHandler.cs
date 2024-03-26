@@ -4,11 +4,93 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace GPUPrefSwitcher
 {
+
+    /// <summary>
+    /// Acts as an intermediary or interface with blocking for thread safety when using an <see cref="AppEntrySaveHandler"/>.
+    /// Usage idea/tip: each function should be responsible for its own borrow and return. That is, if a Task/async function "A"
+    /// borrows, and then calls another Task/async function "B" that *also* needs to borrow, then "A" should return it before 
+    /// awaiting "B".
+    /// </summary>
+    public class AppEntryLibrarian //you could call this AppEntrySaveHandlerCoordinator or AppEntrySaveHandlerThreadCoordinator but that's ridiculous
+    {
+
+        private SemaphoreSlim semaphoreSlim = new(1);
+
+        private AppEntrySaveHandler appEntrySaveHandler;
+
+        /// <summary>
+        /// You must call <see cref="Return(AppEntrySaveHandler)"/> after you're done with the <see cref="AppEntrySaveHandler"/> otherwise a deadlock will occur.
+        /// Throws <see cref="TimeoutException"/> if it waits longer than (a default of) 10 seconds.
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        /// <exception cref="TimeoutException"></exception>
+        public async Task<AppEntrySaveHandler> Borrow(int timeout = 10000)
+        {
+            try
+            {
+                bool inTime = await semaphoreSlim.WaitAsync(timeout);
+                if(!inTime)
+                {
+                    throw new TimeoutException($"Borrowing waited for too long. Check if every Borrow is followed by a Return");
+                }
+
+                return appEntrySaveHandler;
+
+            } finally
+            {
+                semaphoreSlim.Release();
+            }
+        }
+
+        /// <summary>
+        /// Similar to <see cref="Borrow(int)"/>, but instead of throwing an exception, simply returns null after the timeout.
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public async Task<AppEntrySaveHandler> TryBorrow(int timeout = 10000)
+        {
+            try
+            {
+                bool inTime = await semaphoreSlim.WaitAsync(timeout);
+                if (!inTime)
+                {
+                    return null;
+                }
+
+                return appEntrySaveHandler;
+
+            }
+            finally
+            {
+                semaphoreSlim.Release();
+            }
+        }
+
+        public void Return(AppEntrySaveHandler appEntrySaveHandler_)
+        {
+            if(appEntrySaveHandler != appEntrySaveHandler_)
+            {
+                throw new ArgumentException("the same AppEntrySaveHandler instance wasn't returned");
+            }
+
+            semaphoreSlim.Release();
+        }
+
+        public AppEntryLibrarian() 
+        {
+            appEntrySaveHandler = new AppEntrySaveHandler();
+        }
+    }
+
     /// <summary>
     /// Used for reading/writing save data for app GPU preferences (<see cref="AppEntry"/>'s).
+    /// 
+    /// This is not thread safe. For such cases, use this with a borrow/return pattern by instantiating an <see cref="AppEntryLibrarian"/>
     /// </summary>
     public class AppEntrySaveHandler
     {
@@ -17,7 +99,7 @@ namespace GPUPrefSwitcher
         /// </summary>
         private List<AppEntry> prevAppEntries;
 
-        public IReadOnlyList<AppEntry> CurrentAppEntries
+        public List<AppEntry> CurrentAppEntries
         {
             get
             {
@@ -28,14 +110,7 @@ namespace GPUPrefSwitcher
 
         public void RevertAppEntriesToPrevious()
         {
-            try
-            {
-                semaphoreSlim.Wait();
-                currentAppEntries = DeepCopyAppEntries(prevAppEntries);
-            } finally
-            {
-                semaphoreSlim.Release();
-            }
+            currentAppEntries = DeepCopyAppEntries(prevAppEntries);
         }
         private static List<AppEntry> DeepCopyAppEntries(List<AppEntry> appEntries)
         {
@@ -52,7 +127,7 @@ namespace GPUPrefSwitcher
             newList.AddRange(appEntryCopies);
             */
             List<AppEntry> newList = new();
-            foreach(AppEntry a in appEntries)
+            foreach (AppEntry a in appEntries)
             {
                 newList.Add((AppEntry)a.Clone());
             }
@@ -60,25 +135,15 @@ namespace GPUPrefSwitcher
             return newList;
         }
 
-        private SemaphoreSlim semaphoreSlim;
-
         internal readonly PreferencesXML PreferencesXML;
 
         public AppEntrySaveHandler()
         {
-            try
-            {
-                semaphoreSlim = new SemaphoreSlim(1);
 
-                semaphoreSlim.Wait();
-
-                PreferencesXML = new PreferencesXML();
-                prevAppEntries = PreferencesXML.GetAppEntries();
-                //currentAppEntries = PreferencesXML.GetAppEntries();
-                currentAppEntries = DeepCopyAppEntries(prevAppEntries);
-
-            } finally { semaphoreSlim.Release(); }
-            
+            PreferencesXML = new PreferencesXML();
+            prevAppEntries = PreferencesXML.GetAppEntries();
+            //currentAppEntries = PreferencesXML.GetAppEntries();
+            currentAppEntries = DeepCopyAppEntries(prevAppEntries);
 
             //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
             //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
@@ -86,28 +151,18 @@ namespace GPUPrefSwitcher
 
         public void ChangeAppEntryByPath(string path, AppEntry updatedAppEntry)
         {
-            try
-            {
-                Logger.inst.Log($"ChangeAppEntryByPath waiting on a semaphore ({path})");
-                semaphoreSlim.Wait();
-                Logger.inst.Log($"ChangeAppEntryByPath entered a semaphore ({path}).");
 
-                Logger.inst.Log($"Attempting to change \n {currentAppEntries.Single(x=>x.AppPath==path)}\n to \n {updatedAppEntry}");
+            Logger.inst.Log($"Attempting to change \n {currentAppEntries.Single(x => x.AppPath == path)}\n to \n {updatedAppEntry}");
 
-                //Logger.inst.Log($"prev: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
+            //Logger.inst.Log($"prev: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
 
-                int index = currentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path));
+            int index = currentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path));
 
-                currentAppEntries[index] = updatedAppEntry;
+            currentAppEntries[index] = updatedAppEntry;
 
-                SaveAppEntryChanges_Internal();
+            //SaveAppEntryChanges_Internal();
 
-                //Logger.inst.Log($"new: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
-            } finally
-            {
-                Logger.inst.Log($"ChangeAppEntryByPath released a semaphore ({path})");
-                semaphoreSlim.Release();
-            }
+            //Logger.inst.Log($"new: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
         }
 
         /*
@@ -128,16 +183,7 @@ namespace GPUPrefSwitcher
         /// </summary>
         public void SaveAppEntryChanges()
         {
-            try
-            {
-                semaphoreSlim.Wait();
-
-                SaveAppEntryChanges_Internal();
-                
-            } finally
-            {
-                semaphoreSlim.Release();
-            }
+            SaveAppEntryChanges_Internal();
         }
 
         private void SaveAppEntryChanges_Internal()
@@ -185,10 +231,10 @@ namespace GPUPrefSwitcher
             //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
 
             Logger.inst.Log($"Concluded saving. Differences: {differences.Count} Added: {needToAdd.Count} Removed: {needToRemoveFromXML.Count}");
-            if(differences.Count > 0)
+            if (differences.Count > 0)
             {
                 Logger.inst.Log("Changed:");
-                foreach(AppEntry appEntry in differences)
+                foreach (AppEntry appEntry in differences)
                 {
                     Logger.inst.Log(appEntry.ToString());
                 }
@@ -210,63 +256,55 @@ namespace GPUPrefSwitcher
 
         public bool AppEntriesHaveChangedFromLastSave()
         {
-            try {
-
-                semaphoreSlim.Wait();
-
-                if (prevAppEntries.SequenceEqual(CurrentAppEntries))
-                {
-                    return false;
-                }
-                else
-                {
-
-                    var diffs = currentAppEntries.Except(prevAppEntries);
-                    return true;//move to end for debug info
-                    foreach (AppEntry e in diffs)
-                    {
-
-                        Debug.WriteLine("CURRENT:");
-                        Debug.WriteLine(e.ToString());
-
-                        //WARNING: causes crash if Preferences.xml AppsList is empty
-                        var prev = prevAppEntries.Single(x => x.AppPath == e.AppPath);
-                        Debug.WriteLine("PREVIOUS:");
-                        Debug.WriteLine(prev.ToString());
-
-                        Debug.WriteLine(e.GetHashCode());
-                        Debug.WriteLine(prev.GetHashCode());
-
-                        Debug.WriteLine($"DIFFERENT?: {(e.Equals(prev) ? "no" : "yes")}");
-
-                        /*
-                        Debug.WriteLine(e.EnableFileSwapper.GetHashCode());
-                        Debug.WriteLine(prev.EnableFileSwapper.GetHashCode());
-                        */
-
-                        /*
-                        Debug.WriteLine(e.AppPath.GetHashCode());
-                        Debug.WriteLine(prev.AppPath.GetHashCode());
-                        */
-
-                        /*
-                        Debug.WriteLine(e.FileSwapperPaths.GetHashCode());
-                        Debug.WriteLine(prev.FileSwapperPaths.GetHashCode());
-                        Debug.WriteLine(e.SwapperStates.GetHashCode());
-                        Debug.WriteLine(prev.SwapperStates.GetHashCode());
-                        */
-
-                        /*
-                        Debug.WriteLine(e.getStringArrHash(e.FileSwapperPaths));
-                        Debug.WriteLine(prev.getStringArrHash(prev.FileSwapperPaths));
-                        Debug.WriteLine(e.getStringArrHash(e.SwapperStates));
-                        Debug.WriteLine(prev.getStringArrHash(prev.SwapperStates));
-                        */
-                    }
-                }
-            } finally
+            if (prevAppEntries.SequenceEqual(CurrentAppEntries))
             {
-                semaphoreSlim.Release();
+                return false;
+            }
+            else
+            {
+
+                var diffs = currentAppEntries.Except(prevAppEntries);
+                return true;//move to end for debug info
+                foreach (AppEntry e in diffs)
+                {
+
+                    Debug.WriteLine("CURRENT:");
+                    Debug.WriteLine(e.ToString());
+
+                    //WARNING: causes crash if Preferences.xml AppsList is empty
+                    var prev = prevAppEntries.Single(x => x.AppPath == e.AppPath);
+                    Debug.WriteLine("PREVIOUS:");
+                    Debug.WriteLine(prev.ToString());
+
+                    Debug.WriteLine(e.GetHashCode());
+                    Debug.WriteLine(prev.GetHashCode());
+
+                    Debug.WriteLine($"DIFFERENT?: {(e.Equals(prev) ? "no" : "yes")}");
+
+                    /*
+                    Debug.WriteLine(e.EnableFileSwapper.GetHashCode());
+                    Debug.WriteLine(prev.EnableFileSwapper.GetHashCode());
+                    */
+
+                    /*
+                    Debug.WriteLine(e.AppPath.GetHashCode());
+                    Debug.WriteLine(prev.AppPath.GetHashCode());
+                    */
+
+                    /*
+                    Debug.WriteLine(e.FileSwapperPaths.GetHashCode());
+                    Debug.WriteLine(prev.FileSwapperPaths.GetHashCode());
+                    Debug.WriteLine(e.SwapperStates.GetHashCode());
+                    Debug.WriteLine(prev.SwapperStates.GetHashCode());
+                    */
+
+                    /*
+                    Debug.WriteLine(e.getStringArrHash(e.FileSwapperPaths));
+                    Debug.WriteLine(prev.getStringArrHash(prev.FileSwapperPaths));
+                    Debug.WriteLine(e.getStringArrHash(e.SwapperStates));
+                    Debug.WriteLine(prev.getStringArrHash(prev.SwapperStates));
+                    */
+                }
             }
         }
 
