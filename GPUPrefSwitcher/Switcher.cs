@@ -225,8 +225,11 @@ namespace GPUPrefSwitcher
             UpdateSeenInRegistryStatuses(); //sets the SeenInRegistry entry accordingly
 
             AppEntrySaveHandler appEntrySaveHandler = await appEntryLibrarian.Borrow();
+            Logger.inst.Log("bruh");
             Task swaps = BeginFileSwapLogic(currentPowerLineStatus, appEntrySaveHandler.CurrentAppEntries);
+            Logger.inst.Log("bruh?");
             appEntryLibrarian.Return(appEntrySaveHandler);
+            Logger.inst.Log("bruh??");
 
             BeginTaskSchedulerLogic(currentPowerLineStatus);
 
