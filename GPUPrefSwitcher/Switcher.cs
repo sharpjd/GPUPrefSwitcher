@@ -296,9 +296,7 @@ namespace GPUPrefSwitcher
             bool fileSwapperFolderExists = Directory.Exists(FileSwapper.SwapPathFolder);
             if (!fileSwapperFolderExists) { Directory.CreateDirectory(FileSwapper.SwapPathFolder); }
 
-            var hold = appEntryLibrarian.Borrow();
-            hold.Wait();
-            AppEntrySaveHandler appEntrySaver = hold.Result;
+            AppEntrySaveHandler appEntrySaver = await appEntryLibrarian.Borrow();
 
             List<Task> fileSwapTasks = new();
             foreach (AppEntry appEntry in forAppEntries)
