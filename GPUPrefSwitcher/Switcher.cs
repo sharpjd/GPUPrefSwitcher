@@ -41,7 +41,7 @@ namespace GPUPrefSwitcher
         /// <summary>
         /// Call once upon service start. Initializes necessary components and starts the timer.
         /// </summary>
-        internal static void Start()
+        internal static void Start(CancellationToken cancellationToken)
         {
             appOptions = new AppOptions();
             Logger.inst.EnableRealtimeStandardLogWrites = appOptions.CurrentOptions.EnableRealtimeLogging;
@@ -70,7 +70,7 @@ namespace GPUPrefSwitcher
 
             File.Delete(CRASHED_FILE_PATH);//"successful" initialization yippee
 
-            Task forever = BeginTimerForever();
+            Task forever = BeginTimerForever(cancellationToken);
 
             /*
             forever.ContinueWith(
@@ -119,15 +119,16 @@ namespace GPUPrefSwitcher
         /// <summary>
         /// There should be only one of this running at any time.
         /// </summary>
-        private static async Task BeginTimerForever()
+        private static Task BeginTimerForever(CancellationToken cancellationToken)
         {
             if (timerRunning) { throw new InvalidOperationException("This function cannot be called more than once"); }
             timerRunning = true;
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
 
-                foreach(Task task in runningUpdateTasks)
+                for (int i = runningUpdateTasks.Count - 1; i >= 0; i--)
                 {
+                    Task task = runningUpdateTasks[i];
                     //TODO run a new task even if the previous one is going
                     if (task != null && task.IsFaulted)
                     {
@@ -145,8 +146,10 @@ namespace GPUPrefSwitcher
 
                 runningUpdateTasks.Add(RunUpdateLogic());
 
-                await Task.Delay(updateInterval); //move this to the beginning to make debugging easier
+                Task.Delay(updateInterval).Wait(); //move this to the beginning to make debugging easier
             }
+
+            return Task.CompletedTask;
         }
 
         private static async Task RunUpdateLogic()
