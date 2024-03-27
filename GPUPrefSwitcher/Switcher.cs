@@ -123,7 +123,6 @@ namespace GPUPrefSwitcher
             timerRunning = true;
             while (true)
             {
-                await Task.Delay(updateInterval);
 
                 /*
                  * Only ever run one of this task at once
@@ -145,6 +144,8 @@ namespace GPUPrefSwitcher
                     Task run = RunUpdateLogic();
                     runningUpdateTask = run;
                 }
+
+                await Task.Delay(updateInterval); //move this to the beginning to make debugging easier
             }
         }
 
