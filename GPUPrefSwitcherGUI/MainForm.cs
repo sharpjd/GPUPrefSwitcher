@@ -429,7 +429,7 @@ namespace GPUPrefSwitcherGUI
         private void OptionsButton_Click(object sender, EventArgs e)
         {
             var form = new OptionsForm(this);
-            form.Show();
+            form.ShowDialog();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
