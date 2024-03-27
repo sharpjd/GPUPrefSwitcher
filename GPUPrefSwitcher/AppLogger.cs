@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -263,11 +264,13 @@ namespace GPUPrefSwitcher
         {
             await semaphoreSlim_Standard.WaitAsync();
 
+            string sanitized = Regex.Replace(str, @"\\Users\\[^\\]+\\", "<redacted>");
+
             try
             {
-                await outputFile_Standard.WriteLineAsync(str);
+                await outputFile_Standard.WriteLineAsync(sanitized);
                 await outputFile_Standard.FlushAsync();
-                System.Diagnostics.Debug.WriteLine(str);
+                System.Diagnostics.Debug.WriteLine(sanitized);
             }
             finally
             {
@@ -286,11 +289,13 @@ namespace GPUPrefSwitcher
 
             await semaphoreSlim_Error.WaitAsync();
 
+            string sanitized = Regex.Replace(str, @"\\Users\\[^\\]+\\", "<redacted>");
+
             try
             {
-                await outputFile_Error.WriteLineAsync(str);
+                await outputFile_Error.WriteLineAsync(sanitized);
                 await outputFile_Error.FlushAsync();
-                System.Diagnostics.Debug.WriteLine(str);
+                System.Diagnostics.Debug.WriteLine(sanitized);
             }
             finally
             {
