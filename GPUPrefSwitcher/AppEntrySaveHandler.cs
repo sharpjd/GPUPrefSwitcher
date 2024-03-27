@@ -134,22 +134,14 @@ namespace GPUPrefSwitcher
             //currentAppEntries = PreferencesXML.GetAppEntries();
             currentAppEntries = DeepCopyAppEntries(prevAppEntries);
 
-            //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-            //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
         }
 
         public void ChangeAppEntryByPath(string path, AppEntry updatedAppEntry)
         {
 
-            //Logger.inst.Log($"Attempting to change \n {currentAppEntries.Single(x => x.AppPath == path)}\n to \n {updatedAppEntry}");
-
-            //Logger.inst.Log($"prev: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
-
             int index = currentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path));
 
             currentAppEntries[index] = updatedAppEntry;
-
-            //SaveAppEntryChanges_Internal();
 
             //Logger.inst.Log($"new: {CurrentAppEntries[CurrentAppEntries.IndexOf(CurrentAppEntries.Single(x => x.AppPath == path))]}");
         }
@@ -177,8 +169,6 @@ namespace GPUPrefSwitcher
 
         private void SaveAppEntryChanges_Internal()
         {
-            //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-            //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
             List<AppEntry> differences = new();
             //differences.AddRange(currentAppEntries.Where(entry => NotSameOrInPrevAppEntries(entry)));
             foreach(AppEntry a in currentAppEntries)
@@ -220,9 +210,6 @@ namespace GPUPrefSwitcher
 
             prevAppEntries = DeepCopyAppEntries(currentAppEntries); //update the saved entries
 
-            //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-            //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-
             Logger.inst.Log($"Concluded saving. Differences: {differences.Count} Added: {needToAdd.Count} Removed: {needToRemoveFromXML.Count}");
 
             /*
@@ -238,14 +225,6 @@ namespace GPUPrefSwitcher
 
             bool NotSameOrInPrevAppEntries(AppEntry appEntry)
             {
-                /*
-                if (appEntry.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe")
-                {
-                    Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-                    Logger.inst.Log(CurrentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
-                    Logger.inst.Log($"{appEntry} not in prev app entries: {!prevAppEntries.Contains(appEntry)}");
-                }
-                */
                 return !prevAppEntries.Contains(appEntry); //Contains uses Equals() which is implemented in AppEntry
             }
         }

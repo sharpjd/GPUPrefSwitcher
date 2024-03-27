@@ -19,44 +19,6 @@ namespace GPUPrefSwitcher
     /// </summary>
     public class PreferencesXML
     {
-        /*
-        public class ThreadSafeXmlDoc
-        {
-            //private XmlDocument xmlDocument = new XmlDocument();
-            private SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1);
-            private XmlDocument xmlDocument = new();
-
-            public void Load(string path)
-            {
-                SemaphoreSlim.Wait();
-                try
-                {
-                    xmlDocument.Load(path);
-                }
-                finally { SemaphoreSlim.Release(); }
-            }
-
-            public void Save(string path)
-            {
-                SemaphoreSlim.Wait();
-                try
-                {
-                    xmlDocument.Save(path);
-                }
-                finally { SemaphoreSlim.Release(); }
-            }
-
-            public XmlNodeList GetElementsByTagName(string tagName)
-            {
-                SemaphoreSlim.Wait();
-                try
-                {
-                    return xmlDocument.GetElementsByTagName(tagName);
-                }
-                finally { SemaphoreSlim.Release() ; }
-            }
-        }
-        */
         
 
         public static readonly string XML_PREFERENCES_PATH = Program.SavedDataPath + "Preferences.xml";
@@ -160,80 +122,69 @@ namespace GPUPrefSwitcher
         /// <returns>A readonly list of AppEntries; you must call the modify or save functions to actually change these in the XML document.</returns>
         internal List<AppEntry> GetAppEntries()
         {
+            xmlDocument.Load(XML_PREFERENCES_PATH); //performance hog?
 
-            //try
-            //{
-                //semaphoreSlim.Wait();
+            XmlNodeList xmlAppEntries = xmlDocument.GetElementsByTagName(XML_APP_ENTRY);
 
-                xmlDocument.Load(XML_PREFERENCES_PATH); //performance hog?
+            List<AppEntry> appEntries = new List<AppEntry>();
 
-                XmlNodeList xmlAppEntries = xmlDocument.GetElementsByTagName(XML_APP_ENTRY);
-
-                List<AppEntry> appEntries = new List<AppEntry>();
-
-                foreach (XmlNode xmlAppEntry in xmlAppEntries)
-                {
-
-                    string appPath;
-                    bool enableSwitcher;
-                    int gpuPrefOnBattery;
-                    int gpuPrefPluggedIn;
-                    bool enableFileSwapper;
-                    string runOnBatteryPath;
-                    string runPluggedInPath;
-                    bool seenInRegistry;
-
-                    appPath = xmlAppEntry.SelectSingleNode(XML_APP_PATH).InnerText;
-                    //Debug.WriteLine(appPath);
-                    XmlNode xmlGpuPreference = xmlAppEntry.SelectSingleNode(XML_GPU_PREFERENCE);
-                    enableSwitcher = bool.Parse(xmlGpuPreference.Attributes[XML_ATTR_ENABLESWITCHER].Value);
-                    gpuPrefOnBattery = int.Parse(xmlGpuPreference.SelectSingleNode(XML_ON_BATTERY).InnerText);
-                    gpuPrefPluggedIn = int.Parse(xmlGpuPreference.SelectSingleNode(XML_PLUGGED_IN).InnerText);
-                    enableFileSwapper = bool.Parse(xmlGpuPreference.Attributes[XML_ATTR_ENABLEFILESWAPPER].Value);
-                    runOnBatteryPath = xmlGpuPreference.SelectSingleNode(XML_RUN_ON_BATTERY_PATH).InnerText;
-                    runPluggedInPath = xmlGpuPreference.SelectSingleNode(XML_RUN_PLUGGED_IN_PATH).InnerText;
-                    seenInRegistry = bool.Parse(xmlAppEntry.SelectSingleNode(XML_SEEN_IN_REGISTRY).InnerText);
-
-                    string[] swapPaths = GetAppEntryFileSwapperPaths(xmlAppEntry);
-
-                    bool pendingAddToRegistry = false;
-                    if (xmlAppEntry.SelectSingleNode(XML_PENDING_ADD) != null)
-                    {
-                        pendingAddToRegistry = true;
-                    }
-
-                    string[] fileSwapPathStatus = new string[swapPaths.Length];
-                    XmlNodeList swapPathNodes = GetAppEntryFileSwapperXmlNodes(xmlAppEntry);
-                    for (int i = 0; i < swapPaths.Length; i++)
-                    {
-                        string state = swapPathNodes[i].Attributes["state"].Value;
-                        fileSwapPathStatus[i] = state;
-                    }
-
-                    appEntries.Add(
-                            new AppEntry()
-                            {
-                                AppPath = appPath,
-                                EnableSwitcher = enableSwitcher,
-                                GPUPrefOnBattery = gpuPrefOnBattery,
-                                GPUPrefPluggedIn = gpuPrefPluggedIn,
-                                EnableFileSwapper = enableFileSwapper,
-                                FileSwapperPaths = swapPaths,
-                                SwapperStates = PowerLineStatusConversions.StringArrToPowerLineStatusArr(fileSwapPathStatus),
-                                PendingAddToRegistry = pendingAddToRegistry,
-                                RunOnBatteryPath = runOnBatteryPath,
-                                RunPluggedInPath = runPluggedInPath,
-                                SeenInRegistry = seenInRegistry,
-                            }
-                        );
-                }
-                return appEntries;
-            /*
-            } finally
+            foreach (XmlNode xmlAppEntry in xmlAppEntries)
             {
-                semaphoreSlim.Release();
+
+                string appPath;
+                bool enableSwitcher;
+                int gpuPrefOnBattery;
+                int gpuPrefPluggedIn;
+                bool enableFileSwapper;
+                string runOnBatteryPath;
+                string runPluggedInPath;
+                bool seenInRegistry;
+
+                appPath = xmlAppEntry.SelectSingleNode(XML_APP_PATH).InnerText;
+                //Debug.WriteLine(appPath);
+                XmlNode xmlGpuPreference = xmlAppEntry.SelectSingleNode(XML_GPU_PREFERENCE);
+                enableSwitcher = bool.Parse(xmlGpuPreference.Attributes[XML_ATTR_ENABLESWITCHER].Value);
+                gpuPrefOnBattery = int.Parse(xmlGpuPreference.SelectSingleNode(XML_ON_BATTERY).InnerText);
+                gpuPrefPluggedIn = int.Parse(xmlGpuPreference.SelectSingleNode(XML_PLUGGED_IN).InnerText);
+                enableFileSwapper = bool.Parse(xmlGpuPreference.Attributes[XML_ATTR_ENABLEFILESWAPPER].Value);
+                runOnBatteryPath = xmlGpuPreference.SelectSingleNode(XML_RUN_ON_BATTERY_PATH).InnerText;
+                runPluggedInPath = xmlGpuPreference.SelectSingleNode(XML_RUN_PLUGGED_IN_PATH).InnerText;
+                seenInRegistry = bool.Parse(xmlAppEntry.SelectSingleNode(XML_SEEN_IN_REGISTRY).InnerText);
+
+                string[] swapPaths = GetAppEntryFileSwapperPaths(xmlAppEntry);
+
+                bool pendingAddToRegistry = false;
+                if (xmlAppEntry.SelectSingleNode(XML_PENDING_ADD) != null)
+                {
+                    pendingAddToRegistry = true;
+                }
+
+                string[] fileSwapPathStatus = new string[swapPaths.Length];
+                XmlNodeList swapPathNodes = GetAppEntryFileSwapperXmlNodes(xmlAppEntry);
+                for (int i = 0; i < swapPaths.Length; i++)
+                {
+                    string state = swapPathNodes[i].Attributes["state"].Value;
+                    fileSwapPathStatus[i] = state;
+                }
+
+                appEntries.Add(
+                        new AppEntry()
+                        {
+                            AppPath = appPath,
+                            EnableSwitcher = enableSwitcher,
+                            GPUPrefOnBattery = gpuPrefOnBattery,
+                            GPUPrefPluggedIn = gpuPrefPluggedIn,
+                            EnableFileSwapper = enableFileSwapper,
+                            FileSwapperPaths = swapPaths,
+                            SwapperStates = PowerLineStatusConversions.StringArrToPowerLineStatusArr(fileSwapPathStatus),
+                            PendingAddToRegistry = pendingAddToRegistry,
+                            RunOnBatteryPath = runOnBatteryPath,
+                            RunPluggedInPath = runPluggedInPath,
+                            SeenInRegistry = seenInRegistry,
+                        }
+                    );
             }
-            */
+            return appEntries;
 
         }
 
