@@ -20,10 +20,7 @@ namespace GPUPrefSwitcher
 
         private SemaphoreSlim semaphoreSlim = new(1);
 
-        /// <summary>
-        /// No thread safety is provided. Directly accesses the <see cref="AppEntrySaveHandler"/>. 
-        /// </summary>
-        public AppEntrySaveHandler appEntrySaveHandler;
+        private AppEntrySaveHandler appEntrySaveHandler;
 
         /// <summary>
         /// You must call <see cref="Return(AppEntrySaveHandler)"/> after you're done with the <see cref="AppEntrySaveHandler"/> otherwise a deadlock will occur.
@@ -34,20 +31,15 @@ namespace GPUPrefSwitcher
         /// <exception cref="TimeoutException"></exception>
         public async Task<AppEntrySaveHandler> Borrow(int timeout = 10000)
         {
-            try
+            //Logger.inst.Log("Waiting to borrow.");
+            bool inTime = await semaphoreSlim.WaitAsync(timeout);
+            if(!inTime)
             {
-                bool inTime = await semaphoreSlim.WaitAsync(timeout);
-                if(!inTime)
-                {
-                    throw new TimeoutException($"Borrowing waited for too long. Check if every Borrow is followed by a Return");
-                }
-
-                return appEntrySaveHandler;
-
-            } finally
-            {
-                semaphoreSlim.Release();
+                throw new TimeoutException($"Borrowing waited for too long. Check if every Borrow is followed by a Return");
             }
+
+            //Logger.inst.Log("Borrowed.");
+            return appEntrySaveHandler;
         }
 
         /// <summary>
@@ -57,21 +49,13 @@ namespace GPUPrefSwitcher
         /// <returns></returns>
         public async Task<AppEntrySaveHandler> TryBorrow(int timeout = 10000)
         {
-            try
+            bool inTime = await semaphoreSlim.WaitAsync(timeout);
+            if (!inTime)
             {
-                bool inTime = await semaphoreSlim.WaitAsync(timeout);
-                if (!inTime)
-                {
-                    return null;
-                }
-
-                return appEntrySaveHandler;
-
+                return null;
             }
-            finally
-            {
-                semaphoreSlim.Release();
-            }
+
+            return appEntrySaveHandler;
         }
 
         public void Return(AppEntrySaveHandler appEntrySaveHandler_)
@@ -80,8 +64,10 @@ namespace GPUPrefSwitcher
             {
                 throw new ArgumentException("the same AppEntrySaveHandler instance wasn't returned");
             }
-
+            
             semaphoreSlim.Release();
+
+            //Logger.inst.Log("Returned.");
         }
 
         public AppEntryLibrarian() 
@@ -194,7 +180,11 @@ namespace GPUPrefSwitcher
             //Logger.inst.Log(currentAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
             //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
             List<AppEntry> differences = new();
-            differences.AddRange(currentAppEntries.Where(entry => NotSameOrInPrevAppEntries(entry)));
+            //differences.AddRange(currentAppEntries.Where(entry => NotSameOrInPrevAppEntries(entry)));
+            foreach(AppEntry a in currentAppEntries)
+            {
+                if(NotSameOrInPrevAppEntries(a)) differences.Add(a);
+            }
 
             List<string> existingAppPaths = new List<string>(from appEntry in PreferencesXML.GetAppEntries() select appEntry.AppPath);
             List<AppEntry> needToAdd = new();
@@ -234,14 +224,17 @@ namespace GPUPrefSwitcher
             //Logger.inst.Log(prevAppEntries.Single(x => x.AppPath == "F:\\SteamLibrary\\steamapps\\common\\Apex Legends\\r5apex.exe").ToString());
 
             Logger.inst.Log($"Concluded saving. Differences: {differences.Count} Added: {needToAdd.Count} Removed: {needToRemoveFromXML.Count}");
+
+            /*
             if (differences.Count > 0)
             {
-                Logger.inst.Log("Changed:");
+                //Logger.inst.Log("Changed:");
                 foreach (AppEntry appEntry in differences)
                 {
                     Logger.inst.Log(appEntry.ToString());
                 }
             }
+            */
 
             bool NotSameOrInPrevAppEntries(AppEntry appEntry)
             {

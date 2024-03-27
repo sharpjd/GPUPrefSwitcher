@@ -225,8 +225,11 @@ namespace GPUPrefSwitcher
             UpdateSeenInRegistryStatuses(); //sets the SeenInRegistry entry accordingly
 
             AppEntrySaveHandler appEntrySaveHandler = await appEntryLibrarian.Borrow();
+            Logger.inst.Log("bruh");
             Task swaps = BeginFileSwapLogic(currentPowerLineStatus, appEntrySaveHandler.CurrentAppEntries);
+            Logger.inst.Log("bruh?");
             appEntryLibrarian.Return(appEntrySaveHandler);
+            Logger.inst.Log("bruh??");
 
             BeginTaskSchedulerLogic(currentPowerLineStatus);
 
@@ -296,9 +299,7 @@ namespace GPUPrefSwitcher
             bool fileSwapperFolderExists = Directory.Exists(FileSwapper.SwapPathFolder);
             if (!fileSwapperFolderExists) { Directory.CreateDirectory(FileSwapper.SwapPathFolder); }
 
-            var hold = appEntryLibrarian.Borrow();
-            hold.Wait();
-            AppEntrySaveHandler appEntrySaver = hold.Result;
+            AppEntrySaveHandler appEntrySaver = await appEntryLibrarian.Borrow();
 
             List<Task> fileSwapTasks = new();
             foreach (AppEntry appEntry in forAppEntries)

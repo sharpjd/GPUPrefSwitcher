@@ -295,15 +295,19 @@ namespace GPUPrefSwitcher
                         goto TryAgain;
                     }
 
-                    AppEntry modified = AppEntry; //struct copy
+                    AppEntrySaveHandler appEntrySaveHandler = await AppEntryLibrarian.Borrow();
+                    //prevent race conditions (that is, prevent overwriting other writes with old data)
+                    AppEntry mostRecent = appEntrySaveHandler.CurrentAppEntries.Single(x => x.AppPath == AppEntry.AppPath);
+
+                    AppEntry modified = mostRecent; //struct copy
                     modified.SwapperStates[swapPathIndex] = PowerLineStatus.Offline;
 
                     Logger.inst.Log($"Saving SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}");
                     //await new Task(new Action( () => preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified)));
 
-                    AppEntrySaveHandler appEntrySaveHandler = await AppEntryLibrarian.Borrow();
                     appEntrySaveHandler.ChangeAppEntryByPath(AppEntry.AppPath, modified);
                     appEntrySaveHandler.SaveAppEntryChanges();
+
                     AppEntryLibrarian.Return(appEntrySaveHandler);
 
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
@@ -347,12 +351,16 @@ namespace GPUPrefSwitcher
                         goto TryAgain;
                     }
 
-                    AppEntry modified = AppEntry; //struct copy
+                    AppEntrySaveHandler appEntrySaveHandler = await AppEntryLibrarian.Borrow();
+                    //prevent race conditions (that is, prevent overwriting other writes with old data)
+                    AppEntry mostRecent = appEntrySaveHandler.CurrentAppEntries.Single(x => x.AppPath == AppEntry.AppPath);
+
+                    AppEntry modified = mostRecent; //struct copy
                     modified.SwapperStates[swapPathIndex] = PowerLineStatus.Online;
 
-                    AppEntrySaveHandler appEntrySaveHandler = await AppEntryLibrarian.Borrow();
                     appEntrySaveHandler.ChangeAppEntryByPath(AppEntry.AppPath, modified);
                     appEntrySaveHandler.SaveAppEntryChanges();
+
                     AppEntryLibrarian.Return(appEntrySaveHandler);
 
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
