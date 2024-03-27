@@ -12,6 +12,7 @@ namespace GPUPrefSwitcherGUI
     public partial class MainForm : Form
     {
 
+        //internal AppEntryLibrarian appEntrySaveHandlerCoordinator { get; private set; }
         internal AppEntrySaveHandler appEntrySaver { get; private set; }
 
         public MainForm()
@@ -98,6 +99,7 @@ namespace GPUPrefSwitcherGUI
         /// </summary>
         internal void UpdateGrid()
         {
+
             dataGridView1.Rows.Clear();
             //for each row
             for (int i = 0; i < appEntrySaver.CurrentAppEntries.Count; i++)
@@ -227,7 +229,7 @@ namespace GPUPrefSwitcherGUI
             }
 
             AppEntry updatedAppEntry = appEntryFromRow(e.RowIndex);
-            appEntrySaver.UpdateAppEntryByPath(updatedAppEntry.AppPath, updatedAppEntry);
+            appEntrySaver.ChangeAppEntryByPath(updatedAppEntry.AppPath, updatedAppEntry);
 
             if (e.ColumnIndex == ConfigureCol)
             {
@@ -237,7 +239,7 @@ namespace GPUPrefSwitcherGUI
                 if (form.DialogResult == DialogResult.OK)
                 {
                     AppEntry returned = form.CurrentAppEntry;
-                    appEntrySaver.UpdateAppEntryByPath(updatedAppEntry.AppPath, returned);
+                    appEntrySaver.ChangeAppEntryByPath(updatedAppEntry.AppPath, returned);
                     UpdateGrid();
                 }
 
@@ -302,7 +304,7 @@ namespace GPUPrefSwitcherGUI
             //object updatedValue = dataGridView1[e.ColumnIndex, e.RowIndex].Value;
 
             AppEntry updatedAppEntry = appEntryFromRow(e.RowIndex);
-            appEntrySaver.UpdateAppEntryByPath(updatedAppEntry.AppPath, updatedAppEntry);
+            appEntrySaver.ChangeAppEntryByPath(updatedAppEntry.AppPath, updatedAppEntry);
 
             //this should come after replacing the AppEntry
             UpdateActionButtons();
@@ -427,7 +429,7 @@ namespace GPUPrefSwitcherGUI
         private void OptionsButton_Click(object sender, EventArgs e)
         {
             var form = new OptionsForm(this);
-            form.Show();
+            form.ShowDialog();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -473,7 +475,6 @@ namespace GPUPrefSwitcherGUI
 
 
                         AppEntry newAppEntry = GetDefaultAppEntry(newPath) with { PendingAddToRegistry = true };
-                        appEntrySaver.CurrentAppEntries.Add(newAppEntry);
 
                         UpdateGrid();
                         UpdateActionButtons();

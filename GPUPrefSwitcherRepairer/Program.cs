@@ -2,7 +2,7 @@ namespace GPUPrefSwitcherRepairer
 {
     internal static class Program
     {
-        public static readonly string SavedDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppData/");
+        public static readonly string SavedDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppData\\");
 
         /// <summary>
         ///  The main entry point for the application.

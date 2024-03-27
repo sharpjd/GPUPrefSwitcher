@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -95,7 +96,7 @@ namespace GPUPrefSwitcher
             logger.outputFile_Error.WriteLine(); //prepend newlines, looks better
             logger.outputFile_Standard.WriteLine();
 
-            logger.ErrorLog("---<<<<< BEGIN ERROR LOG SESSION >>>>>--- \n(Note that newer logs go at the end of the file, you can press CTRL+END to skip there in most editors)\n").Wait();
+            logger.ErrorLog("---<<<<< BEGIN ERROR LOG SESSION >>>>>--- \n(Note that newer logs go at the end of the file, you can press CTRL+END to skip there in most editors)\n");
             logger.ForceStandardLog("---<<<<< BEGIN STANDARD LOG SESSION >>>>>--- \n(Note that newer logs go at the end of the file, you can press CTRL+END to skip there in most editors)\n");
 
             //AppDomain.CurrentDomain.FirstChanceException += (sender, e) => //FirstChanceException triggers upon ALL exceptions, even those caught; this is excessive, and they can still be observed from Event Viewer
@@ -105,8 +106,8 @@ namespace GPUPrefSwitcher
             {
                 logger.DumpStandardLogBufferToStandardLog().Wait();
                 logger.DumpStandardLogBufferToErrorLog().Wait(); //do this before the app terminates
-                logger.ErrorLog("<<<AN UNHANDLED ERROR HAS OCCURRED>>>").Wait();
-                logger.ErrorLog(e.ExceptionObject.ToString()).Wait();
+                logger.ErrorLog("<<<AN UNHANDLED ERROR HAS OCCURRED>>>");
+                logger.ErrorLog(e.ExceptionObject.ToString());
             };
 
             //useful for capturing fire-and-forget tasks that error out
@@ -115,8 +116,8 @@ namespace GPUPrefSwitcher
             {
                 logger.DumpStandardLogBufferToStandardLog().Wait();
                 logger.DumpStandardLogBufferToErrorLog().Wait(); //do this before the app terminates
-                logger.ErrorLog("<<<AN UNOBSERVED TASK EXCEPTION HAS OCCURRED>>>").Wait();
-                logger.ErrorLog(e.Exception.ToString()).Wait();
+                logger.ErrorLog("<<<AN UNOBSERVED TASK EXCEPTION HAS OCCURRED>>>");
+                logger.ErrorLog(e.Exception.ToString());
                 
             };
 
@@ -173,7 +174,7 @@ namespace GPUPrefSwitcher
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public Task ErrorLog(string str)
+        public void ErrorLog(string str)
         {
 
             errorLogCount += 1;
@@ -181,8 +182,7 @@ namespace GPUPrefSwitcher
             string toPrint = $"[(T:{TotalLogCount}, {errorLogCount}) {DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")}]: {str}";
 
             semaphoreSlim_Error.AvailableWaitHandle.WaitOne();//block if unavailable
-
-            return WriteAsyncInternal_Error(toPrint);
+            _ = WriteAsyncInternal_Error(toPrint);
         }
 
         public int GlobalLogLevel
@@ -230,6 +230,7 @@ namespace GPUPrefSwitcher
             {
                 semaphoreSlim_Standard.AvailableWaitHandle.WaitOne();//block if there's still a write in progress
                 _ = WriteAsyncInternal_Standard(toWrite);
+                //WriteAsyncInternal_Standard(toWrite).Wait();
             }
             
             StandardLogBuffer.Add(toWrite);
@@ -263,11 +264,13 @@ namespace GPUPrefSwitcher
         {
             await semaphoreSlim_Standard.WaitAsync();
 
+            string sanitized = Regex.Replace(str, @"\\Users\\[^\\]+\\", "<redacted>");
+
             try
             {
-                await outputFile_Standard.WriteLineAsync(str);
+                await outputFile_Standard.WriteLineAsync(sanitized);
                 await outputFile_Standard.FlushAsync();
-                System.Diagnostics.Debug.WriteLine(str);
+                System.Diagnostics.Debug.WriteLine(sanitized);
             }
             finally
             {
@@ -286,11 +289,13 @@ namespace GPUPrefSwitcher
 
             await semaphoreSlim_Error.WaitAsync();
 
+            string sanitized = Regex.Replace(str, @"\\Users\\[^\\]+\\", "<redacted>");
+
             try
             {
-                await outputFile_Error.WriteLineAsync(str);
+                await outputFile_Error.WriteLineAsync(sanitized);
                 await outputFile_Error.FlushAsync();
-                System.Diagnostics.Debug.WriteLine(str);
+                System.Diagnostics.Debug.WriteLine(sanitized);
             }
             finally
             {

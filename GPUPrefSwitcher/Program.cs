@@ -12,7 +12,7 @@ namespace GPUPrefSwitcher
     public static class Program
     {
         const string ServiceName = "GPUPrefSwitcher";
-        public static readonly string SavedDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppData/");
+        public static readonly string SavedDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppData\\");
 
         /// <summary>
         /// Entry point of the entire app

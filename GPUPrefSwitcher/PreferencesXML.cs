@@ -14,40 +14,18 @@ namespace GPUPrefSwitcher
         //They support directly reading line number
 
     /// <summary>
-    /// Reads the XML which contains AppEntry data. Must be instantiated.
+    /// YOU SHOULD BE USING <see cref="AppEntrySaveHandler"/> to manipulate data from other classes. Reads the XML which contains AppEntry data. Must be instantiated.
+    /// 
+    /// Warning: many private/internal functions are not thread safe
     /// </summary>
     public class PreferencesXML
     {
-        public class ThreadSafeXmlDoc : XmlDocument
-        {
-            //private XmlDocument xmlDocument = new XmlDocument();
-            private SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1);
-
-            public override void Load(string path)
-            {
-                SemaphoreSlim.Wait();
-                try
-                {
-                    base.Load(path);
-                }
-                finally { SemaphoreSlim.Release(); }
-            }
-
-            public override void Save(string path)
-            {
-                SemaphoreSlim.Wait();
-                try
-                {
-                    base.Save(path);
-                }
-                finally { SemaphoreSlim.Release(); }
-            }
-        }
+        
 
         public static readonly string XML_PREFERENCES_PATH = Program.SavedDataPath + "Preferences.xml";
-        private ThreadSafeXmlDoc threadSafeXmlDoc = new ThreadSafeXmlDoc();
+        private XmlDocument xmlDocument = new();
 
-        public PreferencesXML()
+        internal PreferencesXML()
         {
 
             try
@@ -88,6 +66,7 @@ namespace GPUPrefSwitcher
             */
         }
 
+        /*
         internal void ReloadXML()
         {
             try
@@ -99,6 +78,7 @@ namespace GPUPrefSwitcher
                 throw;
             }
         }
+        */
 
         internal const string XML_APP_PATH = "Path";
         internal const string XML_APP_ENTRY = "AppEntry";
@@ -141,12 +121,11 @@ namespace GPUPrefSwitcher
         /// 
         /// </summary>
         /// <returns>A readonly list of AppEntries; you must call the modify or save functions to actually change these in the XML document.</returns>
-        public List<AppEntry> GetAppEntries()
+        internal List<AppEntry> GetAppEntries()
         {
+            xmlDocument.Load(XML_PREFERENCES_PATH); //performance hog?
 
-            //ReloadXML(); //performance hog?
-
-            XmlNodeList xmlAppEntries = threadSafeXmlDoc.GetElementsByTagName(XML_APP_ENTRY);
+            XmlNodeList xmlAppEntries = xmlDocument.GetElementsByTagName(XML_APP_ENTRY);
 
             List<AppEntry> appEntries = new List<AppEntry>();
 
@@ -207,21 +186,24 @@ namespace GPUPrefSwitcher
                     );
             }
             return appEntries;
+
         }
 
+        /*
         public IEnumerable<string> GetAppPaths()
         {
+            xmlDocument.Load(XML_PREFERENCES_PATH);
 
-            ReloadXML();
-            XmlNodeList pathEntries = threadSafeXmlDoc.GetElementsByTagName(XML_APP_PATH);
+            XmlNodeList pathEntries = xmlDocument.GetElementsByTagName(XML_APP_PATH);
 
             foreach (XmlNode pathEntryNode in pathEntries)
             {
                 yield return pathEntryNode.InnerText;
             }
         }
+        */
 
-        string[] GetAppEntryFileSwapperPaths(XmlNode appEntry)
+        internal string[] GetAppEntryFileSwapperPaths(XmlNode appEntry)
         {
             XmlNode fileSwapper = appEntry.SelectSingleNode(XML_FILE_SWAPPER);
             var nodes = fileSwapper.SelectNodes(XML_SWAP_PATH);
@@ -235,13 +217,13 @@ namespace GPUPrefSwitcher
             return strings;
         }
 
-        XmlNodeList GetAppEntryFileSwapperXmlNodes(XmlNode appEntry)
+        internal XmlNodeList GetAppEntryFileSwapperXmlNodes(XmlNode appEntry)
         {
             XmlNode fileSwapper = appEntry.SelectSingleNode(XML_FILE_SWAPPER);
             return fileSwapper.SelectNodes(XML_SWAP_PATH);
         }
 
-        XmlNode AppEntryNodeByAppPath(string path)
+        internal XmlNode AppEntryNodeByAppPath(string path)
         {
             XmlNodeList xmlAppEntries = threadSafeXmlDoc.GetElementsByTagName(XML_APP_ENTRY);
 
@@ -266,67 +248,76 @@ namespace GPUPrefSwitcher
         internal void AddAppEntryAndSave(AppEntry appEntry)
         {
 
-            ReloadXML();
+            //try
+            //{
+                xmlDocument.Load(XML_PREFERENCES_PATH);
 
-            //check for duplicates
-            if (GetAppEntries().Any(entry => entry.AppPath == appEntry.AppPath))
-            {
-                throw new InvalidOperationException($"Tried to add an AppEntry with an AppPath that already exists in the data store: {appEntry.AppPath} — this is undefined behavior.");
-            }
-
-            XmlNode root = threadSafeXmlDoc.DocumentElement;
-            {
-                XmlElement xmlAppEntry = threadSafeXmlDoc.CreateElement(XML_APP_ENTRY);
-                XmlElement xmlPath = threadSafeXmlDoc.CreateElement(XML_APP_PATH);
+                //check for duplicates
+                if (GetAppEntries().Any(entry => entry.AppPath == appEntry.AppPath))
                 {
-                    xmlPath.InnerText = appEntry.AppPath;
-                    {
-                        XmlElement xmlGpuPref = threadSafeXmlDoc.CreateElement(XML_GPU_PREFERENCE);
-                        {
-                            xmlGpuPref.SetAttribute(XML_ATTR_ENABLESWITCHER, appEntry.EnableSwitcher.ToString());
-                            xmlGpuPref.SetAttribute(XML_ATTR_ENABLEFILESWAPPER, appEntry.EnableFileSwapper.ToString());
-
-                            XmlElement runOnBattery = threadSafeXmlDoc.CreateElement(XML_RUN_ON_BATTERY_PATH);
-                            XmlElement runPluggedIn = threadSafeXmlDoc.CreateElement(XML_RUN_PLUGGED_IN_PATH);
-                            xmlGpuPref.AppendChild(runOnBattery);
-                            xmlGpuPref.AppendChild(runPluggedIn);
-                        }
-                        XmlElement xmlPluggedIn = threadSafeXmlDoc.CreateElement(XML_PLUGGED_IN);
-                        {
-                            xmlPluggedIn.InnerText = appEntry.GPUPrefPluggedIn.ToString();
-                        }
-                        //xmlPluggedIn.InnerText = defaultPluggedin;        
-                        XmlElement xmlOnBattery = threadSafeXmlDoc.CreateElement(XML_ON_BATTERY);
-                        {
-                            xmlOnBattery.InnerText = appEntry.GPUPrefOnBattery.ToString();
-                        }
-                        XmlElement xmlFileSwapper = threadSafeXmlDoc.CreateElement(XML_FILE_SWAPPER);
-
-
-                        //xmlOnBattery.InnerText = defaultOnBattery;
-                        root.AppendChild(xmlAppEntry);
-                        {
-                            xmlAppEntry.AppendChild(xmlPath);
-                            xmlAppEntry.AppendChild(xmlGpuPref);
-                            xmlAppEntry.AppendChild(xmlFileSwapper);
-                        }
-                        xmlGpuPref.AppendChild(xmlPluggedIn);
-                        xmlGpuPref.AppendChild(xmlOnBattery);
-
-                        if (appEntry.PendingAddToRegistry)
-                        {
-                            XmlElement pendingAdd = threadSafeXmlDoc.CreateElement(XML_PENDING_ADD);
-                            xmlAppEntry.AppendChild(pendingAdd);
-                        }
-
-                        XmlElement seenInRegistry = threadSafeXmlDoc.CreateElement(XML_SEEN_IN_REGISTRY);
-                        seenInRegistry.InnerText = appEntry.SeenInRegistry.ToString();
-                        xmlAppEntry.AppendChild(seenInRegistry);
-                    }
+                    throw new InvalidOperationException($"Tried to add an AppEntry with an AppPath that already exists in the data store: {appEntry.AppPath} — this is undefined behavior.");
                 }
 
-            threadSafeXmlDoc.Save(XML_PREFERENCES_PATH);
-            }            
+                XmlNode root = xmlDocument.DocumentElement;
+                {
+                    XmlElement xmlAppEntry = xmlDocument.CreateElement(XML_APP_ENTRY);
+                    XmlElement xmlPath = xmlDocument.CreateElement(XML_APP_PATH);
+                    {
+                        xmlPath.InnerText = appEntry.AppPath;
+                        {
+                            XmlElement xmlGpuPref = xmlDocument.CreateElement(XML_GPU_PREFERENCE);
+                            {
+                                xmlGpuPref.SetAttribute(XML_ATTR_ENABLESWITCHER, appEntry.EnableSwitcher.ToString());
+                                xmlGpuPref.SetAttribute(XML_ATTR_ENABLEFILESWAPPER, appEntry.EnableFileSwapper.ToString());
+
+                                XmlElement runOnBattery = xmlDocument.CreateElement(XML_RUN_ON_BATTERY_PATH);
+                                XmlElement runPluggedIn = xmlDocument.CreateElement(XML_RUN_PLUGGED_IN_PATH);
+                                xmlGpuPref.AppendChild(runOnBattery);
+                                xmlGpuPref.AppendChild(runPluggedIn);
+                            }
+                            XmlElement xmlPluggedIn = xmlDocument.CreateElement(XML_PLUGGED_IN);
+                            {
+                                xmlPluggedIn.InnerText = appEntry.GPUPrefPluggedIn.ToString();
+                            }
+                            //xmlPluggedIn.InnerText = defaultPluggedin;        
+                            XmlElement xmlOnBattery = xmlDocument.CreateElement(XML_ON_BATTERY);
+                            {
+                                xmlOnBattery.InnerText = appEntry.GPUPrefOnBattery.ToString();
+                            }
+                            XmlElement xmlFileSwapper = xmlDocument.CreateElement(XML_FILE_SWAPPER);
+
+
+                            //xmlOnBattery.InnerText = defaultOnBattery;
+                            root.AppendChild(xmlAppEntry);
+                            {
+                                xmlAppEntry.AppendChild(xmlPath);
+                                xmlAppEntry.AppendChild(xmlGpuPref);
+                                xmlAppEntry.AppendChild(xmlFileSwapper);
+                            }
+                            xmlGpuPref.AppendChild(xmlPluggedIn);
+                            xmlGpuPref.AppendChild(xmlOnBattery);
+
+                            if (appEntry.PendingAddToRegistry)
+                            {
+                                XmlElement pendingAdd = xmlDocument.CreateElement(XML_PENDING_ADD);
+                                xmlAppEntry.AppendChild(pendingAdd);
+                            }
+
+                            XmlElement seenInRegistry = xmlDocument.CreateElement(XML_SEEN_IN_REGISTRY);
+                            seenInRegistry.InnerText = appEntry.SeenInRegistry.ToString();
+                            xmlAppEntry.AppendChild(seenInRegistry);
+                        }
+                    }
+
+                    xmlDocument.Save(XML_PREFERENCES_PATH);
+                }
+                /*
+            }
+            finally
+            {
+                semaphoreSlim.Release();
+            }
+                */
         }
 
         /// <summary>
@@ -337,22 +328,22 @@ namespace GPUPrefSwitcher
         /// <exception cref="XMLHelperException"></exception>
         internal bool TryDeleteAppEntryAndSave(string path)
         {
-            ReloadXML();
+            xmlDocument.Load(XML_PREFERENCES_PATH);
 
             XmlNode xmlAppEntry = AppEntryNodeByAppPath(path);
             if (xmlAppEntry == null) { return false; }
 
-            threadSafeXmlDoc.DocumentElement.RemoveChild(xmlAppEntry);
+            xmlDocument.DocumentElement.RemoveChild(xmlAppEntry);
 
-            threadSafeXmlDoc.Save(XML_PREFERENCES_PATH);
+            xmlDocument.Save(XML_PREFERENCES_PATH);
 
-            return true;
+            return true;            
         }
 
-        public void ModifyAppEntryAndSave(string path, AppEntry newAppEntry) //TODO file swapper functionality
+        internal void ModifyAppEntryAndSave(string path, AppEntry newAppEntry) //TODO file swapper functionality
         {
-   
-            ReloadXML();
+
+            xmlDocument.Load(XML_PREFERENCES_PATH);
 
             XmlNode xmlAppEntry = AppEntryNodeByAppPath(path);
             if (xmlAppEntry == null) //I believe an exception is better than a Try function here because it results in less code assuming we get the logic right in the first place
@@ -370,6 +361,7 @@ namespace GPUPrefSwitcher
             string newSeenInRegistry = newAppEntry.SeenInRegistry.ToString().ToLower();
 
             string[] newFileSwapperPaths = newAppEntry.FileSwapperPaths;
+            PowerLineStatus[] newSwapperStates = newAppEntry.SwapperStates;
 
             if (newAppPath == null)
                 throw new InvalidOperationException("AppEntry passed in had a null AppPath value");
@@ -442,7 +434,7 @@ namespace GPUPrefSwitcher
 
                         XmlElement xmlElement = threadSafeXmlDoc.CreateElement(XML_SWAP_PATH);
 
-                        xmlElement.SetAttribute(XML_ATTR_SWAPPATHSTATUS, PowerLineStatusConversions.PowerLineStatusToOfflineOrOnline(newAppEntry.SwapperStates[i]));//TODO: does this gauruntee order?
+                        xmlElement.SetAttribute(XML_ATTR_SWAPPATHSTATUS, PowerLineStatusConversions.PowerLineStatusToOfflineOrOnline(newSwapperStates[i]));//TODO: does this gauruntee order?
 
                         xmlElement.InnerText = newFileSwapperPath;
 
@@ -455,73 +447,6 @@ namespace GPUPrefSwitcher
             {
                 throw new XmlException($"An error occured while trying to modify AppEntry with AppPath {path}; check if the entry is malformed in Preferences.xml");
             }*/
-        }
-
-        //XML navigation reference https://learn.microsoft.com/en-us/dotnet/standard/data/xml/select-nodes-using-xpath-navigation
-        /*
-         *  Example:
-            // Select all nodes where the book price is greater than 10.00.  
-            XmlNodeList nodeList = root.SelectNodes("descendant::bk:book[bk:price>10.00]", nsmgr);  
-         */
-        [Obsolete("This has been refactored but is left here for code reference")]
-        internal void WriteToRegistry(PowerLineStatus powerLineStatus)
-        {
-            throw new NotImplementedException(); //because this function is obsolete
-
-            //List<string> regPathValues = RegistryHelper.GetGpuPrefPathvalueNames().ToList();
-
-            XmlNodeList xmlAppEntries = threadSafeXmlDoc.GetElementsByTagName(XML_APP_ENTRY);
-
-            foreach (XmlNode xmlAppEntry in xmlAppEntries)
-            {
-
-                XmlNode xmlGpuPreference = xmlAppEntry.SelectSingleNode(XML_GPU_PREFERENCE);
-                string enabled = xmlGpuPreference.Attributes["enableSwitcher"].Value;
-
-                if (enabled == "true")
-                {
-                    XmlNode xmlPath = xmlAppEntry.SelectSingleNode(XML_APP_PATH);
-                    string pathvalue = xmlPath.InnerText;
-
-                    XmlNode xmlGpuPref = xmlAppEntry.SelectSingleNode(XML_GPU_PREFERENCE);
-                    int onBattery = int.Parse(xmlGpuPref.SelectSingleNode(XML_ON_BATTERY).InnerText);
-                    int pluggedIn = int.Parse(xmlGpuPref.SelectSingleNode(XML_PLUGGED_IN).InnerText);
-
-                    if (onBattery < 0 || pluggedIn < 0)
-                    {
-                        Debug.WriteLine("Skipping registry update for pathvalue due to negative preference value: " + pathvalue);
-                        continue;
-                    }
-                    Debug.WriteLine("Updating registry for pathvalue: " + pathvalue);
-
-                    bool systemIsOnbattery = powerLineStatus == PowerLineStatus.Offline;
-
-                    try
-                    {
-                        if (systemIsOnbattery)
-                        {
-                            RegistryHelper.SetGpuPref(pathvalue, /*RegistryHelper.PowerType.OnBattery,*/ onBattery);
-                        }
-                        else
-                        {
-                            RegistryHelper.SetGpuPref(pathvalue, pluggedIn);
-                        }
-                    }
-                    catch (RegistryHelper.NoGPUPreferenceDataException)
-                    {
-                        Debug.WriteLine("Not updating registry for pathvalue due to missing GpuPreference data value in registry: " + pathvalue);
-                        //TODO implement some way to fix 
-                    }
-
-
-                    //Debug.WriteLine("System battery status: " + (SystemInformation.PowerStatus.BatteryChargeStatus == BatteryChargeStatus.Charging));
-                    //Debug.WriteLine("System battery status: " + systemIsOnbattery);
-
-                }
-
-
-            }
-
         }
 
         #endregion XML Writers
@@ -715,9 +640,13 @@ namespace GPUPrefSwitcher
         //TODO: put this check as a button somewhere (e.g. the save button)? having multiple duplicate paths is undefined behavior...
         void CheckForDuplicatePaths()
         {
+
+            var appEntries = GetAppEntries();
+            var appPaths = from appEntry in appEntries select appEntry.AppPath;
+
             List<string> traversedAppPaths = new List<string>();
 
-            foreach (string s in GetAppPaths())
+            foreach (string s in appPaths)
             {
                 if (traversedAppPaths.Any(entry => entry == s)) //check for duplicate AppPath
                 {

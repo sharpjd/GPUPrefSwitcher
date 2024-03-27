@@ -29,11 +29,10 @@ namespace GPUPrefSwitcher
         }
     }
 
-    /// <summary>
-    /// Represents the file swap data and behavior of an AppEntry for the detailed, mistake-prone file swap system.
-    /// </summary>
-    public class FileSwapper
+    public class FileSwapperData
     {
+        public static readonly string OnBatteryPrefix = "OnBattery_";
+        public static readonly string PluggedInPrefix = "PluggedIn_";
 
         /*
          * Everything that works with the SettingsBank directory should agree with this:
@@ -44,11 +43,7 @@ namespace GPUPrefSwitcher
          * 
          * Writing a function to abstract each part of this path would cause as many problems as it solves for now
          */
-        public static readonly string SwapPathFolder = Path.Combine(Program.SavedDataPath, "SettingsBank/");
-        public static readonly string OnBatteryPrefix = "OnBattery_";
-        public static readonly string PluggedInPrefix = "PluggedIn_";
-
-        private AppEntry AppEntry { get; }
+        public static readonly string SwapPathFolder = Program.SavedDataPath + "SettingsBank";
 
         public string SettingsBankFolderName
         {
@@ -59,16 +54,62 @@ namespace GPUPrefSwitcher
             get => Path.Combine(SwapPathFolder, SettingsBankFolderName);
         }
 
-        public PreferencesXML ForPreferencesXML { get; init; }
+        public AppEntry AppEntry { get; }
 
-        public FileSwapper(AppEntry appEntry, PreferencesXML preferencesXML) 
-        { 
+        public FileSwapperData(AppEntry appEntry)
+        {
             AppEntry = appEntry;
-            ForPreferencesXML = preferencesXML;
         }
 
+        /// <summary>
+        /// Get the folder name that corresponds to an app entry SwapPath. Maintains a standard format
+        /// </summary>
+        /// <param name="appEntry"></param>
+        /// <returns></returns>
+        //this takes a string instead of an AppEntry because it's more intuitive and helps distinguish from the similarly named function above
+        public static string GetSwapPathSettingsBankFolderName(string swapPath)
+        {
+            return HashString(swapPath);
+        }
+
+        //source: https://stackoverflow.com/questions/3984138/hash-string-in-c-sharp
+        //public static string GetHashString(string inputString)
+        public static string HashString(string inputString)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in GetHash(inputString))
+                sb.Append(b.ToString("X2"));
+
+            static byte[] GetHash(string str)
+            {
+                //SHA1 is 40 characters vs. 64 characters with SHA256
+                /*
+                 * WARNING
+                 * 
+                 * Changing the hash algorithm will break ALL original corresponding file paths
+                 * for the file swapping system
+                 */
+                using (HashAlgorithm algorithm = SHA1.Create())
+                    return algorithm.ComputeHash(Encoding.UTF8.GetBytes(str));
+            }
+
+            return sb.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Represents the file swap data and behavior of an AppEntry for the detailed, mistake-prone file swap system.
+    /// </summary>
+    public class FileSwapper : FileSwapperData
+    {
+        public AppEntryLibrarian AppEntryLibrarian { get; init; }
+
+        public FileSwapper(AppEntry appEntry, AppEntryLibrarian appEntryLibrarian) : base(appEntry)
+        {
+            AppEntryLibrarian = appEntryLibrarian;
+        }
         
-        public async Task InitiateFileSwaps(PowerLineStatus forPowerLineStatus, PreferencesXML preferencesXML)
+        public async Task InitiateFileSwaps(PowerLineStatus forPowerLineStatus, AppEntrySaveHandler appEntrySaveHandler)
         {
             Logger.inst.Log($"Initiating File Swaps for AppEntry with target path {AppEntry.AppPath}");
 
@@ -77,7 +118,7 @@ namespace GPUPrefSwitcher
             if (!appEntryFolderExists)
             {
                 Directory.CreateDirectory(SettingsBankFolderPath);
-                File.Create(Path.Combine(SettingsBankFolderPath, $"{AppEntry.AppName} settings are in {SettingsBankFolderPath}"));
+                File.Create(Path.Combine(SettingsBankFolderPath, $"{AppEntry.AppName} settings are in {SettingsBankFolderName}"));
             }
 
             List<Task> fileSwapTasks = new();
@@ -153,7 +194,6 @@ namespace GPUPrefSwitcher
 
             string swapPath = fileSwapPathTask.FileSwapPath;
             PowerLineStatus forPowerLineStatus = fileSwapPathTask.ForPowerLineStatus;
-            PreferencesXML preferencesXML = ForPreferencesXML;
 
         //use caution when modifying the sequence of logic here and note where this block is placed
         WaitForOlderFileSwaps:
@@ -255,10 +295,21 @@ namespace GPUPrefSwitcher
                         goto TryAgain;
                     }
 
-                    AppEntry modified = AppEntry; //struct copy
+                    AppEntrySaveHandler appEntrySaveHandler = await AppEntryLibrarian.Borrow();
+                    //prevent race conditions (that is, prevent overwriting other writes with old data)
+                    AppEntry mostRecent = appEntrySaveHandler.CurrentAppEntries.Single(x => x.AppPath == AppEntry.AppPath);
+
+                    AppEntry modified = mostRecent; //struct copy
                     modified.SwapperStates[swapPathIndex] = PowerLineStatus.Offline;
 
-                    preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified);
+                    Logger.inst.Log($"Saving SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}");
+                    //await new Task(new Action( () => preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified)));
+
+                    appEntrySaveHandler.ChangeAppEntryByPath(AppEntry.AppPath, modified);
+                    appEntrySaveHandler.SaveAppEntryChanges();
+
+                    AppEntryLibrarian.Return(appEntrySaveHandler);
+
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
                     Logger.inst.Log(s3);
                 } else
@@ -300,10 +351,18 @@ namespace GPUPrefSwitcher
                         goto TryAgain;
                     }
 
-                    AppEntry modified = AppEntry; //struct copy
+                    AppEntrySaveHandler appEntrySaveHandler = await AppEntryLibrarian.Borrow();
+                    //prevent race conditions (that is, prevent overwriting other writes with old data)
+                    AppEntry mostRecent = appEntrySaveHandler.CurrentAppEntries.Single(x => x.AppPath == AppEntry.AppPath);
+
+                    AppEntry modified = mostRecent; //struct copy
                     modified.SwapperStates[swapPathIndex] = PowerLineStatus.Online;
 
-                    preferencesXML.ModifyAppEntryAndSave(AppEntry.AppPath, modified);
+                    appEntrySaveHandler.ChangeAppEntryByPath(AppEntry.AppPath, modified);
+                    appEntrySaveHandler.SaveAppEntryChanges();
+
+                    AppEntryLibrarian.Return(appEntrySaveHandler);
+
                     string s3 = $"Saved SwapPath state for SwapPath {swapPath} for app {AppEntry.AppPath}";
                     Logger.inst.Log(s3);
                 } else
@@ -343,43 +402,6 @@ namespace GPUPrefSwitcher
             }
 
             return false;
-        }
-
-
-
-        /// <summary>
-        /// Get the folder name that corresponds to an app entry SwapPath. Maintains a standard format
-        /// </summary>
-        /// <param name="appEntry"></param>
-        /// <returns></returns>
-        //this takes a string instead of an AppEntry because it's more intuitive and helps distinguish from the similarly named function above
-        public static string GetSwapPathSettingsBankFolderName(string swapPath)
-        {
-            return HashString(swapPath);
-        }
-
-        //source: https://stackoverflow.com/questions/3984138/hash-string-in-c-sharp
-        //public static string GetHashString(string inputString)
-        public static string HashString(string inputString)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (byte b in GetHash(inputString))
-                sb.Append(b.ToString("X2"));
-
-            static byte[] GetHash(string str)
-            {
-                //SHA1 is 40 characters vs. 64 characters with SHA256
-                /*
-                 * WARNING
-                 * 
-                 * Changing the hash algorithm will break ALL original corresponding file paths
-                 * for the file swapping system
-                 */
-                using (HashAlgorithm algorithm = SHA1.Create())
-                    return algorithm.ComputeHash(Encoding.UTF8.GetBytes(str));
-            }
-
-            return sb.ToString();
         }
 
         /// <summary>
@@ -472,7 +494,15 @@ namespace GPUPrefSwitcher
         }
         */
 
-        public static string[] GetOrphanedSwapPathFoldersFor(AppEntry appEntry, PreferencesXML forPreferencesXML)
+        class PermissionMismatchException(string message) : Exception(message)
+        {
+        }
+    }
+
+    public class FileSwapperUtils
+    {
+
+        public static string[] GetOrphanedSwapPathFoldersFor(AppEntry appEntry)
         {
 
             /*
@@ -480,10 +510,10 @@ namespace GPUPrefSwitcher
              * that don't correspond to a SwapPath
              */
 
-            var fileSwap = new FileSwapper(appEntry, forPreferencesXML);
+            var fileSwapperData = new FileSwapperData(appEntry);
 
-            string entryBankFolderName = fileSwap.SettingsBankFolderName;
-            string pathToAppEntryBank = Path.Combine(SwapPathFolder, entryBankFolderName);
+            string entryBankFolderName = fileSwapperData.SettingsBankFolderName;
+            string pathToAppEntryBank = Path.Combine(FileSwapperData.SwapPathFolder, entryBankFolderName);
 
             string[] bankedFolderPaths = Directory.GetDirectories(pathToAppEntryBank);
             string[] bankedFolderNames = bankedFolderPaths.Select(Path.GetFileName).ToArray(); //get just the folder name (yes, Path.GetFileName works)
@@ -492,7 +522,7 @@ namespace GPUPrefSwitcher
             List<string> nonOrphanedBankedFolderPaths = new();
             foreach (string swapPath in appEntry.FileSwapperPaths)
             {
-                string swapPathBankFolderName = GetSwapPathSettingsBankFolderName(swapPath);
+                string swapPathBankFolderName = FileSwapperData.GetSwapPathSettingsBankFolderName(swapPath);
 
                 if (bankedFolderNames.Contains(swapPathBankFolderName))
                     nonOrphanedBankedFolderPaths.Add(Path.Combine(pathToAppEntryBank, swapPathBankFolderName));
@@ -500,28 +530,28 @@ namespace GPUPrefSwitcher
 
             //the remaining folders that don't correspond to a SwapPath are "orphaned"
             List<string> orphanedBankedFolderPaths = new();
-            foreach(string folderPath in bankedFolderPaths)
+            foreach (string folderPath in bankedFolderPaths)
             {
-                if(!nonOrphanedBankedFolderPaths.Contains(folderPath))
+                if (!nonOrphanedBankedFolderPaths.Contains(folderPath))
                     orphanedBankedFolderPaths.Add(folderPath);
             }
 
             return orphanedBankedFolderPaths.ToArray();
         }
 
-        public static string[] GetOrphanedAppEntryFolders(IEnumerable<AppEntry> appEntries, PreferencesXML forPreferencesXML)
+        public static string[] GetOrphanedAppEntryFolders(IEnumerable<AppEntry> appEntries)
         {
 
-            string[] bankedFolderPaths = Directory.GetDirectories(SwapPathFolder);
+            string[] bankedFolderPaths = Directory.GetDirectories(FileSwapperData.SwapPathFolder);
             string[] bankedFolderNames = bankedFolderPaths.Select(Path.GetFileName).ToArray(); //get just the folder name (yes, Path.GetFileName works)
 
             List<string> nonOrphanedFolderPaths = new();
             foreach (AppEntry appEntry in appEntries)
             {
-                var fileSwap = new FileSwapper(appEntry, forPreferencesXML);
+                var fileSwapperData = new FileSwapperData(appEntry);
 
-                string correspondingFolderName = fileSwap.SettingsBankFolderName;
-                string correspondingFolderPath = Path.Combine(SwapPathFolder, correspondingFolderName);
+                string correspondingFolderName = fileSwapperData.SettingsBankFolderName;
+                string correspondingFolderPath = Path.Combine(FileSwapperData.SwapPathFolder, correspondingFolderName);
 
                 if (bankedFolderNames.Contains(correspondingFolderName))
                     nonOrphanedFolderPaths.Add(correspondingFolderPath);
@@ -535,22 +565,22 @@ namespace GPUPrefSwitcher
             return orphanedFolderPaths.ToArray();
         }
 
-        public static long GetOrphanedSize(IEnumerable<AppEntry> appEntries, PreferencesXML forPreferencesXML)
+        public static long GetOrphanedSize(IEnumerable<AppEntry> appEntries)
         {
-            string[] orphanedAppEntryFolders = GetOrphanedAppEntryFolders(appEntries, forPreferencesXML);
+            string[] orphanedAppEntryFolders = GetOrphanedAppEntryFolders(appEntries);
 
             List<string> orphanedSwapPathFolders = new();
 
-            foreach(AppEntry appEntry in appEntries)
+            foreach (AppEntry appEntry in appEntries)
             {
-                FileSwapper fileSwapper = new FileSwapper(appEntry, forPreferencesXML);
-                if(Directory.Exists(fileSwapper.SettingsBankFolderName))
-                    orphanedSwapPathFolders.AddRange(GetOrphanedSwapPathFoldersFor(appEntry, forPreferencesXML));
+                FileSwapperData fileSwapper = new FileSwapperData(appEntry);
+                if (Directory.Exists(fileSwapper.SettingsBankFolderName))
+                    orphanedSwapPathFolders.AddRange(GetOrphanedSwapPathFoldersFor(appEntry));
             }
 
             long totalSizeOfOrphaned = 0;
 
-            foreach(string orphanedAppEntryFolder in orphanedAppEntryFolders)
+            foreach (string orphanedAppEntryFolder in orphanedAppEntryFolders)
             {
                 totalSizeOfOrphaned += DirSize(new DirectoryInfo(orphanedAppEntryFolder));
             }
@@ -561,13 +591,6 @@ namespace GPUPrefSwitcher
             }
 
             return totalSizeOfOrphaned;
-        }
-
-        
-
-
-        class PermissionMismatchException(string message) : Exception(message)
-        {
         }
 
         //https://learn.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
@@ -606,7 +629,7 @@ namespace GPUPrefSwitcher
 
         public static long GetSettingsBankDirectorySize()
         {
-            return DirSize(new DirectoryInfo(SwapPathFolder));
+            return DirSize(new DirectoryInfo(FileSwapperData.SwapPathFolder));
         }
 
         public static long DirSize(DirectoryInfo d)
@@ -627,11 +650,8 @@ namespace GPUPrefSwitcher
             return size;
         }
 
-        public static long DirSize_Orphaned(DirectoryInfo d, IEnumerable<AppEntry> appEntries, PreferencesXML preferencesXML)
+        public static long DirSize_Orphaned(DirectoryInfo d, IEnumerable<AppEntry> appEntries, AppEntrySaveHandler forAppEntrySaveHandler)
         {
-            
-
-
 
             long size = 0;
             // Add file sizes.

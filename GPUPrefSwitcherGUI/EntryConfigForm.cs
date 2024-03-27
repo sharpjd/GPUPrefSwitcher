@@ -18,7 +18,7 @@ namespace GPUPrefSwitcherGUI
         private AppEntry PrevSavedAppEntry;
         public AppEntry CurrentAppEntry;
 
-        private FileSwapper fileSwap { get; }
+        private FileSwapperData fileSwap { get; }
 
         string SettingsBankPath
         {
@@ -39,7 +39,7 @@ namespace GPUPrefSwitcherGUI
             PrevSavedAppEntry = appEntry;
             CurrentAppEntry = appEntry;
 
-            fileSwap = new FileSwapper(appEntry, mainForm.appEntrySaver.PreferencesXML);
+            fileSwap = new FileSwapperData(appEntry);
 
             GPUChoicesPluggedIn = MainForm.GetGPUPreferences();
             GPUChoicesOnBattery = MainForm.GetGPUPreferences();
@@ -252,6 +252,7 @@ namespace GPUPrefSwitcherGUI
             if (Directory.Exists(SettingsBankPath))
             {
                 Process.Start("explorer.exe", SettingsBankPath);
+                Debug.WriteLine(SettingsBankPath);
             }
             else
             {
