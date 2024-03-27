@@ -113,7 +113,9 @@ namespace GPUPrefSwitcher
         #endregion Initialization/End
 
         private static bool timerRunning = false;
-        private static Task runningUpdateTask;
+        //private static Task runningUpdateTask;
+
+        private static List<Task> runningUpdateTasks = new();
         /// <summary>
         /// There should be only one of this running at any time.
         /// </summary>
@@ -124,26 +126,24 @@ namespace GPUPrefSwitcher
             while (true)
             {
 
-                /*
-                 * Only ever run one of this task at once
-                 */
-
-                if (runningUpdateTask != null && runningUpdateTask.IsFaulted)
+                foreach(Task task in runningUpdateTasks)
                 {
-                    Logger.inst.ErrorLog(runningUpdateTask.Exception.ToString());
-                    throw runningUpdateTask.Exception;
+                    //TODO run a new task even if the previous one is going
+                    if (task != null && task.IsFaulted)
+                    {
+                        Logger.inst.ErrorLog(task.Exception.ToString());
+                        runningUpdateTasks.Remove(task);
+                        throw task.Exception;
+                    }
+
+                    if (task == Task.CompletedTask)
+                    {
+                        runningUpdateTasks.Remove(task);
+                    }
+
                 }
 
-                if (runningUpdateTask == Task.CompletedTask)
-                {
-                    runningUpdateTask = null;
-                }
-
-                if (runningUpdateTask == null)
-                {
-                    Task run = RunUpdateLogic();
-                    runningUpdateTask = run;
-                }
+                runningUpdateTasks.Add(RunUpdateLogic());
 
                 await Task.Delay(updateInterval); //move this to the beginning to make debugging easier
             }
@@ -233,7 +233,7 @@ namespace GPUPrefSwitcher
 
             prevPowerLineStatus = currentPowerLineStatus; //THIS MUST GO AT THE END
 
-            //await swaps; //we shouldn't, in case there is one that just keeps retrying forever
+            await swaps; //we shouldn't, in case there is one that just keeps retrying forever
 
             //return Task.CompletedTask;
         }
