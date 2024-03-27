@@ -252,6 +252,7 @@ namespace GPUPrefSwitcherGUI
             if (Directory.Exists(SettingsBankPath))
             {
                 Process.Start("explorer.exe", SettingsBankPath);
+                Debug.WriteLine(SettingsBankPath);
             }
             else
             {

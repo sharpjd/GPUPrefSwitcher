@@ -233,7 +233,7 @@ namespace GPUPrefSwitcher
 
             prevPowerLineStatus = currentPowerLineStatus; //THIS MUST GO AT THE END
 
-            await swaps;
+            //await swaps; //we shouldn't, in case there is one that just keeps retrying forever
 
             //return Task.CompletedTask;
         }
