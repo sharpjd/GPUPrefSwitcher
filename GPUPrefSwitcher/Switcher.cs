@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -41,7 +42,7 @@ namespace GPUPrefSwitcher
         /// <summary>
         /// Call once upon service start. Initializes necessary components and starts the timer.
         /// </summary>
-        internal static void Start(CancellationToken cancellationToken)
+        internal static async void Start(CancellationToken stoppingToken)
         {
             appOptions = new AppOptions();
             Logger.inst.EnableRealtimeStandardLogWrites = appOptions.CurrentOptions.EnableRealtimeLogging;
@@ -70,7 +71,7 @@ namespace GPUPrefSwitcher
 
             File.Delete(CRASHED_FILE_PATH);//"successful" initialization yippee
 
-            Task forever = BeginTimerForever(cancellationToken);
+            Task forever = BeginTimerForever(stoppingToken);
 
             /*
             forever.ContinueWith(
@@ -86,6 +87,8 @@ namespace GPUPrefSwitcher
                 //doesn't actually serve a purpose for now
                 Logger.inst.Log("Detected that service stop was not completed on the last run.");
             }
+
+            await forever;
         }
         private static int updateInterval; 
 
@@ -119,11 +122,11 @@ namespace GPUPrefSwitcher
         /// <summary>
         /// There should be only one of this running at any time.
         /// </summary>
-        private static Task BeginTimerForever(CancellationToken cancellationToken)
+        private static async Task BeginTimerForever(CancellationToken stoppingToken)
         {
             if (timerRunning) { throw new InvalidOperationException("This function cannot be called more than once"); }
             timerRunning = true;
-            while (!cancellationToken.IsCancellationRequested)
+            while (!stoppingToken.IsCancellationRequested)
             {
 
                 for (int i = runningUpdateTasks.Count - 1; i >= 0; i--)
@@ -144,12 +147,10 @@ namespace GPUPrefSwitcher
 
                 }
 
-                runningUpdateTasks.Add(RunUpdateLogic());
+                runningUpdateTasks.Add(RunUpdateLogic()); //no identified need to handle cancelling the update logic
 
-                Task.Delay(updateInterval).Wait(); //move this to the beginning to make debugging easier
+                await Task.Delay(updateInterval, stoppingToken); //move this to the beginning of the loop to make attaching a debugger easier
             }
-
-            return Task.CompletedTask;
         }
 
         private static async Task RunUpdateLogic()
