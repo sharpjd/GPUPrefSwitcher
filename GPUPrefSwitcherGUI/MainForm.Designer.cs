@@ -250,6 +250,7 @@
             Controls.Add(TipRichTextBox);
             Controls.Add(richTextBox1);
             Controls.Add(dataGridView1);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "MainForm";
             Text = "MainForm";

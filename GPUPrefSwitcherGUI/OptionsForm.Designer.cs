@@ -339,6 +339,7 @@
             Controls.Add(SpoofPowerStateEnabledCheckbox);
             Controls.Add(UpdateIntervalTextbox);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "OptionsForm";
             Text = "Options";
             Load += OptionsForm_Load;

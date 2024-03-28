@@ -40,9 +40,13 @@
     <BaseOutputPath>..\Assemble</BaseOutputPath>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <SignAssembly>False</SignAssembly>
+    <ApplicationIcon>GPUPrefSwitcher.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GPUPrefSwitcher.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
