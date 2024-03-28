@@ -213,6 +213,7 @@
             TipRichTextBox.Text = "TipBox";
             toolTip1.SetToolTip(TipRichTextBox, "You can also click on this box for a new tip.");
             TipRichTextBox.MouseClick += TipRichTextBox_MouseClick;
+            TipRichTextBox.TextChanged += TipRichTextBox_TextChanged;
             // 
             // OptionsButton
             // 
