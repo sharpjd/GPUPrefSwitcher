@@ -253,7 +253,7 @@
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "MainForm";
-            Text = "MainForm";
+            Text = "Config GUI - GPUPrefSwitcher";
             FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
             Resize += MainForm_Resize;

@@ -341,7 +341,7 @@
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Name = "OptionsForm";
-            Text = "Options";
+            Text = "Options - GPUPrefSwitcher";
             Load += OptionsForm_Load;
             Leave += OptionsForm_Leave;
             MouseClick += OptionsForm_MouseClick;
