@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -182,7 +183,7 @@ namespace GPUPrefSwitcher
          * When a task is created, if a FileSwapTask with the same target path already exists, it must
          * first wait for the old one (of a lower ID) to finish before executing itself. 
          */
-        private static List<FileSwapPathTask> OngoingFileSwapTasks = new();
+        private static ConcurrentDictionary<int, FileSwapPathTask> OngoingFileSwapTasks = new();
         /// <summary>
         /// Designed to be fire-and-forget. See adjacent comment for how race conditions/multiple calls are handled.
         /// </summary>
@@ -190,14 +191,14 @@ namespace GPUPrefSwitcher
         {
 
             //track this task in a list (we will remove it from the list at the end when this task completes)
-            OngoingFileSwapTasks.Add(fileSwapPathTask);
+            if(!OngoingFileSwapTasks.TryAdd(fileSwapPathTask.ID, fileSwapPathTask)) throw new InvalidOperationException($"key {fileSwapPathTask.ID} already exists");
 
             string swapPath = fileSwapPathTask.FileSwapPath;
             PowerLineStatus forPowerLineStatus = fileSwapPathTask.ForPowerLineStatus;
 
         //use caution when modifying the sequence of logic here and note where this block is placed
         WaitForOlderFileSwaps:
-            if (OngoingFileSwapTasks.Any(x => x.FileSwapPath == fileSwapPathTask.FileSwapPath && x.ID < fileSwapPathTask.ID))
+            if (OngoingFileSwapTasks.Any(x => x.Key < fileSwapPathTask.ID && x.Value.FileSwapPath == fileSwapPathTask.FileSwapPath))
             {
                 Logger.inst.Log($"An older FileSwap task for {swapPath} already exists, delaying");
                 await Task.Delay(10000);
@@ -377,7 +378,7 @@ namespace GPUPrefSwitcher
 
             Logger.inst.Log($"FileSwap Task {fileSwapPathTask.FileSwapPath} finished for {AppEntry.AppPath}");
 
-            OngoingFileSwapTasks.Remove(fileSwapPathTask);
+            if (!OngoingFileSwapTasks.TryRemove(fileSwapPathTask.ID, out _)) throw new InvalidOperationException($"key {fileSwapPathTask.ID} does not exist");
 
         }
 
