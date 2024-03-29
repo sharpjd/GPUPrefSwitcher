@@ -69,6 +69,11 @@ namespace GPUPrefSwitcher
 
             updateInterval = appOptions.CurrentOptions.UpdateInterval;
 
+            if (spoofPowerStateEnabled)
+            {
+                Logger.inst.Log($"Power State spoofing enabled: {spoofPowerState}");
+            }
+
             File.Delete(CRASHED_FILE_PATH);//"successful" initialization yippee
 
             Task forever = BeginTimerForever(stoppingToken);
@@ -176,7 +181,7 @@ namespace GPUPrefSwitcher
             currentPowerLineStatus = SystemInformation.PowerStatus.PowerLineStatus;
             if (spoofPowerStateEnabled)
             {
-                Logger.inst.Log($"Power State spoofing enabled: {spoofPowerState}");
+                //Logger.inst.Log($"Power State spoofing enabled: {spoofPowerState}");
 
                 string spoof = spoofPowerState.ToString().ToLower();
                 if (spoof == "offline")
