@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
@@ -30,7 +29,7 @@ namespace GPUPrefSwitcher
 
             try
             {
-                threadSafeXmlDoc.Load(XML_PREFERENCES_PATH);
+                xmlDocument.Load(XML_PREFERENCES_PATH);
             }
             catch (XmlException)
             {
@@ -71,7 +70,7 @@ namespace GPUPrefSwitcher
         {
             try
             {
-                threadSafeXmlDoc.Load(XML_PREFERENCES_PATH);
+                xmlDocument.Load(XML_PREFERENCES_PATH);
             }
             catch (Exception)
             {
@@ -225,7 +224,7 @@ namespace GPUPrefSwitcher
 
         internal XmlNode AppEntryNodeByAppPath(string path)
         {
-            XmlNodeList xmlAppEntries = threadSafeXmlDoc.GetElementsByTagName(XML_APP_ENTRY);
+            XmlNodeList xmlAppEntries = xmlDocument.GetElementsByTagName(XML_APP_ENTRY);
 
             foreach (XmlNode xmlAppEntry in xmlAppEntries)
             {
@@ -401,7 +400,7 @@ namespace GPUPrefSwitcher
                 //TODO this is jank, I think Switcher.cs needs to not have access to this and only access to AppEntrySaveHandler instead
                 if (newAppEntry.PendingAddToRegistry)
                 {
-                    XmlElement pendingAddToRegistry = threadSafeXmlDoc.CreateElement(XML_PENDING_ADD);
+                    XmlElement pendingAddToRegistry = xmlDocument.CreateElement(XML_PENDING_ADD);
                     if (xmlAppEntry.SelectSingleNode(XML_PENDING_ADD) == null)
                     {
                         xmlAppEntry.AppendChild(pendingAddToRegistry);
@@ -432,7 +431,7 @@ namespace GPUPrefSwitcher
                     {
                         string newFileSwapperPath = newFileSwapperPaths[i];
 
-                        XmlElement xmlElement = threadSafeXmlDoc.CreateElement(XML_SWAP_PATH);
+                        XmlElement xmlElement = xmlDocument.CreateElement(XML_SWAP_PATH);
 
                         xmlElement.SetAttribute(XML_ATTR_SWAPPATHSTATUS, PowerLineStatusConversions.PowerLineStatusToOfflineOrOnline(newSwapperStates[i]));//TODO: does this gauruntee order?
 
@@ -442,7 +441,7 @@ namespace GPUPrefSwitcher
                     }
                 }
 
-                threadSafeXmlDoc.Save(XML_PREFERENCES_PATH);
+                xmlDocument.Save(XML_PREFERENCES_PATH);
             }/* catch (NullReferenceException)
             {
                 throw new XmlException($"An error occured while trying to modify AppEntry with AppPath {path}; check if the entry is malformed in Preferences.xml");
@@ -589,7 +588,7 @@ namespace GPUPrefSwitcher
 
             if (sb.ToString() != NO_ERRORS_STRING)
             {
-                string xmlDocumentToString = threadSafeXmlDoc.OuterXml;
+                string xmlDocumentToString = xmlDocument.OuterXml;
                 sb.Insert(0, $"The AppEntry node starting on line {linePosition} has the following errors:\n");
             }
 
@@ -606,7 +605,7 @@ namespace GPUPrefSwitcher
         {
             StringBuilder sb = new(NO_ERRORS_STRING);
             //apparently you can call SelectNodes() from xmlDocument which returns nothing, so you have to reference DocumentElement first...
-            var appEntryNodes = threadSafeXmlDoc.DocumentElement.SelectNodes(XML_APP_ENTRY);
+            var appEntryNodes = xmlDocument.DocumentElement.SelectNodes(XML_APP_ENTRY);
             for(int i = 0; i < appEntryNodes.Count; i++)
             {
                 XmlNode node = appEntryNodes[i];
@@ -659,7 +658,7 @@ namespace GPUPrefSwitcher
 
         internal void DebugPrintXML()
         {
-            XmlNodeList nodeList = threadSafeXmlDoc.GetElementsByTagName(XML_APP_ENTRY);
+            XmlNodeList nodeList = xmlDocument.GetElementsByTagName(XML_APP_ENTRY);
 
             foreach (XmlElement e in nodeList)
             {
