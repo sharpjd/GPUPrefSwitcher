@@ -18,7 +18,7 @@ namespace GPUPrefSwitcherGUI
         public MainForm()
         {
             InitializeComponent();
-            
+
             Initialize();
         }
 
@@ -41,7 +41,7 @@ namespace GPUPrefSwitcherGUI
 
             TipRichTextBox.Visible = switcherOptions.CurrentOptions.EnableTips;
 
-            foreach(DataGridViewColumn dataGridViewColumn in dataGridView1.Columns)
+            foreach (DataGridViewColumn dataGridViewColumn in dataGridView1.Columns)
             {
                 dataGridViewColumn.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
@@ -191,7 +191,7 @@ namespace GPUPrefSwitcherGUI
             catch (FileNotFoundException) { }
 
             return iconForFile.ToBitmap();
-            
+
         }
         //maybe get icons for UWP apps too
         //https://stackoverflow.com/questions/37686916/how-do-i-retrieve-a-windows-store-apps-icon-from-a-c-sharp-desktop-app
@@ -209,10 +209,10 @@ namespace GPUPrefSwitcherGUI
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
             if (e.RowIndex < 0) return; //fixes null reference (row -1 is not an AppEntry)
 
-            if(e.ColumnIndex == EnableSwitcherCol) 
+            if (e.ColumnIndex == EnableSwitcherCol)
             {
                 var enableSwitcherCell = (DataGridViewCheckBoxCell)dataGridView1.Rows[e.RowIndex].Cells[EnableSwitcherCol];
                 bool enableSwitcher = bool.Parse(enableSwitcherCell.Value.ToString());
@@ -571,16 +571,18 @@ namespace GPUPrefSwitcherGUI
             "Tip: You can click on (most) of the column headers to sort the app entries by that column.",
             "Tip: Changes do not enact until you hit \"Commit Changes\", which restarts the service (this is the result of power saving design; the service doesn't have to periodically update and make I/O requests this way).",
             "Tip: You can turn off tips from Options.",
-            //"Tip: This is my first ever proper public app, consider donating to <> to show appreciation for my work!",
+            "Tip: This is my first ever fully featured app, consider donating to ko-fi.com/sharpjd to show appreciation for my work!",
             "Tip: The config locations of games often require searching the web. PCGamingWiki is a potential database for these locations. Games also often put their config files in the AppData folders, Documents folder, or even their own game directory.",
             "Tip: You can click on the tip text box area for a new tip",
             "Tip: In the More Options menu, you can enable this app to execute Task Scheduler entries (e.g. for running scripts you write) upon plugging in/out for even greater flexibility.",
             "Tip: Some buttons and labels display tooltips with additional info if you hover over them."
         };
 
+        //seems to trigger after you release click
         private void TipRichTextBox_MouseClick(object sender, MouseEventArgs e)
         {
-            PickNewTip();
+            if(TipRichTextBox.SelectedText.Length==0) //don't pick new tip if we're selecting text
+                PickNewTip();
         }
 
         private void PickNewTip()
@@ -624,13 +626,14 @@ namespace GPUPrefSwitcherGUI
             int remainingWidth = dataGridView1.Width - requiredWidth;
 
             int desiredColumnWidth_AppName = GetDesiredColumnWidth(dataGridView1, AppNameCol);
-            int desiredColumnWidth_AppPath = GetDesiredColumnWidth(dataGridView1, AppPathCol);            
+            int desiredColumnWidth_AppPath = GetDesiredColumnWidth(dataGridView1, AppPathCol);
 
             if (remainingWidth >= desiredColumnWidth_AppName + desiredColumnWidth_AppPath)
             {
                 dataGridView1.Columns[AppNameCol].Width = desiredColumnWidth_AppName;
                 dataGridView1.Columns[AppPathCol].Width = desiredColumnWidth_AppPath;
-            } else
+            }
+            else
             {
                 int columnWidthCalculated_AppName = (int)Math.Round(remainingWidth * 0.2);
                 dataGridView1.Columns[AppNameCol].Width = columnWidthCalculated_AppName;
@@ -638,21 +641,26 @@ namespace GPUPrefSwitcherGUI
                 int columnWidthCalculated_AppPath = (int)Math.Round(remainingWidth * 0.8);
                 dataGridView1.Columns[AppPathCol].Width = columnWidthCalculated_AppPath;
             }
-            
+
         }
 
         int GetDesiredColumnWidth(DataGridView dataGridView, int columnIndex)
         {
             int max = 0;
-            foreach(DataGridViewRow row in dataGridView.Rows)
+            foreach (DataGridViewRow row in dataGridView.Rows)
             {
                 string text = row.Cells[columnIndex].Value.ToString();
                 Size textSize = TextRenderer.MeasureText(text, dataGridView.Font);
 
-                if(textSize.Width > max) max = textSize.Width;
-                
+                if (textSize.Width > max) max = textSize.Width;
+
             }
             return max;
+        }
+
+        private void TipRichTextBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

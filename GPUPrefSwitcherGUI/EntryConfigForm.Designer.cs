@@ -320,6 +320,7 @@
             Controls.Add(SaveButton);
             Controls.Add(EnableFileSwitcherCheckbox);
             Controls.Add(EnabledCheckbox);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             MinimumSize = new System.Drawing.Size(369, 456);
             Name = "EntryConfigForm";
             Text = "EntryConfigForm";

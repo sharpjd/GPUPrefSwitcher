@@ -29,6 +29,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="GPUPrefSwitcher.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
     <PackageReference Include="TaskScheduler" Version="2.10.1" />
   </ItemGroup>

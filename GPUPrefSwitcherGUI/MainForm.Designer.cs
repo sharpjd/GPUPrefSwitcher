@@ -213,6 +213,7 @@
             TipRichTextBox.Text = "TipBox";
             toolTip1.SetToolTip(TipRichTextBox, "You can also click on this box for a new tip.");
             TipRichTextBox.MouseClick += TipRichTextBox_MouseClick;
+            TipRichTextBox.TextChanged += TipRichTextBox_TextChanged;
             // 
             // OptionsButton
             // 
@@ -250,9 +251,10 @@
             Controls.Add(TipRichTextBox);
             Controls.Add(richTextBox1);
             Controls.Add(dataGridView1);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "MainForm";
-            Text = "MainForm";
+            Text = "Config GUI - GPUPrefSwitcher";
             FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
             Resize += MainForm_Resize;

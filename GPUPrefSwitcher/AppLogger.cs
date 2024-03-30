@@ -104,6 +104,7 @@ namespace GPUPrefSwitcher
             //Might trigger StackOverflow if the functions inside this errors (log error -> error -> log error -> error ...)
             AppDomain.CurrentDomain.UnhandledException += (sender, e) => //Only handles uncaught ones (that terminate the app), which is what we want
             {
+                logger.Log("An unhandled error has occurred, check the Error Log");
                 logger.DumpStandardLogBufferToStandardLog().Wait();
                 logger.DumpStandardLogBufferToErrorLog().Wait(); //do this before the app terminates
                 logger.ErrorLog("<<<AN UNHANDLED ERROR HAS OCCURRED>>>");
@@ -114,6 +115,7 @@ namespace GPUPrefSwitcher
             ///TODO this doesn't work?
             System.Threading.Tasks.TaskScheduler.UnobservedTaskException += (sender, e) => 
             {
+                logger.Log("An unobserved task exception has occurred, check the Error Log");
                 logger.DumpStandardLogBufferToStandardLog().Wait();
                 logger.DumpStandardLogBufferToErrorLog().Wait(); //do this before the app terminates
                 logger.ErrorLog("<<<AN UNOBSERVED TASK EXCEPTION HAS OCCURRED>>>");

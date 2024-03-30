@@ -49,6 +49,8 @@ namespace GPUPrefSwitcherGUI
             dataGridView1.FirstDisplayedScrollingColumnIndex = RemoveSwapPathColumn.Index;
 
             UpdateActionButtons();
+
+            this.Text = $"More Options: {appEntry.AppName} - GPUPrefSwitcher";
         }
 
         void UpdateElements(ref AppEntry appEntry)

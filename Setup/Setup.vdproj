@@ -189,6 +189,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_FC42D86BCFC646BEAC0154F18E0E1458"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_FCE11114060245AC8B9C167E41624955"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -866,6 +872,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_FC42D86BCFC646BEAC0154F18E0E1458"
+            {
+            "SourcePath" = "8:..\\graphics\\GPUPrefSwitcher.ico"
+            "TargetName" = "8:GPUPrefSwitcher.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_9A141D4CCCCF41DFBE0305A9FEAA5C25"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -1098,7 +1124,7 @@
             "Target" = "8:_591EB6B1F6D5439BAB3D1AC4D94119D6"
             "Folder" = "8:_3A6A9399E0054C2A9FF7DCD53B6C5750"
             "WorkingFolder" = "8:_9A141D4CCCCF41DFBE0305A9FEAA5C25"
-            "Icon" = "8:"
+            "Icon" = "8:_FC42D86BCFC646BEAC0154F18E0E1458"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B316F372FF134E4C8DAB51EF16C14C7B"
@@ -1112,7 +1138,7 @@
             "Target" = "8:_591EB6B1F6D5439BAB3D1AC4D94119D6"
             "Folder" = "8:_B73A2EA2E24A4506ADCA5533C601C2F6"
             "WorkingFolder" = "8:_9A141D4CCCCF41DFBE0305A9FEAA5C25"
-            "Icon" = "8:"
+            "Icon" = "8:_FC42D86BCFC646BEAC0154F18E0E1458"
             "Feature" = "8:"
             }
         }

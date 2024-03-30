@@ -19,10 +19,9 @@ namespace GPUPrefSwitcher
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-
-            Switcher.Start();
-
             SystemEvents.SessionEnding += OnSessionEnd;
+
+            Switcher.Start(cancellationToken);
 
             return Task.CompletedTask;
         }

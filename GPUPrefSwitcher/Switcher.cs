@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Extensions.Hosting;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -41,7 +42,7 @@ namespace GPUPrefSwitcher
         /// <summary>
         /// Call once upon service start. Initializes necessary components and starts the timer.
         /// </summary>
-        internal static void Start()
+        internal static async void Start(CancellationToken stoppingToken)
         {
             appOptions = new AppOptions();
             Logger.inst.EnableRealtimeStandardLogWrites = appOptions.CurrentOptions.EnableRealtimeLogging;
@@ -68,9 +69,14 @@ namespace GPUPrefSwitcher
 
             updateInterval = appOptions.CurrentOptions.UpdateInterval;
 
+            if (spoofPowerStateEnabled)
+            {
+                Logger.inst.Log($"Power State spoofing enabled: {spoofPowerState}");
+            }
+
             File.Delete(CRASHED_FILE_PATH);//"successful" initialization yippee
 
-            Task forever = BeginTimerForever();
+            Task forever = BeginTimerForever(stoppingToken);
 
             /*
             forever.ContinueWith(
@@ -86,6 +92,8 @@ namespace GPUPrefSwitcher
                 //doesn't actually serve a purpose for now
                 Logger.inst.Log("Detected that service stop was not completed on the last run.");
             }
+
+            await forever;
         }
         private static int updateInterval; 
 
@@ -113,39 +121,40 @@ namespace GPUPrefSwitcher
         #endregion Initialization/End
 
         private static bool timerRunning = false;
-        private static Task runningUpdateTask;
+        //private static Task runningUpdateTask;
+
+        private static List<Task> runningUpdateTasks = new();
         /// <summary>
         /// There should be only one of this running at any time.
         /// </summary>
-        private static async Task BeginTimerForever()
+        private static async Task BeginTimerForever(CancellationToken stoppingToken)
         {
             if (timerRunning) { throw new InvalidOperationException("This function cannot be called more than once"); }
             timerRunning = true;
-            while (true)
+            while (!stoppingToken.IsCancellationRequested)
             {
 
-                /*
-                 * Only ever run one of this task at once
-                 */
-
-                if (runningUpdateTask != null && runningUpdateTask.IsFaulted)
+                for (int i = runningUpdateTasks.Count - 1; i >= 0; i--)
                 {
-                    Logger.inst.ErrorLog(runningUpdateTask.Exception.ToString());
-                    throw runningUpdateTask.Exception;
+                    Task task = runningUpdateTasks[i];
+                    //TODO run a new task even if the previous one is going
+                    if (task != null && task.IsFaulted)
+                    {
+                        Logger.inst.ErrorLog(task.Exception.ToString());
+                        runningUpdateTasks.Remove(task);
+                        throw task.Exception;
+                    }
+
+                    if (task == Task.CompletedTask)
+                    {
+                        runningUpdateTasks.Remove(task);
+                    }
+
                 }
 
-                if (runningUpdateTask == Task.CompletedTask)
-                {
-                    runningUpdateTask = null;
-                }
+                runningUpdateTasks.Add(RunUpdateLogic()); //no identified need to handle cancelling the update logic
 
-                if (runningUpdateTask == null)
-                {
-                    Task run = RunUpdateLogic();
-                    runningUpdateTask = run;
-                }
-
-                await Task.Delay(updateInterval); //move this to the beginning to make debugging easier
+                await Task.Delay(updateInterval, stoppingToken); //move this to the beginning of the loop to make attaching a debugger easier
             }
         }
 
@@ -172,7 +181,7 @@ namespace GPUPrefSwitcher
             currentPowerLineStatus = SystemInformation.PowerStatus.PowerLineStatus;
             if (spoofPowerStateEnabled)
             {
-                Logger.inst.Log($"Power State spoofing enabled: {spoofPowerState}");
+                //Logger.inst.Log($"Power State spoofing enabled: {spoofPowerState}");
 
                 string spoof = spoofPowerState.ToString().ToLower();
                 if (spoof == "offline")
@@ -233,7 +242,7 @@ namespace GPUPrefSwitcher
 
             prevPowerLineStatus = currentPowerLineStatus; //THIS MUST GO AT THE END
 
-            //await swaps; //we shouldn't, in case there is one that just keeps retrying forever
+            await swaps; //we shouldn't, in case there is one that just keeps retrying forever
 
             //return Task.CompletedTask;
         }
