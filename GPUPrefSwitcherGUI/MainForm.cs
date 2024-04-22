@@ -476,6 +476,8 @@ namespace GPUPrefSwitcherGUI
 
                         AppEntry newAppEntry = GetDefaultAppEntry(newPath) with { PendingAddToRegistry = true };
 
+                        appEntrySaver.CurrentAppEntries.Add(newAppEntry);
+
                         UpdateGrid();
                         UpdateActionButtons();
 
