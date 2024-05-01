@@ -492,19 +492,19 @@ namespace GPUPrefSwitcher
             foreach (AppEntry appEntry in appEntries)
             {
 
-                if (appEntry.PendingAddToRegistry && !appEntry.SeenInRegistry)
+                if (appEntry.PendingAddToRegistry)
                 {
 
                     Logger.inst.Log($"Pending registry add detected: {appEntry.AppPath}");
 
-                    const int defaultPref = 0;
-                    
-                    try
+                    if (appEntry.SeenInRegistry)
                     {
+                        Logger.inst.Log($"Skipping pended registry add because the value already exists in the registry: {appEntry.AppPath}", 2000);
+                        appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { PendingAddToRegistry = false });
+                    } else
+                    {
+                        const int defaultPref = 0;
                         RegistryHelper.AddGpuPref(appEntry.AppPath, defaultPref);
-                    } catch (InvalidOperationException)
-                    {
-                        Logger.inst.Log($"Skipped pending registry add because the value already exists in the registry: {appEntry.AppPath}", 2000);
                     }
 
                     AppEntry modifiedAppEntry = appEntry with { PendingAddToRegistry = false } ;
