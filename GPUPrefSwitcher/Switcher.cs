@@ -510,7 +510,7 @@ namespace GPUPrefSwitcher
                     AppEntry modifiedAppEntry = appEntry with { PendingAddToRegistry = false } ;
 
                     appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, modifiedAppEntry);
-                    //appEntrySaveHandler.SaveAppEntryChanges();
+                    appEntrySaveHandler.SaveAppEntryChanges();
                 }
 
                 bool enabled = appEntry.EnableSwitcher;
