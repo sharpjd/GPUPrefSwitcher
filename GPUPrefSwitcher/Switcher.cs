@@ -230,9 +230,10 @@ namespace GPUPrefSwitcher
                 WriteRegistryToXML();
             }
 
-            WriteXMLToRegistry(currentPowerLineStatus);
-            
+            //This NEEDS to come before (XML -> Registry) and after (Registry -> XML) (XML -> Registry depends on this)
             UpdateSeenInRegistryStatuses(); //sets the SeenInRegistry entry accordingly
+
+            WriteXMLToRegistry(currentPowerLineStatus);
 
             AppEntrySaveHandler appEntrySaveHandler = await appEntryLibrarian.Borrow();
             Task swaps = BeginFileSwapLogic(currentPowerLineStatus, appEntrySaveHandler.CurrentAppEntries);
@@ -491,7 +492,7 @@ namespace GPUPrefSwitcher
             foreach (AppEntry appEntry in appEntries)
             {
 
-                if (appEntry.PendingAddToRegistry)
+                if (appEntry.PendingAddToRegistry && !appEntry.SeenInRegistry)
                 {
 
                     Logger.inst.Log($"Pending registry add detected: {appEntry.AppPath}");
