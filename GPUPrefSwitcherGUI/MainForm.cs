@@ -577,7 +577,8 @@ namespace GPUPrefSwitcherGUI
             "Tip: The config locations of games often require searching the web. PCGamingWiki is a potential database for these locations. Games also often put their config files in the AppData folders, Documents folder, or even their own game directory.",
             "Tip: You can click on the tip text box area for a new tip",
             "Tip: In the More Options menu, you can enable this app to execute Task Scheduler entries (e.g. for running scripts you write) upon plugging in/out for even greater flexibility.",
-            "Tip: Some buttons and labels display tooltips with additional info if you hover over them."
+            "Tip: Some buttons and labels display tooltips with additional info if you hover over them.",
+            "Tip: Does your game/app still run on the dGPU (or wrong) graphics card even after setting it? Some games like to spawn a sub-process that runs on the undesired GPU. You can find them via Task Manager -> Details -> (enable \"Dedicated GPU Memory\" column) and add them here too. Some other apps simply don't obey."
         };
 
         //seems to trigger after you release click
