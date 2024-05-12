@@ -3,6 +3,8 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 
 ## [Download/install (directly downloads the latest release)](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v1.0.2/GPUPrefSwitcher_Installer_v1.0.2.zip)
 
+Optional video demo/tutorial on YouTube: [https://youtu.be/zRKj0TE9Z1Q?si=p0TkxSexL2T1Xu3k](https://youtu.be/zRKj0TE9Z1Q?si=p0TkxSexL2T1Xu3k)
+
 ## Features
 * When switching between plugged in / on battery, this app can:
   * Automatically change the GPU preference (Power Saving/High Performance — i.e. iGPU/dGPU) on a per-app basis
