@@ -185,7 +185,7 @@
             AddEntryButton.Size = new System.Drawing.Size(115, 26);
             AddEntryButton.TabIndex = 9;
             AddEntryButton.Text = "Add App";
-            toolTip1.SetToolTip(AddEntryButton, "Browse for an executable to add as an App Entry to this list\r\nto configure. A corresponding Registry  will be added\r\nupon committing changes/restarting the service.");
+            toolTip1.SetToolTip(AddEntryButton, "Browse for an executable to add as an App Entry to this list\r\nto configure. A corresponding Registry key will be added\r\nupon committing changes/restarting the service.");
             AddEntryButton.UseVisualStyleBackColor = true;
             AddEntryButton.Click += AddEntryButton_Click;
             // 

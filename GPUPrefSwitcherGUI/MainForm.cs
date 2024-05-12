@@ -511,7 +511,7 @@ namespace GPUPrefSwitcherGUI
                 AppEntry newAppEntry = new()
                 {
                     AppPath = path,
-                    EnableSwitcher = false,
+                    EnableSwitcher = true,
                     GPUPrefOnBattery = 0,
                     GPUPrefPluggedIn = 0,
                     EnableFileSwapper = false,
@@ -578,7 +578,7 @@ namespace GPUPrefSwitcherGUI
             "Tip: You can click on the tip text box area for a new tip",
             "Tip: In the More Options menu, you can enable this app to execute Task Scheduler entries (e.g. for running scripts you write) upon plugging in/out for even greater flexibility.",
             "Tip: Some buttons and labels display tooltips with additional info if you hover over them.",
-            "Tip: Does your game/app still run on the dGPU (or wrong) graphics card even after setting it? Some games like to spawn a sub-process that runs on the undesired GPU. You can find them via Task Manager -> Details -> (enable \"Dedicated GPU Memory\" column) and add them here too. Some other apps simply don't obey."
+            "Tip: Does your game/app still activate the dGPU (or undesired graphics card) even after setting it? Some games like to spawn sub-processes that run on the undesired GPU. You can find them via Task Manager -> Details -> (enable \"Dedicated GPU Memory\" column), find the one using memory, and configure them here too (you can ignore dwm.exe). Some other apps simply don't obey."
         };
 
         //seems to trigger after you release click
