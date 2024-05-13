@@ -154,6 +154,12 @@ namespace GPUPrefSwitcherGUI
         {
             OptionsFormUtils.AskRestartService();
             CommitChangesButton.Enabled = false;
+            
+            /* //not sure this does anything because there's no gauruntee the serrice has updated the file; maybe we need some sort of file update listener?
+            switcherOptions.Reload();
+            UpdateFormComponents(switcherOptions.CurrentOptions);
+            */
+            
         }
 
         private void SaveButton_Click_1(object sender, EventArgs e)

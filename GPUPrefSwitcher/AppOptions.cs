@@ -69,6 +69,12 @@ namespace GPUPrefSwitcher
         static Func<PowerLineStatus, string> PowerLineStatusToOfflineOrOnline = PowerLineStatusConversions.PowerLineStatusToOfflineOrOnline;
         static Func<string, PowerLineStatus> StringToPowerLineStatus = PowerLineStatusConversions.StringToPowerLineStatus;
 
+        public void Reload()
+        {
+            prevOptions = LoadFromXML(XML_PATH);
+            CurrentOptions = prevOptions;
+        }
+
         private AppOptionsDataStruct LoadFromXML(string path)
         {
             try
