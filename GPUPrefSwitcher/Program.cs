@@ -75,7 +75,9 @@ namespace GPUPrefSwitcher
                     /*
                      * It is imperative that we run this as the user to avoid shatter attacks
                      */
-                    ProcessExtensions.StartProcessAsCurrentUser(Path.Combine(SavedDataPath, "GPUPrefSwitcherRepairer.exe"));
+                    //TODO this doesn't actually appear to work, the app just crashes... something related to Session 0 not having a UI?
+                    //ProcessExtensions.StartProcessAsCurrentUser(Path.Combine("GPUPrefSwitcherRepairer.exe"));
+                    
                 }
             }
         }
