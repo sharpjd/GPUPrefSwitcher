@@ -520,7 +520,7 @@ namespace GPUPrefSwitcherGUI
                 {
                     AppPath = path,
                     EnableSwitcher = true,
-                    GPUPrefOnBattery = 0,
+                    GPUPrefOnBattery = 1,
                     GPUPrefPluggedIn = 0,
                     EnableFileSwapper = false,
                     SwapperStates = Array.Empty<PowerLineStatus>(),
