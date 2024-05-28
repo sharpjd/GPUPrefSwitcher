@@ -215,15 +215,17 @@ namespace GPUPrefSwitcher
                 Logger.inst.Log($"PowerLine status has changed since last update. Previous: {prevPowerLineStatus}; Current: {currentPowerLineStatus}");
                 goto RunUpdateLogic;
             }
-            
+
         RunUpdateLogic:
 
             runOnce = true;
 
+            RegistryHelper.CreateGpuPrefPathIfNotExist(); //circumvents null references and crashes from the registry key not existing
+
             RegAndXMLMatchState regAndXMLMatchState = GetRegAndXmlMatchState();
             Logger.inst.Log($"Registry and XML match state: {regAndXMLMatchState}");
 
-            //update XML file if there's an entry in the registry missing in the XML
+            //update XML file if there's an entry in the registry missing in the XMLz
             if (regAndXMLMatchState == RegAndXMLMatchState.RegMissingInXML ||
                 regAndXMLMatchState == RegAndXMLMatchState.MissingInBoth)
             {

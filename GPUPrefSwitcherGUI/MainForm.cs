@@ -573,7 +573,7 @@ namespace GPUPrefSwitcherGUI
         string[] tips = new string[]
         {
             "Tip: Removing an App Entry row from here only removes it from this app's config, meaning it may get added back on the next start-up (this app can *add* registry entries, but doesn't *remove* them). To prevent this, use the Windows Graphics options panel to truly remove it from the registry.",
-            "Tip: Want to configure the OnBattery settings for an app while plugged in? Go to Options, check \"Spoof Power State\", and select \"Offline\", and commit the changes. Don't forget to uncheck \"Spoof Power State\".",
+            "Tip: Want to configure the OnBattery settings for an app while plugged in? Go to Options, check \"Spoof Power State\", select \"Offline\", and commit the changes. After you're done, don't forget to uncheck \"Spoof Power State\". Don't edit the files in the app storage directly.",
             "Tip: File Swapper functionality also freezes if the leftmost \"Enable\" checkbox for an app entry is not enabled.",
             "Tip: It is not reccomended to manipulate important data with this app.",
             "Tip: You can click on (most) of the column headers to sort the app entries by that column.",
