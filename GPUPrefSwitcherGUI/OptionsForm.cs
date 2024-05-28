@@ -159,7 +159,7 @@ namespace GPUPrefSwitcherGUI
             switcherOptions.Reload();
             UpdateFormComponents(switcherOptions.CurrentOptions);
             */
-            
+            parentMainForm.Close();
         }
 
         private void SaveButton_Click_1(object sender, EventArgs e)

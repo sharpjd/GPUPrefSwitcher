@@ -173,7 +173,7 @@
             CommitButton.Size = new System.Drawing.Size(92, 42);
             CommitButton.TabIndex = 3;
             CommitButton.Text = "Commit Changes";
-            toolTip1.SetToolTip(CommitButton, "Update preferences based on saved settings (by the service).");
+            toolTip1.SetToolTip(CommitButton, "Update preferences based on saved settings (by the service).\r\n\r\nThis will close the app if there are no unsaved changes, and ask you otherwise.");
             CommitButton.UseVisualStyleBackColor = true;
             CommitButton.Click += CommitButton_Click;
             // 
