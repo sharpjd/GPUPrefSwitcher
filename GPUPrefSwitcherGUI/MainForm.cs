@@ -148,7 +148,8 @@ namespace GPUPrefSwitcherGUI
                         Value = "ℹ",
                         ToolTipText = "This entry does not have a corresponding registry entry. The GPU Preference Number (On Battery/Plugged In) columns will not be reflected.\n" +
                         "You can add this entry via the Graphics Settings Panel, or you can remove this if it's no longer necessary.\n" +
-                        "(Note: entries in the Graphics Settings Panel also may not have a registry entry; you can fix this by going into More -> checking \"Pend add to Registry\""
+                        "(Note: entries in the Graphics Settings Panel also may not have a registry entry; you can fix this by going into More -> checking \"Pend add to Registry\") \n" +
+                        "(Note: It's also possible that the GUI is not displaying updated information, e.g. if you didn't close it after commiting changes)"
                     };
                     /* colors don't work
                     newHeaderCell.Style.ForeColor = Color.LightGray;
@@ -424,6 +425,13 @@ namespace GPUPrefSwitcherGUI
         {
             OptionsFormUtils.AskRestartService();
             CommitButton.Enabled = false;
+
+            /* //not sure this does anything because there's no gauruntee the serrice has updated the file; maybe we need some sort of file update listener?
+            switcherOptions.Reload();
+            UpdateGrid();
+            */
+
+            Close();
         }
 
         private void OptionsButton_Click(object sender, EventArgs e)
@@ -511,7 +519,7 @@ namespace GPUPrefSwitcherGUI
                 AppEntry newAppEntry = new()
                 {
                     AppPath = path,
-                    EnableSwitcher = false,
+                    EnableSwitcher = true,
                     GPUPrefOnBattery = 0,
                     GPUPrefPluggedIn = 0,
                     EnableFileSwapper = false,
@@ -567,7 +575,7 @@ namespace GPUPrefSwitcherGUI
         string[] tips = new string[]
         {
             "Tip: Removing an App Entry row from here only removes it from this app's config, meaning it may get added back on the next start-up (this app can *add* registry entries, but doesn't *remove* them). To prevent this, use the Windows Graphics options panel to truly remove it from the registry.",
-            "Tip: Want to configure the OnBattery settings for an app while plugged in? Go to Options, check \"Spoof Power State\", and select \"Offline\", and commit the changes. Don't forget to uncheck \"Spoof Power State\".",
+            "Tip: Want to configure the OnBattery settings for an app while plugged in? Go to Options, check \"Spoof Power State\", select \"Offline\", and commit the changes. After you're done, don't forget to uncheck \"Spoof Power State\". Don't edit the files in the app storage directly.",
             "Tip: File Swapper functionality also freezes if the leftmost \"Enable\" checkbox for an app entry is not enabled.",
             "Tip: It is not reccomended to manipulate important data with this app.",
             "Tip: You can click on (most) of the column headers to sort the app entries by that column.",
@@ -577,7 +585,9 @@ namespace GPUPrefSwitcherGUI
             "Tip: The config locations of games often require searching the web. PCGamingWiki is a potential database for these locations. Games also often put their config files in the AppData folders, Documents folder, or even their own game directory.",
             "Tip: You can click on the tip text box area for a new tip",
             "Tip: In the More Options menu, you can enable this app to execute Task Scheduler entries (e.g. for running scripts you write) upon plugging in/out for even greater flexibility.",
-            "Tip: Some buttons and labels display tooltips with additional info if you hover over them."
+            "Tip: Some buttons and labels display tooltips with additional info if you hover over them.",
+            "Tip: Does your game/app still activate the dGPU (or undesired graphics card) even after setting it? Some games like to spawn sub-processes that run on the undesired GPU. You can find them via Task Manager -> Details -> (enable \"Dedicated GPU Memory\" column), find the one using memory, and configure them here too (you can ignore dwm.exe). Some other apps simply don't obey.",
+            "Tip: The GUI may display outdated information if you don't close and reopen it after committing changes.",
         };
 
         //seems to trigger after you release click
@@ -587,15 +597,20 @@ namespace GPUPrefSwitcherGUI
                 PickNewTip();
         }
 
+        List<string> tipPool = new();
+
         private void PickNewTip()
         {
-        Pick:
-            Random random = new();
-            string toShow = tips[random.Next(tips.Length)];
 
-            if (toShow == TipRichTextBox.Text) goto Pick;
+            if (tipPool.Count == 0) tipPool.AddRange(tips);
+
+            Random random = new();
+            string toShow = tipPool[random.Next(tipPool.Count)];
 
             TipRichTextBox.Text = toShow;
+
+            tipPool.Remove(toShow);
+
         }
 
         private void MainForm_Resize(object sender, EventArgs e)

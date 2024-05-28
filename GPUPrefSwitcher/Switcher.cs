@@ -215,15 +215,17 @@ namespace GPUPrefSwitcher
                 Logger.inst.Log($"PowerLine status has changed since last update. Previous: {prevPowerLineStatus}; Current: {currentPowerLineStatus}");
                 goto RunUpdateLogic;
             }
-            
+
         RunUpdateLogic:
 
             runOnce = true;
 
+            RegistryHelper.CreateGpuPrefPathIfNotExist(); //circumvents null references and crashes from the registry key not existing
+
             RegAndXMLMatchState regAndXMLMatchState = GetRegAndXmlMatchState();
             Logger.inst.Log($"Registry and XML match state: {regAndXMLMatchState}");
 
-            //update XML file if there's an entry in the registry missing in the XML
+            //update XML file if there's an entry in the registry missing in the XMLz
             if (regAndXMLMatchState == RegAndXMLMatchState.RegMissingInXML ||
                 regAndXMLMatchState == RegAndXMLMatchState.MissingInBoth)
             {
@@ -484,33 +486,33 @@ namespace GPUPrefSwitcher
             hold.Wait();
             AppEntrySaveHandler appEntrySaveHandler = hold.Result;
 
-            IEnumerable<AppEntry> appEntries = appEntrySaveHandler.CurrentAppEntries;
+            List<AppEntry> appEntries = appEntrySaveHandler.CurrentAppEntries;
 
             bool systemIsOnbattery = powerLineStatus == PowerLineStatus.Offline;
             Logger.inst.Log($"System is on battery: {systemIsOnbattery}");
 
-            foreach (AppEntry appEntry in appEntries)
+            for (int i = 0; i < appEntries.Count; i++)
             {
-
-                if (appEntry.PendingAddToRegistry && !appEntry.SeenInRegistry)
+                AppEntry appEntry = appEntries[i];
+                if (appEntry.PendingAddToRegistry)
                 {
 
                     Logger.inst.Log($"Pending registry add detected: {appEntry.AppPath}");
 
-                    const int defaultPref = 0;
-                    
-                    try
+                    if (appEntry.SeenInRegistry)
                     {
+                        Logger.inst.Log($"Skipping pended registry add because the value already exists in the registry: {appEntry.AppPath}", 2000);
+                        appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, appEntry with { PendingAddToRegistry = false });
+                    } else
+                    {
+                        const int defaultPref = 0;
                         RegistryHelper.AddGpuPref(appEntry.AppPath, defaultPref);
-                    } catch (InvalidOperationException)
-                    {
-                        Logger.inst.Log($"Skipped pending registry add because the value already exists in the registry: {appEntry.AppPath}", 2000);
                     }
 
-                    AppEntry modifiedAppEntry = appEntry with { PendingAddToRegistry = false } ;
+                    AppEntry modifiedAppEntry = appEntry with { PendingAddToRegistry = false , SeenInRegistry = true} ;
 
                     appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, modifiedAppEntry);
-                    //appEntrySaveHandler.SaveAppEntryChanges();
+                    appEntrySaveHandler.SaveAppEntryChanges();
                 }
 
                 bool enabled = appEntry.EnableSwitcher;

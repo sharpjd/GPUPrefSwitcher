@@ -55,6 +55,22 @@ namespace GPUPrefSwitcher
             "DirectXUserGlobalSettings" //TODO really hide this? Could become part of the setup
         };
 
+        public static void CreateGpuPrefPathIfNotExist()
+        {
+            var key = GetLoggedInGpuPrefKey();
+
+            if(key == null)
+            {
+                string user = GetLoggedOnUserSID();
+                Logger.inst.Log($"Creating registry Graphics Settings registry key if it does not exist; Getting logged in user: {user}", 2000);
+
+                var hklmUsers = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Registry64);
+                hklmUsers.CreateSubKey(user + registryPath, true);
+
+            }
+
+        }
+
         public static IEnumerable<string> GetGpuPrefPathvalueNames()
         {
             var key = GetLoggedInGpuPrefKey();
