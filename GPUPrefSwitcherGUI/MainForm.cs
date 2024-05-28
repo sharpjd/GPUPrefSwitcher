@@ -597,15 +597,20 @@ namespace GPUPrefSwitcherGUI
                 PickNewTip();
         }
 
+        List<string> tipPool = new();
+
         private void PickNewTip()
         {
-        Pick:
-            Random random = new();
-            string toShow = tips[random.Next(tips.Length)];
 
-            if (toShow == TipRichTextBox.Text) goto Pick;
+            if (tipPool.Count == 0) tipPool.AddRange(tips);
+
+            Random random = new();
+            string toShow = tipPool[random.Next(tipPool.Count)];
 
             TipRichTextBox.Text = toShow;
+
+            tipPool.Remove(toShow);
+
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
