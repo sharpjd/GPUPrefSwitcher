@@ -1,7 +1,7 @@
 # GPUPrefSwitcher
 Enables seamless switching of game settings and targeting the dGPU/iGPU for gaming laptops when they plug in or out, making portable gaming more convenient. 
 
-## [Download/install (directly downloads the latest release)](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v1.0.2/GPUPrefSwitcher_Installer_v1.0.2.zip)
+## [Download/install (directly downloads the latest release)](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v1.0.3/GPUPrefSwitcher_Installer_v1.0.3.zip)
 
 Optional video demo/tutorial on YouTube: [https://youtu.be/zRKj0TE9Z1Q?si=p0TkxSexL2T1Xu3k](https://youtu.be/zRKj0TE9Z1Q?si=p0TkxSexL2T1Xu3k)
 
@@ -33,11 +33,11 @@ Optional video demo/tutorial on YouTube: [https://youtu.be/zRKj0TE9Z1Q?si=p0TkxS
 ## Installation
 
 #### Install (Wizard):
-- Download the [latest installer Release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v1.0.2/GPUPrefSwitcher_Installer_v1.0.2.zip).
+- Download the [latest installer Release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v1.0.3/GPUPrefSwitcher_Installer_v1.0.3.zip).
 - Extract all .zip contents and run `setup.exe` (not the .msi file)
 
 #### Install (Manual): 
-- Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v1.0.2/GPUPrefSwitcher_SelfContained_v1.0.2.zip)
+- Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v1.0.3/GPUPrefSwitcher_SelfContained_v1.0.3.zip)
 - See step 3 of the Manual Installation section (expand the Build/Develop section below)
 
 #### Prerequisites:
