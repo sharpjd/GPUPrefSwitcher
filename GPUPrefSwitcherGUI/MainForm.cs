@@ -423,15 +423,19 @@ namespace GPUPrefSwitcherGUI
 
         private void CommitButton_Click(object sender, EventArgs e)
         {
-            OptionsFormUtils.AskRestartService();
-            CommitButton.Enabled = false;
+            bool restartSuccess = OptionsFormUtils.AskRestartService();
 
-            /* //not sure this does anything because there's no gauruntee the serrice has updated the file; maybe we need some sort of file update listener?
+            /* //not sure this does anything because there's no gauruntee the service has updated the file; maybe we need some sort of file update listener?
             switcherOptions.Reload();
             UpdateGrid();
             */
 
-            Close();
+            if (restartSuccess)
+            {
+                //CommitButton.Enabled = false;
+                Close();
+            }
+                
         }
 
         private void OptionsButton_Click(object sender, EventArgs e)

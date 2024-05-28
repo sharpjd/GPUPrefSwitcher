@@ -24,7 +24,7 @@ namespace GPUPrefSwitcher
             }
         }
 
-        public static void AskRestartService()
+        public static bool AskRestartService()
         {
 
             const int ERROR_CANCELLED = 1223; //The operation was canceled by the user.
@@ -41,10 +41,15 @@ namespace GPUPrefSwitcher
             catch (Win32Exception ex)
             {
                 if (ex.NativeErrorCode == ERROR_CANCELLED)
+                {
                     MessageBox.Show("Admin rights were denied, or error restarting service");
+                    return false;
+                }
                 else
                     throw;
             }
+
+            return true;
         }
 
         public static void AskDeleteFolders()
