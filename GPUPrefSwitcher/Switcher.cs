@@ -509,7 +509,7 @@ namespace GPUPrefSwitcher
                         RegistryHelper.AddGpuPref(appEntry.AppPath, defaultPref);
                     }
 
-                    AppEntry modifiedAppEntry = appEntry with { PendingAddToRegistry = false } ;
+                    AppEntry modifiedAppEntry = appEntry with { PendingAddToRegistry = false , SeenInRegistry = true} ;
 
                     appEntrySaveHandler.ChangeAppEntryByPath(appEntry.AppPath, modifiedAppEntry);
                     appEntrySaveHandler.SaveAppEntryChanges();
