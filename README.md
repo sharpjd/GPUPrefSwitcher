@@ -38,7 +38,7 @@ Optional video demo/tutorial on YouTube: [https://youtu.be/zRKj0TE9Z1Q?si=p0TkxS
 
 #### Install (Manual): 
 - Download and extract to a location the [latest self-contained release](https://github.com/sharpjd/GPUPrefSwitcher/releases/download/v1.0.3/GPUPrefSwitcher_SelfContained_v1.0.3.zip)
-- See step 3 of the Manual Installation section (expand the Build/Develop section below)
+- Navigate into the `install` folder and run `Install.exe`. This will install the app as a service. You will have to create shortcuts to the GUI .exe manually. (And of course, run `Uninstall.exe` to uninstall the app)
 
 #### Prerequisites:
 - A 64-bit system
