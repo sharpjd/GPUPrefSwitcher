@@ -5,7 +5,7 @@ Enables seamless switching of game settings and targeting the dGPU/iGPU for gami
 
 Optional video demo/tutorial on YouTube: [https://youtu.be/zRKj0TE9Z1Q?si=p0TkxSexL2T1Xu3k](https://youtu.be/zRKj0TE9Z1Q?si=p0TkxSexL2T1Xu3k)
 
-## Featuers/Usage
+## Features/Usage
 * When switching between plugged in / on battery, this app can:
   * Automatically change the GPU preference (Power Saving/High Performance — i.e. iGPU/dGPU) on a per-app basis
     * **Note: Some games/apps spawn sub-process .exe's that also need to be configured to run on the iGPU, or they may keep the dGPU awake.
