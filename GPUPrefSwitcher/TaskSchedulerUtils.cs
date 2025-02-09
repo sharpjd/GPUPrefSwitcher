@@ -10,7 +10,7 @@ namespace GPUPrefSwitcher
 
         readonly static string FOLDER_NAME = @"GPUPrefSwitcher";
 
-        public static void RunOnBatteryTask()
+        public static bool RunOnBatteryTask()
         {
             if (!TaskAndFolderExists(TASK_NAME_ON_BATTERY))
             {
@@ -20,11 +20,20 @@ namespace GPUPrefSwitcher
                 Logger.inst.Log("Created On Battery Task Scheduler entry because it doesn't exist yet");
             }
 
-            RunTask(TASK_NAME_ON_BATTERY);
+            try
+            {
+                RunTask(TASK_NAME_ON_BATTERY);
+                return true;
+            }
+            catch (System.Runtime.InteropServices.COMException)
+            {
+                return false;
+            }
         }
 
-        public static void RunPluggedInTask()
+        public static bool RunPluggedInTask()
         {
+
             if (!TaskAndFolderExists(TASK_NAME_PLUGGED_IN))
             {
                 string description = "The GPUPrefSwitcher service runs this task once when the system is considered plugged in." +
@@ -33,7 +42,14 @@ namespace GPUPrefSwitcher
                 Logger.inst.Log("Created Plugged In Task Scheduler entry because it doesn't exist yet");
             }
 
-            RunTask(TASK_NAME_PLUGGED_IN);
+            try
+            {
+                RunTask(TASK_NAME_PLUGGED_IN);
+                return true;
+            } catch (System.Runtime.InteropServices.COMException)
+            {
+                return false;
+            }
         }
 
         public static bool TaskAndFolderExists(string taskName)

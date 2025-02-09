@@ -241,34 +241,47 @@ namespace GPUPrefSwitcher
             Task swaps = BeginFileSwapLogic(currentPowerLineStatus, appEntrySaveHandler.CurrentAppEntries);
             appEntryLibrarian.Return(appEntrySaveHandler);
 
-            BeginTaskSchedulerLogic(currentPowerLineStatus);
+            Task taskSchedulerLogic = BeginTaskSchedulerLogic(currentPowerLineStatus);
 
             prevPowerLineStatus = currentPowerLineStatus; //THIS MUST GO AT THE END
 
             await swaps; //we shouldn't, in case there is one that just keeps retrying forever
 
+            await taskSchedulerLogic; //sometimes the Task Scheduler library throws exceptions; don't know why, maybe log-on related? We can retry
+
             //return Task.CompletedTask;
         }
 
-        private static void BeginTaskSchedulerLogic(PowerLineStatus forPowerLineStatus)
+        private static async Task BeginTaskSchedulerLogic(PowerLineStatus forPowerLineStatus)
         {
+        TryAgain:
+
+            bool success = false;
+
             if (forPowerLineStatus == PowerLineStatus.Online)
             {
-                if(appOptions.CurrentOptions.RunTaskPluggedIn)
+                if (appOptions.CurrentOptions.RunTaskPluggedIn)
                 {
-                    TaskSchedulerUtils.RunPluggedInTask();
+                    success = TaskSchedulerUtils.RunPluggedInTask();
                     Logger.inst.Log("Ran Plugged In Task Scheduler entry");
                 }
             } else if (forPowerLineStatus == PowerLineStatus.Offline)
             {
                 if (appOptions.CurrentOptions.RunTaskOnBattery)
                 {
-                    TaskSchedulerUtils.RunOnBatteryTask();
+                    success = TaskSchedulerUtils.RunOnBatteryTask();
                     Logger.inst.Log("Ran On Battery Task Scheduler entry");
                 }
             } else
             {
                 throw new NotImplementedException();
+            }
+
+            if (!success)
+            {
+                Logger.inst.Log("Unsuccessful Task Scheduler logic execution. Retrying in 5secs");
+                await Task.Delay(5000);
+                goto TryAgain;
             }
         }
 
