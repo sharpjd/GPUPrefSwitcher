@@ -13,7 +13,7 @@ Optional video demo/tutorial on YouTube: [https://youtu.be/zRKj0TE9Z1Q?si=p0TkxS
   * Automatically execute Task Scheduler triggers or scripts for extended functionality
     * Can be combined with apps like [NVIDIA Optimus Kill (GitHub)](https://github.com/eduojeda/nvidia-optimus-kill) to kill dGPU apps, making unplugging and using only the iGPU more convenient
 * A GUI to configure all features
-* Activity and error logging + notifying the user of errors
+* Activity and error logging
 * Runs as a service
 
 
@@ -100,7 +100,7 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 
 </details>
 
-## Future feature ideas
+### Future feature ideas
 - Improving the definition and conditions for being "On Battery" or "Plugged In" (e.g. how much power input?)
 - Multiple settings profiles
 - A config database
@@ -109,21 +109,21 @@ Despite these safeguards, data loss can still result from the File Swapper syste
  
 <summary>
  
-## Build/develop (click to expand):
+### Build/develop (click to expand):
 </summary>
 
 - This app should only work if built for x64.
 - The Visual Studio Installer Projects extension is needed to build the installer.
 - **You may only need to follow these steps in case changes are made and/or the Setup project / installer build fails.**
 
-### Step 1: Build the .EXEs and Assemblies:
+#### Step 1: Build the .EXEs and Assemblies:
  - For the `x64` configuration, the relevant output files are found in the following locations:
  	- Primary GPUPrefSwitcher components: `/Assemble/x64/<Debug or Release>/net8.0-windows`. 
  	- Intall.exe and Uninstall.exe (NOT the Setup or .msi file): `/Assemble/install`
  	- The Setup.exe and .msi: `/Setup/<Debug or Release>`.
    - **This means that if you're simultaneously developing and running the project, Manual Installation (read even further below) is the more convenient method.**
      
-### Step 2: The installer/Setup project:
+#### Step 2: The installer/Setup project:
  **You probably only need these steps if you have changed what goes into the AppData folder, or how the app interacts with its directories.** (Note: Some very specific settings or configurations may be necessary for this project to build successfully, so it's reccomended you modify only what you need. If at any point things get messed up, you can always delete, redownload, and add the Setup project again).
  * See the "Development Pitfalls" section for tips about the Setup project (which seems to have spotty online documentation).
   1. Open the Directory view by right clicking the `Setup` project -> View -> File System
@@ -133,10 +133,8 @@ Despite these safeguards, data loss can still result from the File Swapper syste
   3. To build the Setup project / .msi file, right click the setup project and click `Build`. You will find the output in the default directory (`/Setup/<Debug or Release>`).
 
 <a name="manual-installation-and-assembly"></a>
-### Manual installation and assembly + extra notes:
-1. It is required that all EXEs and their related files are placed in a fixed and specified directory, because the app looks for them in specific locations. This should already be done by default. If you un-merge the build paths, you'll need to manually merge the built files and folders.
-	
-2. In the end, you should end up with exactly this folder structure (before running `Install.exe`):
+### Step 3: Manual installation and assembly
+1. The app looks for EXEs and related files in specific locations. Even after building the project, you must copy some files and contents and create this structure before you install the app (run `Install.exe`):
 ```
 .
 ├── <Application Folder>/
@@ -154,7 +152,9 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 |   └── GUIAdminFunctions.exe + related files
 ```
 
-3. Double click and run `Install.exe` inside the `install` folder to install the service (and `Uninstall.exe` to uninstall).
+2. Double click and run `Install.exe` inside the `install` folder to install the service (and `Uninstall.exe` to uninstall).
+
+### Extra notes
 
 *The project was built in Visual Studio 2022. It was originally a .NET Framework 4.7.x project, but was migrated to .NET Core 8.x .
 
@@ -169,7 +169,7 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 
 </details>
 
-## Attributions/disclaimers
+### Attributions/disclaimers
 * [CreateProcessAsUser](https://github.com/murrayju/CreateProcessAsUser)
 * Despite many safeguards and considerations, data loss may result from using the app (e.g. the File Swapper). **Do not manipulate important data with this app.** The author is not responsible for such scenarios.
 
