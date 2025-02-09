@@ -116,14 +116,14 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 - The Visual Studio Installer Projects extension is needed to build the installer.
 - **You may only need to follow these steps in case changes are made and/or the Setup project / installer build fails.**
 
-#### Step 1: Build the .EXEs and Assemblies:
+### Step 1: Build the .EXEs and Assemblies:
  - For the `x64` configuration, the relevant output files are found in the following locations:
  	- Primary GPUPrefSwitcher components: `/Assemble/x64/<Debug or Release>/net8.0-windows`. 
  	- Intall.exe and Uninstall.exe (NOT the Setup or .msi file): `/Assemble/install`
  	- The Setup.exe and .msi: `/Setup/<Debug or Release>`.
    - **This means that if you're simultaneously developing and running the project, Manual Installation (read even further below) is the more convenient method.**
      
-#### Step 2: The installer/Setup project:
+### Step 2: The installer/Setup project:
  **You probably only need these steps if you have changed what goes into the AppData folder, or how the app interacts with its directories.** (Note: Some very specific settings or configurations may be necessary for this project to build successfully, so it's reccomended you modify only what you need. If at any point things get messed up, you can always delete, redownload, and add the Setup project again).
  * See the "Development Pitfalls" section for tips about the Setup project (which seems to have spotty online documentation).
   1. Open the Directory view by right clicking the `Setup` project -> View -> File System
@@ -134,7 +134,9 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 
 <a name="manual-installation-and-assembly"></a>
 ### Step 3: Manual installation and assembly
-1. The app looks for EXEs and related files in specific locations. Even after building the project, you must copy some files and contents and create this structure before you install the app (run `Install.exe`):
+1. The app looks for EXEs and related files in specific locations. Even after building the project, you must copy some files and contents and create this structure before you install the app (run `Install.exe`).
+	- For a fresh repo clone, it should be sufficient to just copy the `AppData` and `install` folders into the `Assemble/x64/Debug/net8.0-windows` folder (assuming you've set the build platform to x64 like you should've).
+	- Every time you change the installer project or AppData contents, remember to copy the changes to the application folder as well. 
 ```
 .
 ├── <Application Folder>/
@@ -152,7 +154,7 @@ Despite these safeguards, data loss can still result from the File Swapper syste
 |   └── GUIAdminFunctions.exe + related files
 ```
 
-2. Double click and run `Install.exe` inside the `install` folder to install the service (and `Uninstall.exe` to uninstall).
+2. Should be ready. Double click and run `Install.exe` inside the `install` folder to install the service (and `Uninstall.exe` to uninstall).
 
 ### Extra notes
 
